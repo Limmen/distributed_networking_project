@@ -1,25 +1,21 @@
-50511	Salminen, Lena	F	Sweden	1975/03/05	169.0	67.0	Alpine Skiing		
+50511	Salminen, Lena	F	Sweden	1975/03/05	169.0	67.0	Alpine Skiing
 50011	Hindsjö, Roger	M	Sweden	1977/11/09	176.0	65.0	Alpine Skiing
 50512	Appelgren, Gabriella	F	Sweden	1972/09/28	172.0	68.0	Alpine Skiing
 50012	Bergendal, Christer	M	Sweden	1971/05/15	181.0	85.0	Alpine Skiing
 50013	Karlsson, Jan-Erik	M	Sweden	1971/01/12	173.0	70.0	Alpine Skiing
 50513	Karlström, Therese	F	Sweden	1978/12/22	164.0	64.0	Alpine Skiing
 50514	Rask, Åsa	F	Sweden	1972/08/01	161.0	67.0	Alpine Skiing
-50031	Laukkanen, Mikael M	Sweden	1970/02/14	185.0	77.0	Cross Country
-50041	Lindström, Anders M	Sweden	1978/04/13	180.0	70.0	Skijumping
 50032	Lovén, Thomas	M	Sweden	1979/05/30	183.0	74.0	Cross Country
 50551	Malmgren, Rebecca	F	Sweden	1974/01/31	165.0	62.0	Speedskating
 50552	Millberg, Susanne	F	Sweden	1979/10/17	167.0	63.0	Speedskating
-50515	Milovic, Daniella F	Sweden	1978/07/16	172.0	76.0	Alpine Skiing
 50541	Nilsson, Anette	F	Sweden	1979/06/23	165.0	53.0	Skijumping
-50051	Mårdh, Hans		M	Sweden	1978/03/27	185.0	75.0	Speedskating
 50531	Nirmark, Anna	F	Sweden	1975/02/29	176.0	69.0	Cross Country
 50042	Norberg, Michael	M	Sweden	1978/10/11	179.0	72.0	Skijumping
 50532	Nurminen, Sari	F	Sweden	1972/11/07	167.0	59.0	Cross Country
 50553	Odevall, Katrin	F	Sweden	1974/12/08	164.0	63.0	Speedskating
 50021	Ohlsson, Lars	M	Sweden	1972/09/12	191.0	78.0	Biathlon
 50542	Persson, Carina	F	Sweden	1978/08/07	161.0	50.0	Skijumping
-50043	Pettersson, Rolf	M	Sweden	1974/07/21	185.0	70.0	Skijumping	
+50043	Pettersson, Rolf	M	Sweden	1974/07/21	185.0	70.0	Skijumping
 50543	Ramstedt, Helene	F	Sweden	1979/04/20	170.0	62.0	Skijumping
 50022	Roslund, Mats	M	Sweden	1973/12/22	180.0	75.0	Biathlon
 50521	Rydberg, Anneli	F	Sweden	1974/02/25	174.0	72.0	Biathlon
@@ -48,7 +44,6 @@
 50053	Cederlöf, Johnny	M	Sweden	1978/06/08	180.0	75.0	Speedskating
 50545	Edwall, Malin	F	Sweden	1981/12/25	164.0	51.0	Skijumping
 50046	Ekholm, Torbjörn	M	Sweden	1978/05/21	173.0	62.0	Skijumping
-50536	Ekstrand, Madeleine F	Sweden	1975/08/27	167.0	60.0	Cross Country
 50025	Englund, Björn	M	Sweden	1978/11/02	180.0	74.0	Biathlon
 50054	Eriksson, Leif	M	Sweden	1969/12/13	187.0	80.0	Speedskating
 50036	Gullberg, Dan	M	Sweden	1979/03/03	174.0	70.0	Cross Country
@@ -61,7 +56,7 @@
 18011	Tuomainen, Jari	M	Finland	1975/04/24	178.0	79.0	Alpine Skiing
 18012	Venälainen, Kimmo	M	Finland	1979/12/13	178.0	81.0	Alpine Skiing
 18031	Vuorenpää, Risto	M	Finland	1970/01/25	175.0	64.0	Cross Country
-18051	Ojanen, Martti	M	Finland	1975/02/11	177.0	77.0	Speedskating	
+18051	Ojanen, Martti	M	Finland	1975/02/11	177.0	77.0	Speedskating
 18021	Ristoja, Ville	M	Finland	1965/11/27	180.0	68.0	Biathlon
 18013	Saariluoma, Seppo	M	Finland	1978/05/20	169.0	68.0	Alpine Skiing
 18052	Turunen, Veijo	M 	Finland	1972/07/31	178.0	81.0	Speedskating
@@ -88,9 +83,9 @@
 18046	Paasikangas, Esko	M	Finland	1977/06/03	181.0	62.0	Skijumping
 18035	Morozov, Alexander	M	Finland	1975/07/30	177.0	70.0	Cross Country
 18036	Fomin, Sergei	M	Finland	1976/08/29	180.0	76.0	Cross Country
-18511	Hurme, Kristiina	F	Finland	1982/04/24	163.0	64.0	Alpine Skiing	
+18511	Hurme, Kristiina	F	Finland	1982/04/24	163.0	64.0	Alpine Skiing
 18541	Holopainen, Tanja	F	Finland	1978/02/26	172.0	64.0	Skijumping
-18551	Hyvärinen, Kati	F	Finland	1968/03/16	173.0	63.0	Speedskating 
+18551	Hyvärinen, Kati	F	Finland	1968/03/16	173.0	63.0	Speedskating
 18512	Juntunen, Pirjo	F	Finland	1974/04/11	171.0	64.0	Alpine Skiing
 18521	Ebeling, Siv	F	Finland	1976/10/27	167.0	60.0	Biathlon
 18552	Laurén, Kirsi	F	Finland	1973/01/02	161.0	58.0	Speedskating
@@ -99,16 +94,15 @@
 18553	Yrjölä, Annikki	F	Finland	1972/08/30	170.0	67.0	Speedskating
 18522	Paavilainen, Sari	F	Finland	1973/10/31	160.0	53.0	Biathlon
 18531	Koskela, Niina	F	Finland	1977/12/25	164.0	59.0	Cross Country
-18514	Olkinuora, Hannele	F	Finland	1975/09/22	164.0	69.0	Alpine Skiing	
+18514	Olkinuora, Hannele	F	Finland	1975/09/22	164.0	69.0	Alpine Skiing
 18543	Nevanlinnä, Marja	F	Finland	1979/08/28	159.0	50.0	Skijumping
-18532	Myllyniemi,	Marika	F	Finland	1976/10/17	164.0	55.0	Cross Country
 18515	Tikkanen, Liisa-Maria	F	Finland	1978/07/27	162.0	65.0	Alpine Skiing
 18533	Kirvesniemi, Sinikka	F	Finland	1975/05/19	167.0	57.0	Cross Country
 18554	Kinnunen, Ritva	F	Finland	1975/01/20	165.0	60.0	Speedskating
 18544	Korhonen, Marja-Helena	F	Finland	1978/03/05	162.0	52.0	Skijumping
 18516	Franssila, Johanna	F	Finland	1974/04/03	171.0	64.0	Alpine Skiing
 18534	Mäkitalo, Arja	F	Finland	1969/05/24	158.0	59.0	Cross Country
-18555	Mustonen, Eija	F	Finland	1974/12/24	160.0	61.0	Speedskating	
+18555	Mustonen, Eija	F	Finland	1974/12/24	160.0	61.0	Speedskating
 18545	Pitkänen, Laila	F	Finland	1977/08/30	166.0	55.0	Skijumping
 18523	Rantanen, Kirsi-Maaria	F	Finland	1976/09/26	167.0	65.0	Biathlon
 18535	Rautio, Seija	F	Finland	1981/07/13	169.0	60.0	Cross Country
@@ -173,7 +167,7 @@
 17555	Vestergaard, Inger	F	Denmark	1979/08/30	170.0	64.0	Speedskating
 17523	Sinkbaek, Karen	F	Denmark	1979/03/30	165.0	51.0	Biathlon
 17556	Flindal, Charlotte	F	Denmark	1977/10/13	175.0	63.0	Speedskating
-17524	Eggers, Marie	F	Denmark	1971/05/29	177.0	66.0	Biathlon	
+17524	Eggers, Marie	F	Denmark	1971/05/29	177.0	66.0	Biathlon
 17525	Mathiesen, Linda	F	Denmark	1972/11/17	163.0	58.0	Biathlon
 17526	Grönning, Anna	F	Denmark	1979/10/19	160.0	52.0	Biathlon
 17546	Husted, Aase Karin	F	Denmark	1979/01/04	163.0	51.0	Skijumping
@@ -185,12 +179,10 @@
 42033	Sletmo, Frode	M	Norway	1968/01/01	186.0	80.0	Cross Country
 42051	Mikkelsen, Truls	M	Norway	1975/10/30	183.0	73.0	Speedskating
 42034	Storland, Geir	M	Norway	1976/04/16	190.0	83.0	Cross Country
-42012	Gulbrandsen, Stein Jarle M	Norway	1977/11/11	190.0	85.0	Alpine Skiing
 42041	Henriksen, Dag	M	Norway	1978/09/13	178.0	66.0	Skijumping
 42022	Johansen, Jan Helge	M	Norway	1972/10/04	175.0	73.0	Biathlon
 42052	Lie, Trygve	M	Norway	1974/10/06	180.0	75.0	Speedskating
 42023	Grimsvik, Sjur	M	Norway	1975/08/24	179.0	65.0	Biathlon
-42024	Danielsen, Oddvar M	Norway	1975/06/14	185.0	79.0	Biathlon
 42035	Gausel, Einar	M	Norway	1979/05/18	188.0	84.0	Cross Country
 42042	Hoen, Ragnar	M	Norway	1972/05/28	174.0	66.0	Skijumping
 42013	Myreng, Vidar	M	Norway	1969/04/04	184.0	87.0	Alpine Skiing
@@ -198,7 +190,7 @@
 42025	Byklum, Vegard	M	Norway	1977/11/02	180.0	74.0	Biathlon
 42014	Berg, Halvard	M	Norway	1976/10/27	174.0	69.0	Alpine Skiing
 42054	Ofstad, Harald	M	Norway	1974/03/12	180.0	75.0	Speedskating
-42055	Kvamme, Bård	M	Norway	1973/02/18	179.0	82.0	Speedskating	
+42055	Kvamme, Bård	M	Norway	1973/02/18	179.0	82.0	Speedskating
 42043	Elsness, Sturle	M	Norway	1978/07/25	179.0	64.0	Skijumping
 42044	Gullvåg, Björn	M	Norway	1971/08/23	181.0	69.0	Skijumping
 42056	Gullaksen, Torkjel	M	Norway	1972/07/20	174.0	73.0	Speedskating
@@ -206,9 +198,8 @@
 42045	Brekke, Tor Arne	M	Norway	1975/06/14	178.0	64.0	Skijumping
 42015	Guddahl, Roar	M	Norway	1968/09/11	178.0	88.0	Alpine Skiing
 42026	Harestad, Jon	M	Norway	1978/03/02	183.0	79.0	Biathlon
-42046	Svendsen, Arnfinn M	Norway	1973/03/05	173.0	62.0	Skijumping
 42016	Wibe, Bjarne	M	Norway	1973/06/05	180.0	90.0	Alpine Skiing
-42511	Hagesaether, Trine	F	Norway	1977/05/21	165.0	62.0	Alpine Skiing	
+42511	Hagesaether, Trine	F	Norway	1977/05/21	165.0	62.0	Alpine Skiing
 42531	Solbakken, Liv	F	Norway	1980/12/22	173.0	63.0	Cross Country
 42512	Dannevig, Ingeleiv	F	Norway	1976/03/21	171.0	65.0	Alpine Skiing
 42513	Eilertsen, Gunn Kirstin	F	Norway	1977/05/12	167.0	70.0	Alpine Skiing
@@ -219,7 +210,7 @@
 42534	Lervik, Grete	F	Norway	1970/12/13	168.0	54.0	Cross Country
 42542	Gundersen, Rönnaug	F	Norway	1979/08/11	163.0	53.0	Skijumping
 42514	Engedal, Gjertrud	F	Norway	1978/09/14	174.0	65.0	Alpine Skiing
-42552	Bergli, Gro	F	Norway	1977/07/17	185.0	73.0	Biathlon	
+42552	Bergli, Gro	F	Norway	1977/07/17	185.0	73.0	Biathlon
 42521	Djurhuus Astrid	F	Norway	1975/04/05	176.0	58.0	Biathlon
 42535	Gvein, Synnöve	F	Norway	1971/09/09	170.0	61.0	Cross Country
 42553	Faldbakken, Bodil	F	Norway	1972/08/03	167.0	61.0	Speedskating
@@ -239,14 +230,12 @@
 42526	Glenne, Kristine	F	Norway	1978/05/10	165.0	65.0	Biathlon
 42556	Salvesen, Maj	F	Norway	1974/03/01	175.0	63.0	Speedskating
 25031	Steingrimsson, Throstur	M	Iceland	1974/09/29	185.0	77.0	Cross Country
-25032	Gretarsson, Gylfi M Iceland	1977/12/27	182.0	74.0	Cross Country
 25033	Thorhallson, Hrafn	M	Iceland	1975/09/28	187.0	80.0	Cross Country
 25034	Gudmundsson, Hjalti	M	Iceland	1976/06/04	172.0	60.0	Cross Country
 25011	Angantysson, Margeir	M	Iceland	1974/01/04	177.0	76.0	Alpine Skiing
 25012	Josteinsson, Bragi	M 	Iceland	1977/06/12	184.0	83.0	Alpine Skiing
 25013	Sigurvinsson, Sigurdur	M	Iceland	1973/02/28	184.0	85.0	Alpine Skiing
 25051	Sighvatsson, Skuli	M	Iceland	1977/06/07	181.0	76.0	Speedskating
-25035	Höskulsson, Njall	M	Iceland 1973/11/11	175.0	72.0	Cross Country
 25021	Bjarnason, Gudjon	M	Iceland	1968/12/24	170.0	61.0	Biathlon
 25014	Magnusson, Arinbjörn	M	Iceland	1981/04/11	179.0	80.0	Alpine Skiing
 25022	Thorsteinsson, Hjörleif	M	Iceland	1973/08/23	178.0	80.0	Biathlon
@@ -272,7 +261,6 @@
 25532	Skuladottir, Svala	F	Iceland	1977/11/04	166.0	54.0	Cross Country
 25533	Marteinsdottir, Sigurlina	F	Iceland	1976/09/28	167.0	57.0	Cross Country
 25534	Bödvarsdottir, Brynja	F	Iceland	1977/08/14	172.0	62.0	Cross Country
-25511	Ingimundardottir, Unnur F	Iceland	1979/11/22	165.0	60.0	Alpine Skiing
 25551	Hrafnkelsdottir, Vala	F	Iceland	1973/01/15	174.0	72.0	Speedskating
 25552	Hlynsdottir, Svava	F	Iceland	1971/03/15	163.0	57.0	Speedskating
 25553	Thorlaksdottir, Sigrun	F	Iceland	1977/05/09	170.0	63.0	Speedskating

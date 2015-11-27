@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.id2212.proj.client;
+package limmen.id2212.proj.client.view;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
