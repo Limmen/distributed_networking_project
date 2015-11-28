@@ -5,7 +5,9 @@
  */
 package limmen.id2212.proj.client.view;
 
+import java.util.ArrayList;
 import javax.swing.JPanel;
+import limmen.id2212.proj.client.model.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -31,5 +33,9 @@ public class Container extends JPanel {
         removeAll();
         statsPanel = new StatsPanel(contr);
         add(statsPanel, "span 1");
+    }
+    public void updateParticipants(ArrayList<Participant> participants){
+        if(mainPanel != null)
+            mainPanel.updateParticipants(participants);
     }
 }

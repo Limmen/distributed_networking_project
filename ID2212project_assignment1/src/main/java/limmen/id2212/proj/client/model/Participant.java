@@ -12,14 +12,14 @@ import java.util.Date;
  * @author kim
  */
 public class Participant {
-    private int ID;
-    private String name;
-    private String country;
-    private char gender;
-    private Date birthday;
-    private float height;
-    private float weight;
-    private String sport;
+    private final int ID;
+    private final String name;
+    private final String country;
+    private final char gender;
+    private final Date birthday;
+    private final float height;
+    private final float weight;
+    private final String sport;
     
     public Participant(int ID, String name,char gender,String country,
             Date birthday, float height, float weight, String sport){
@@ -37,4 +37,38 @@ public class Participant {
         return ID + "\t" + name + "\t" + gender + "\t" + country + "\t" + birthday
                 + "\t" + height + "\t" + weight + "\t" + sport + "\n";
     }
+
+    public int getID() {
+        return ID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public float getWeight() {
+        return weight;
+    }
+
+    public String getSport() {
+        return sport;
+    }
+    
+    
 }

@@ -15,7 +15,6 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import javax.swing.SwingWorker;
 import limmen.id2212.proj.client.view.GuiController;
@@ -28,19 +27,22 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     private final GuiController contr;
     private PrintWriter outWriter;
     private Socket socket;
-    String httpServer = "localhost";
-    int serverPort = 8080;
-    int timeoutMillis = 10000;
-    String httpGetRequest = "GET participants.tsv HTTP/1.1";
-    String hostHeader = "Host: " + httpServer;
-    ArrayList<Participant> participants;
+    private final String httpServer = "localhost";
+    private final int serverPort = 8080;
+    private final int timeoutMillis = 10000;
+    private final String httpGetRequest = "GET participants.tsv HTTP/1.1";
+    private final String hostHeader = "Host: " + httpServer;
+    private ArrayList<Participant> participants;
+    private final DateFormat format;
     public RequestWorker(GuiController contr){
         this.contr = contr;
+        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
     }
     @Override
     protected Boolean doInBackground(){
         try{
             socket = new Socket(httpServer, serverPort);
+            connected();
             socket.setSoTimeout(timeoutMillis);
             outWriter = new PrintWriter(socket.getOutputStream());
             outWriter.println(httpGetRequest);
@@ -49,20 +51,19 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             outWriter.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
-            FileWriter writer = new FileWriter("src/main/resources/result.tsv");
+            FileWriter fileWriter = new FileWriter("src/main/resources/result.tsv");
             System.out.println("entering loooooop");
-            ArrayList<Participant> participants = new ArrayList();
+            participants = new ArrayList();
             while ((str = reader.readLine()) != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
-                writer.write(str);
-                String[] values = str.split("\\t", -1); // don't truncate empty fields
+                fileWriter.write(str);
+                String[] values = str.split("\\t", -1); 
                 participants.add(new Participant(Integer.parseInt(values[0]),
                 values[1], str.charAt(0), values[3], format.parse(values[4]),
                 Float.parseFloat(values[5]), Float.parseFloat(values[6]),
                 values[7]));
                 }
-            System.out.println("Added all????? size : " + participants.size());
-            writer.close();
+            fileWriter.close();
             socket.close();
         }
         catch(UnknownHostException e){
@@ -82,5 +83,9 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     
     private void updateParticipants(ArrayList<Participant> participants){
         contr.updateParticipants(participants);
+    }
+    
+    private void connected(){
+        contr.connectionSuccess();
     }
 }

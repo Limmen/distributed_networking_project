@@ -57,10 +57,7 @@ public class ClientHandler implements Runnable {
                 String name = st.nextToken();
                 String version = st.nextToken();                                
                 while ((req = inReader.readLine()) != null && !req.trim().equals("")) {
-//                    System.out.println(req); // for log
-                } // away empty lines
-                // if (str != null) System.out.println(str); // for log
-                // Here is the GET request processed
+                } 
                 System.out.println("method: " + method);
                 if(method.equals("GET"))
                     getReq(name);

@@ -19,10 +19,10 @@ import limmen.id2212.proj.client.model.RequestWorker;
  * @author kim
  */
 public class GuiController {
-    private GuiController contr;
+    private final GuiController contr = this;
     private final StartFrame startFrame;
+    private MainFrame mainFrame;
     public GuiController(){
-        contr = this;
         startFrame = new StartFrame(contr);
     }
     public static void main(String[] args){
@@ -37,8 +37,22 @@ public class GuiController {
             }
         });
     }
-    public void updateParticipants(ArrayList<Participant> participants){
-        
+    public void connectionSuccess(){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame = new MainFrame(contr);
+                startFrame.setVisible(false);
+            }
+        });
+    }
+    public void updateParticipants(final ArrayList<Participant> participants){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame.updateParticipants(participants);
+            }
+        });        
     }
     class ConnectListener implements ActionListener {
         private final JTextField hostField;
