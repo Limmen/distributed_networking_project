@@ -124,7 +124,23 @@ public class MainPanel extends JPanel {
         delete.setFont(Plain);
         delete.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-                
+                ArrayList<Participant> updatedParticipants = new ArrayList();
+                int row = table.getSelectedRow();
+                if(row != -1){
+                    for(Participant p : participants){
+                        if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
+                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&
+                                p.getCountry().equals(table.getModel().getValueAt(row, 2)) &&
+                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 3)) &&
+                                format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
+                                p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
+                                p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
+                                p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                            updatedParticipants.add(p);
+                        }         
+                    }
+                    updateParticipants(updatedParticipants);
+                }
             }
         } );
         toggleEdit.add(delete, "span 1");
