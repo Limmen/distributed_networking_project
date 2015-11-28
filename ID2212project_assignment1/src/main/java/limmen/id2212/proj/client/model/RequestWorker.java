@@ -52,7 +52,6 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
             FileWriter fileWriter = new FileWriter("src/main/resources/result.tsv");
-            System.out.println("entering loooooop");
             participants = new ArrayList();
             while ((str = reader.readLine()) != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);

@@ -77,7 +77,6 @@ public class MainPanel extends JPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         Dimension dim = new Dimension(800,400);
         scrollPane.setPreferredSize(new Dimension(dim.width, table.getRowHeight()*rowsDisplayed));
-        add(scrollPane, "span 2, gaptop 10");
         lbl = new JLabel("Search: ");
         lbl.setFont(PBold);
         add(lbl, "span 1");
@@ -111,7 +110,9 @@ public class MainPanel extends JPanel {
             
         });
         add(filter, "span 1");
-        JButton prev = new JButton("previous");
+        add(scrollPane, "span 2, gaptop 10");
+        JPanel navigator = new JPanel(new MigLayout("wrap 2"));
+        JButton prev = new JButton("<");
         prev.setFont(PBold);
         prev.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -119,8 +120,8 @@ public class MainPanel extends JPanel {
                 bar.setValue(bar.getValue()- table.getRowHeight()*(rowsDisplayed-1));
             }
         } );
-        add(prev, "span 1");
-        JButton next = new JButton("next");
+        navigator.add(prev, "span 1");
+        JButton next = new JButton(">");
         next.setFont(PBold);
         next.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -128,17 +129,8 @@ public class MainPanel extends JPanel {
                 bar.setValue(bar.getValue() + table.getRowHeight()*(rowsDisplayed-1));
             }
         } );
-        add(next, "span 1");
-        JButton last = new JButton("last");
-        last.setFont(PBold);
-        last.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent ae) {
-                JScrollBar bar = scrollPane.getVerticalScrollBar();
-                bar.setValue(table.getRowCount()*table.getRowHeight());
-            }
-        } );
-        add(last, "span 1");
-        JButton first = new JButton("first");
+        navigator.add(next, "span 1");
+                JButton first = new JButton("first");
         first.setFont(PBold);
         first.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -147,67 +139,92 @@ public class MainPanel extends JPanel {
                 bar.setValue(0);
             }
         } );
-        add(first, "span 1");
+        navigator.add(first, "span 1");
+        JButton last = new JButton("last");
+        last.setFont(PBold);
+        last.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                JScrollBar bar = scrollPane.getVerticalScrollBar();
+                bar.setValue(table.getRowCount()*table.getRowHeight());
+            }
+        } );
+        navigator.add(last, "span 1");
+        add(navigator, "span 2, align center");
+        JPanel filterPanel = new JPanel(new MigLayout("wrap 2"));
         lbl = new JLabel("Filtering form: ");
         lbl.setFont(PBold);
-        add(lbl, "span 2, gaptop 15");
+        filterPanel.add(lbl, "span 2, gaptop 15");
         lbl = new JLabel("ID");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField idField = new JTextField(25);
         idField.setFont(Plain);
-        add(idField, "span 1");
+        filterPanel.add(idField, "span 1");
         lbl = new JLabel("Name");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField nameField = new JTextField(25);
         nameField.setFont(Plain);
-        add(nameField, "span 1");
+        filterPanel.add(nameField, "span 1");
         lbl = new JLabel("Country");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField countryField = new JTextField(25);
         countryField.setFont(Plain);
-        add(countryField, "span 1");
+        filterPanel.add(countryField, "span 1");
         lbl = new JLabel("Gender");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField genderField = new JTextField(25);
         genderField.setFont(Plain);
-        add(genderField, "span 1");
+        filterPanel.add(genderField, "span 1");
         lbl = new JLabel("Birthday");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField birthdayField = new JTextField(25);
         birthdayField.setFont(Plain);
-        add(birthdayField, "span 1");
+        filterPanel.add(birthdayField, "span 1");
         lbl = new JLabel("Height");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField heightField = new JTextField(25);
         heightField.setFont(Plain);
-        add(heightField, "span 1");
+        filterPanel.add(heightField, "span 1");
         lbl = new JLabel("Weight");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField weightField = new JTextField(25);
         weightField.setFont(Plain);
-        add(weightField, "span 1");
+        filterPanel.add(weightField, "span 1");
         lbl = new JLabel("Sport");
         lbl.setFont(Plain);
-        add(lbl, "span 1");
+        filterPanel.add(lbl, "span 1");
         final JTextField sportField = new JTextField(25);
         sportField.setFont(Plain);
-        add(sportField, "span 1");
-        JButton apply = new JButton("apply");
+        filterPanel.add(sportField, "span 1");
+        JButton apply = new JButton("apply filter");
         apply.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 filter(idField, nameField, countryField,
                         genderField, birthdayField, heightField,
                         weightField, sportField);
             }
-        } );      add(apply, "span 2");
-    }    
+        } );      
+        filterPanel.add(apply, "span 1, align center");
+        JButton clear = new JButton("clear");
+        clear.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                 clear(idField, nameField, countryField,
+                        genderField, birthdayField, heightField,
+                        weightField, sportField);
+                filter(idField, nameField, countryField,
+                        genderField, birthdayField, heightField,
+                        weightField, sportField);
+            }
+        } );      
+        filterPanel.add(clear, "span 1, align center");
+        add(filterPanel, "span 2, align center");
+    }
     public void updateParticipants(ArrayList<Participant> participants){
         this.participants = participants;
         String[][] rowData = new String[participants.size()][8];
@@ -228,7 +245,6 @@ public class MainPanel extends JPanel {
         revalidate();
     }
     public void filterParticipants(ArrayList<Participant> filtered){
-        System.out.println("filtering??");
         String[][] rowData = new String[filtered.size()][8];
         for(int i = 0; i <  filtered.size(); i++)
         {
@@ -245,20 +261,20 @@ public class MainPanel extends JPanel {
         model.setDataVector(rowData, columnNames);
         repaint();
         revalidate();
-    }    
+    }
     public void filter(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
-        Boolean id = true;
-        Boolean name = true;
-        Boolean country = true;
-        Boolean gender = true;
-        Boolean birthday = true;
-        Boolean height = true;
-        Boolean weight = true;
-        Boolean sport = true;
         ArrayList<Participant> filtered = new ArrayList();
         for(Participant p : participants){
+            Boolean id = true;
+            Boolean name = true;
+            Boolean country = true;
+            Boolean gender = true;
+            Boolean birthday = true;
+            Boolean height = true;
+            Boolean weight = true;
+            Boolean sport = true;
             if(idField.getText().length() > 0 &&
                     !Integer.toString(p.getID()).trim().equalsIgnoreCase(idField.getText()))
                 id = false;
@@ -275,10 +291,10 @@ public class MainPanel extends JPanel {
                     !format.format(p.getBirthday()).trim().equalsIgnoreCase(birthdayField.getText()))
                 birthday = false;
             if(heightField.getText().length() > 0 &&
-                    !Float.toString(p.getHeight()).trim().equalsIgnoreCase(heightField.getText()))
+                    !(Float.toString(p.getHeight()).trim().equalsIgnoreCase(heightField.getText())))
                 height = false;
             if(weightField.getText().length() > 0 &&
-                    !Float.toString(p.getWeight()).trim().equalsIgnoreCase(weightField.getText()))
+                    !(Float.toString(p.getWeight()).trim().equalsIgnoreCase(weightField.getText())))
                 weight = false;
             if(sportField.getText().length() > 0 &&
                     !p.getSport().trim().equalsIgnoreCase(sportField.getText()))
@@ -287,7 +303,20 @@ public class MainPanel extends JPanel {
                 filtered.add(p);
         }
         filterParticipants(filtered);
-    }   
+    }
+    
+    public void clear(JTextField idField, JTextField nameField, JTextField countryField,
+            JTextField genderField, JTextField birthdayField, JTextField heightField,
+            JTextField weightField, JTextField sportField){
+        idField.setText("");
+        nameField.setText("");
+        countryField.setText("");
+        genderField.setText("");
+        birthdayField.setText("");
+        heightField.setText("");
+        weightField.setText("");
+        sportField.setText("");
+    }
 }
 
 
