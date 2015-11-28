@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -35,7 +36,8 @@ public class MainPanel extends JPanel {
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
-    private final DefaultTableModel model;
+    private DefaultTableModel model;
+    private final String[][] rowData;
     private final String[] columnNames;
     private final SimpleDateFormat format;
     private final JTextField filter;
@@ -44,13 +46,14 @@ public class MainPanel extends JPanel {
     private final JTable table;
     private final JScrollPane scrollPane;
     private ArrayList<Participant> participants;
+    private final JCheckBox editBox;
     public MainPanel(GuiController contr){
         format = new SimpleDateFormat("yyyy/mm/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("Participants in NOG");
         lbl.setFont(Title);
-        add(lbl, "span 2");
+        add(lbl, "span 2, align center");
         columnNames = new String[8];
         columnNames[0] = "Id";
         columnNames[1] = "Name";
@@ -60,7 +63,7 @@ public class MainPanel extends JPanel {
         columnNames[5] = "height";
         columnNames[6] = "weight";
         columnNames[7] = "sport";
-        String[][] rowData = new String[0][0];
+        rowData = new String[0][0];
         model = new DefaultTableModel(rowData,columnNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -68,15 +71,64 @@ public class MainPanel extends JPanel {
             }
         };
         table = new JTable(model);
-        table.setRowHeight(20);
+        table.setPreferredScrollableViewportSize(table.getPreferredSize());
+        table.setFillsViewportHeight(true);
         table.setFont(Plain);
         table.getTableHeader().setFont(PBold);
         sorter = new TableRowSorter(table.getModel());
         table.setRowSorter(sorter);
         scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         Dimension dim = new Dimension(800,400);
         scrollPane.setPreferredSize(new Dimension(dim.width, table.getRowHeight()*rowsDisplayed));
+        JPanel toggleEdit = new JPanel(new MigLayout("wrap 4"));
+        lbl = new JLabel("Toggle edit-mode: ");
+        lbl.setFont(PBold);
+        toggleEdit.add(lbl, "span 1");
+        editBox = new JCheckBox();
+        editBox.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+               if(editBox.isSelected()){
+                   model = new DefaultTableModel(rowData,columnNames) {
+                       @Override
+                       public boolean isCellEditable(int row, int column) {
+                           return true;
+                       }
+                   };
+                   table.setModel(model);
+                   updateParticipants(participants);
+               }
+               else{
+                   model = new DefaultTableModel(rowData,columnNames) {
+                       @Override
+                       public boolean isCellEditable(int row, int column) {
+                           return false;
+                       }
+                   };
+                   table.setModel(model);
+                   updateParticipants(participants);
+               }
+                   
+            }
+        });
+        toggleEdit.add(editBox, "span 1");
+        JButton save = new JButton("Save changes");
+        save.setFont(Plain);
+        save.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                
+            }
+        } );
+        toggleEdit.add(save, "span 1");
+        JButton delete = new JButton("Delete selected row");
+        delete.setFont(Plain);
+        delete.addActionListener( new ActionListener(){
+            public void actionPerformed(ActionEvent ae) {
+                
+            }
+        } );
+        toggleEdit.add(delete, "span 1");
+        add(toggleEdit, "span 2, gaptop 30");
         lbl = new JLabel("Search: ");
         lbl.setFont(PBold);
         add(lbl, "span 1");
@@ -202,6 +254,7 @@ public class MainPanel extends JPanel {
         final JTextField sportField = new JTextField(25);
         sportField.setFont(Plain);
         filterPanel.add(sportField, "span 1");
+        JPanel buttonsPanel = new JPanel(new MigLayout("wrap 2"));
         JButton apply = new JButton("apply filter");
         apply.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -210,7 +263,7 @@ public class MainPanel extends JPanel {
                         weightField, sportField);
             }
         } );      
-        filterPanel.add(apply, "span 1, align center");
+        buttonsPanel.add(apply, "span 1");
         JButton clear = new JButton("clear");
         clear.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -222,7 +275,8 @@ public class MainPanel extends JPanel {
                         weightField, sportField);
             }
         } );      
-        filterPanel.add(clear, "span 1, align center");
+        buttonsPanel.add(clear, "span 1");
+        filterPanel.add(buttonsPanel, "span 1, align center");
         add(filterPanel, "span 2, align center");
     }
     public void updateParticipants(ArrayList<Participant> participants){
@@ -234,7 +288,7 @@ public class MainPanel extends JPanel {
             rowData[i][0] = Integer.toString(p.getID());
             rowData[i][1] = p.getName();
             rowData[i][2] = p.getCountry();
-            rowData[i][3] = String.valueOf(p.getGender());
+            rowData[i][3] = Character.toString(p.getGender());
             rowData[i][4] = format.format(p.getBirthday());
             rowData[i][5] = Float.toString(p.getHeight());
             rowData[i][6] = Float.toString(p.getWeight());

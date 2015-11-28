@@ -58,7 +58,7 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
                 fileWriter.write(str);
                 String[] values = str.split("\\t", -1); 
                 participants.add(new Participant(Integer.parseInt(values[0]),
-                values[1], str.charAt(0), values[3], format.parse(values[4]),
+                values[1], values[2].charAt(0), values[3], format.parse(values[4]),
                 Float.parseFloat(values[5]), Float.parseFloat(values[6]),
                 values[7]));
                 }
