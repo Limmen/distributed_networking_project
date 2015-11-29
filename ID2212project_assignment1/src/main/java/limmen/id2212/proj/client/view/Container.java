@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.view;
 
 import java.util.ArrayList;
@@ -15,9 +15,9 @@ import net.miginfocom.swing.MigLayout;
  * @author kim
  */
 public class Container extends JPanel {
-     private final GuiController contr;
-     private MainPanel mainPanel;
-     private StatsPanel statsPanel;
+    private final GuiController contr;
+    private MainPanel mainPanel;
+    private StatsPanel statsPanel;
     public Container(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));
@@ -27,7 +27,7 @@ public class Container extends JPanel {
     public void transitionToHome(){
         removeAll();
         mainPanel = new MainPanel(contr);
-        add(statsPanel, "span 1");
+        add(mainPanel, "span 1");
     }
     public void transitionToStatsPage(){
         removeAll();
@@ -37,5 +37,9 @@ public class Container extends JPanel {
     public void updateParticipants(ArrayList<Participant> participants){
         if(mainPanel != null)
             mainPanel.updateParticipants(participants);
+    }
+    public void updateStatistics(ArrayList<Participant> participants){
+        if(statsPanel != null)
+            statsPanel.updateStatistics(participants);
     }
 }

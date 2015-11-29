@@ -28,6 +28,12 @@ public class GuiController {
     public static void main(String[] args){
         new GuiController();
     }
+    public void closeMainFrame(){
+        startFrame.setVisible(true);
+        mainFrame.setVisible(false);
+        mainFrame = null;
+        
+    }
     public void invalidInput(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -37,19 +43,17 @@ public class GuiController {
             }
         });
     }
-    public void connectionSuccess(){
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                mainFrame = new MainFrame(contr);
-                startFrame.setVisible(false);
-            }
-        });
+    public void updateParticipants(){
+        new RequestWorker(contr).execute();
     }
     public void updateParticipants(final ArrayList<Participant> participants){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
+                if(mainFrame == null || !mainFrame.isVisible()){
+                    mainFrame = new MainFrame(contr);
+                    startFrame.setVisible(false);
+                }
                 mainFrame.updateParticipants(participants);
             }
         });        
@@ -73,8 +77,5 @@ public class GuiController {
             hostField.setText("");
             portField.setText("");
         }        
-    }
-    void updateData(){
-        
     }
 }

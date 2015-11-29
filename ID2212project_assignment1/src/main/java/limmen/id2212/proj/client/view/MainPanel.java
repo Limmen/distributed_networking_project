@@ -88,27 +88,27 @@ public class MainPanel extends JPanel {
         editBox = new JCheckBox();
         editBox.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-               if(editBox.isSelected()){
-                   model = new DefaultTableModel(rowData,columnNames) {
-                       @Override
-                       public boolean isCellEditable(int row, int column) {
-                           return true;
-                       }
-                   };
-                   table.setModel(model);
-                   updateParticipants(participants);
-               }
-               else{
-                   model = new DefaultTableModel(rowData,columnNames) {
-                       @Override
-                       public boolean isCellEditable(int row, int column) {
-                           return false;
-                       }
-                   };
-                   table.setModel(model);
-                   updateParticipants(participants);
-               }
-                   
+                if(editBox.isSelected()){
+                    model = new DefaultTableModel(rowData,columnNames) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return true;
+                        }
+                    };
+                    table.setModel(model);
+                    updateParticipants(participants);
+                }
+                else{
+                    model = new DefaultTableModel(rowData,columnNames) {
+                        @Override
+                        public boolean isCellEditable(int row, int column) {
+                            return false;
+                        }
+                    };
+                    table.setModel(model);
+                    updateParticipants(participants);
+                }
+                
             }
         });
         toggleEdit.add(editBox, "span 1");
@@ -137,7 +137,7 @@ public class MainPanel extends JPanel {
                                 p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
                                 p.getSport().equals(table.getModel().getValueAt(row, 7)))){
                             updatedParticipants.add(p);
-                        }         
+                        }
                     }
                     updateParticipants(updatedParticipants);
                 }
@@ -198,7 +198,7 @@ public class MainPanel extends JPanel {
             }
         } );
         navigator.add(next, "span 1");
-                JButton first = new JButton("first");
+        JButton first = new JButton("first");
         first.setFont(PBold);
         first.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
@@ -278,19 +278,19 @@ public class MainPanel extends JPanel {
                         genderField, birthdayField, heightField,
                         weightField, sportField);
             }
-        } );      
+        } );
         buttonsPanel.add(apply, "span 1");
         JButton clear = new JButton("clear");
         clear.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-                 clear(idField, nameField, countryField,
+                clear(idField, nameField, countryField,
                         genderField, birthdayField, heightField,
                         weightField, sportField);
                 filter(idField, nameField, countryField,
                         genderField, birthdayField, heightField,
                         weightField, sportField);
             }
-        } );      
+        } );
         buttonsPanel.add(clear, "span 1");
         filterPanel.add(buttonsPanel, "span 1, align center");
         add(filterPanel, "span 2, align center");

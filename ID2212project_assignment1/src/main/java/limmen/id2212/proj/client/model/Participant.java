@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.model;
 
 import java.util.Date;
@@ -30,42 +30,42 @@ public class Participant {
         this.birthday=birthday;
         this.height=height;
         this.weight=weight;
-        this.sport=sport;        
+        this.sport=sport;
     }
     @Override
     public String toString(){
         return ID + "\t" + name + "\t" + gender + "\t" + country + "\t" + birthday
                 + "\t" + height + "\t" + weight + "\t" + sport + "\n";
     }
-
+    
     public int getID() {
         return ID;
     }
-
+    
     public String getName() {
         return name;
     }
-
+    
     public String getCountry() {
         return country;
     }
-
+    
     public char getGender() {
         return gender;
     }
-
+    
     public Date getBirthday() {
         return birthday;
     }
-
+    
     public float getHeight() {
         return height;
     }
-
+    
     public float getWeight() {
         return weight;
     }
-
+    
     public String getSport() {
         return sport;
     }

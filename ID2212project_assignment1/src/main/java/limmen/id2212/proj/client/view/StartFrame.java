@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.view;
 
 import java.awt.Font;
@@ -50,7 +50,7 @@ public class StartFrame extends JFrame {
     private class ConnectPanel extends JPanel{
         JTextField hostField;
         JTextField portField;
-        public ConnectPanel(){            
+        public ConnectPanel(){
             setLayout(new MigLayout("wrap 2"));
             JLabel lbl = new JLabel("Connect to a server");
             lbl.setFont(Title);

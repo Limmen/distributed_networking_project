@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.view;
 
 import java.awt.event.ActionEvent;
@@ -29,11 +29,12 @@ public class MainFrame extends JFrame {
         this.setTitle("NOG Informationsystem");
         container = new Container(contr);
         this.setContentPane(new JScrollPane(container));
+        this.setJMenuBar(createMenu());
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent)
             {
-                System.exit(0);
+                closeMainFrame();
             }
         });
         pack();
@@ -41,8 +42,10 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
     
-    
-     private JMenuBar createMenu(){
+    private void closeMainFrame(){
+        contr.closeMainFrame();
+    }
+    private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
         menuBar.add(menu);
@@ -55,7 +58,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToHome();
-                    contr.updateData();
+                    contr.updateParticipants();
                     pack();
                 }
                 catch(Exception e)
@@ -74,6 +77,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToStatsPage();
+                    contr.updateParticipants();
                     pack();
                 }
                 catch(Exception e)
@@ -82,10 +86,11 @@ public class MainFrame extends JFrame {
                 }
                 
             }
-        });     
+        });
         return menuBar;
     }
     public void updateParticipants(ArrayList<Participant> participants){
         container.updateParticipants(participants);
-    }    
+        container.updateStatistics(participants);
+    }
 }

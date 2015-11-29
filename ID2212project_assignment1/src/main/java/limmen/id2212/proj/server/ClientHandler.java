@@ -45,34 +45,34 @@ public class ClientHandler implements Runnable {
     public void run() {
         setup();
         String req;
-            try{
-                req = inReader.readLine();
-                if(req == null){
-                    cleanUp();
-                    return;
-                }    
-                //System.out.println(req); //log
-                StringTokenizer st = new StringTokenizer(req);
-                String method = st.nextToken();
-                String name = st.nextToken();
-                String version = st.nextToken();                                
-                while ((req = inReader.readLine()) != null && !req.trim().equals("")) {
-                } 
-                System.out.println("method: " + method);
-                if(method.equals("GET"))
-                    getReq(name);
-                if(method.equals("PUT")){
-                    putReq(name);
-                }
-                if(!method.equals("GET") && !method.equals("PUT"))
-                    sendErrorMessage(NOT_IMPL,NOT_IMPL_HTML);
-            }
-            catch(IOException e){
+        try{
+            req = inReader.readLine();
+            if(req == null){
                 cleanUp();
                 return;
             }
+            //System.out.println(req); //log
+            StringTokenizer st = new StringTokenizer(req);
+            String method = st.nextToken();
+            String name = st.nextToken();
+            String version = st.nextToken();
+            while ((req = inReader.readLine()) != null && !req.trim().equals("")) {
+            }
+            System.out.println("method: " + method);
+            if(method.equals("GET"))
+                getReq(name);
+            if(method.equals("PUT")){
+                putReq(name);
+            }
+            if(!method.equals("GET") && !method.equals("PUT"))
+                sendErrorMessage(NOT_IMPL,NOT_IMPL_HTML);
+        }
+        catch(IOException e){
             cleanUp();
             return;
+        }
+        cleanUp();
+        return;
     }
     private void getReq(String name){
         System.out.println(name);
@@ -82,7 +82,7 @@ public class ClientHandler implements Runnable {
             sendErrorMessage(NOT_FOUND,NOT_FOUND_HTML);
     }
     private void putReq(String name){
-         System.out.println(name);
+        System.out.println(name);
         if(name.equals("participants.tsv"))
             System.out.println("correct put Req");
     }
@@ -101,7 +101,7 @@ public class ClientHandler implements Runnable {
             byte [] dataBytes  = new byte [(int)tsvFile.length()];
             fileReader = new FileInputStream(tsvFile);
             fileWrapper = new BufferedInputStream(fileReader);
-            fileWrapper.read(dataBytes,0,dataBytes.length);           
+            fileWrapper.read(dataBytes,0,dataBytes.length);
             out.write(dataBytes,0,dataBytes.length);
             out.flush();
             System.out.println("Done.");
@@ -141,6 +141,6 @@ public class ClientHandler implements Runnable {
         } catch (IOException ioe) {
             return;
         }
-    }   
+    }
     
 }

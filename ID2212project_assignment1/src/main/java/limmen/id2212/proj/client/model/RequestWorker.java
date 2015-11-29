@@ -42,7 +42,6 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     protected Boolean doInBackground(){
         try{
             socket = new Socket(httpServer, serverPort);
-            connected();
             socket.setSoTimeout(timeoutMillis);
             outWriter = new PrintWriter(socket.getOutputStream());
             outWriter.println(httpGetRequest);
@@ -56,12 +55,12 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             while ((str = reader.readLine()) != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
                 fileWriter.write(str);
-                String[] values = str.split("\\t", -1); 
+                String[] values = str.split("\\t", -1);
                 participants.add(new Participant(Integer.parseInt(values[0]),
-                values[1], values[2].charAt(0), values[3], format.parse(values[4]),
-                Float.parseFloat(values[5]), Float.parseFloat(values[6]),
-                values[7]));
-                }
+                        values[1], values[2].charAt(0), values[3], format.parse(values[4]),
+                        Float.parseFloat(values[5]), Float.parseFloat(values[6]),
+                        values[7]));
+            }
             fileWriter.close();
             socket.close();
         }
@@ -77,14 +76,10 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             e3.printStackTrace();
         }
         updateParticipants(participants);
-        return true;        
+        return true;
     }
     
     private void updateParticipants(ArrayList<Participant> participants){
         contr.updateParticipants(participants);
-    }
-    
-    private void connected(){
-        contr.connectionSuccess();
     }
 }
