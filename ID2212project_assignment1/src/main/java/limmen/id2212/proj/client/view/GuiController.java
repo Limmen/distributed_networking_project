@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import limmen.id2212.proj.client.model.Participant;
+import limmen.id2212.proj.client.model.PutWorker;
 import limmen.id2212.proj.client.model.RequestWorker;
 
 /**
@@ -77,5 +78,17 @@ public class GuiController {
             hostField.setText("");
             portField.setText("");
         }        
+    }
+    class SaveListener implements ActionListener {
+        private final MainPanel mainPanel;
+        
+        SaveListener(MainPanel mainPanel){
+            this.mainPanel = mainPanel;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<Participant> participants = mainPanel.getTableData();
+            new PutWorker(contr, participants).execute();
+        }
     }
 }

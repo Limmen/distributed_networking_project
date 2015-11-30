@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
@@ -37,6 +38,7 @@ public class MainPanel extends JPanel {
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
     private DefaultTableModel model;
+    private DefaultTableModel filterModel;
     private final String[][] rowData;
     private final String[] columnNames;
     private final SimpleDateFormat format;
@@ -114,11 +116,7 @@ public class MainPanel extends JPanel {
         toggleEdit.add(editBox, "span 1");
         JButton save = new JButton("Save changes");
         save.setFont(Plain);
-        save.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent ae) {
-                
-            }
-        } );
+        save.addActionListener(contr. new SaveListener(this));
         toggleEdit.add(save, "span 1");
         JButton delete = new JButton("Delete selected row");
         delete.setFont(Plain);
@@ -328,6 +326,7 @@ public class MainPanel extends JPanel {
             rowData[i][6] = Float.toString(p.getWeight());
             rowData[i][7] = p.getSport();
         }
+        
         model.setDataVector(rowData, columnNames);
         repaint();
         revalidate();
@@ -375,7 +374,7 @@ public class MainPanel extends JPanel {
         filterParticipants(filtered);
     }
     
-    public void clear(JTextField idField, JTextField nameField, JTextField countryField,
+    private void clear(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
         idField.setText("");
@@ -387,6 +386,29 @@ public class MainPanel extends JPanel {
         weightField.setText("");
         sportField.setText("");
     }
+    public ArrayList<Participant> getTableData () {
+        int rows = model.getRowCount(), cols = model.getColumnCount();
+        ArrayList<Participant> tableParticipants = new ArrayList();
+        // Object[][] tableData = new Object[rows][nCol];
+        for (int i = 0 ; i < rows; i++){
+            try{
+                tableParticipants.add(new Participant(
+                        Integer.parseInt((String) table.getValueAt(i, 0)),
+                        (String) table.getValueAt(i, 1),
+                        (Character)(((String) table.getValueAt(i, 2)).charAt(0)),
+                        (String) table.getValueAt(i, 3),
+                        format.parse((String) table.getValueAt(i, 4)),
+                        Float.parseFloat((String) table.getValueAt(i, 5)),
+                        Float.parseFloat((String) table.getValueAt(i,6)),
+                        (String) table.getValueAt(i, 7)));
+            }
+            catch(ParseException e){
+                e.printStackTrace();
+            }
+        }
+        return tableParticipants;
+    }
+    
 }
 
 

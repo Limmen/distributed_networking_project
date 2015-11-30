@@ -50,18 +50,18 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             outWriter.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
-            FileWriter fileWriter = new FileWriter("src/main/resources/result.tsv");
+          //  FileWriter fileWriter = new FileWriter("src/main/resources/result.tsv");
             participants = new ArrayList();
             while ((str = reader.readLine()) != null) {
                 DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
-                fileWriter.write(str);
+            //    fileWriter.write(str);
                 String[] values = str.split("\\t", -1);
                 participants.add(new Participant(Integer.parseInt(values[0]),
                         values[1], values[2].charAt(0), values[3], format.parse(values[4]),
                         Float.parseFloat(values[5]), Float.parseFloat(values[6]),
                         values[7]));
             }
-            fileWriter.close();
+//            fileWriter.close();
             socket.close();
         }
         catch(UnknownHostException e){
