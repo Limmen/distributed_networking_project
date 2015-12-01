@@ -5,7 +5,10 @@
 */
 package limmen.id2212.proj.client.model;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  *
@@ -20,7 +23,7 @@ public class Participant {
     private final float height;
     private final float weight;
     private final String sport;
-    
+    private final DateFormat format;
     public Participant(int ID, String name,char gender,String country,
             Date birthday, float height, float weight, String sport){
         this.ID=ID;
@@ -31,11 +34,13 @@ public class Participant {
         this.height=height;
         this.weight=weight;
         this.sport=sport;
+        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
     }
     @Override
     public String toString(){
-        return ID + "\t" + name + "\t" + gender + "\t" + country + "\t" + birthday
-                + "\t" + height + "\t" + weight + "\t" + sport + "\n";
+        return ID + "\t" + name + "\t" + gender + "\t" + country + "\t" 
+                + format.format(birthday) + "\t" + height + "\t" 
+                + weight + "\t" + sport + "\n";
     }
     
     public int getID() {

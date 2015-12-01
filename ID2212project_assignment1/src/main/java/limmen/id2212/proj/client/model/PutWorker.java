@@ -5,17 +5,11 @@
  */
 package limmen.id2212.proj.client.model;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.swing.SwingWorker;
 import limmen.id2212.proj.client.view.GuiController;
 
@@ -47,7 +41,6 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
             outWriter.println(hostHeader);
             //outWriter.println();
             for(Participant p : participants){
-                System.out.println("Writing: " + p.toString());
                 outWriter.write(p.toString());
             }
             outWriter.flush();

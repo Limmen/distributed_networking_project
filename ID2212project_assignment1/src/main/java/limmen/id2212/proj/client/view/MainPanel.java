@@ -38,7 +38,6 @@ public class MainPanel extends JPanel {
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
     private DefaultTableModel model;
-    private DefaultTableModel filterModel;
     private final String[][] rowData;
     private final String[] columnNames;
     private final SimpleDateFormat format;
@@ -59,8 +58,8 @@ public class MainPanel extends JPanel {
         columnNames = new String[8];
         columnNames[0] = "Id";
         columnNames[1] = "Name";
-        columnNames[2] = "Country";
-        columnNames[3] = "Gender";
+        columnNames[2] = "Gender";
+        columnNames[3] = "Country";
         columnNames[4] = "birthday";
         columnNames[5] = "height";
         columnNames[6] = "weight";
@@ -90,6 +89,7 @@ public class MainPanel extends JPanel {
         editBox = new JCheckBox();
         editBox.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
+                ArrayList<Participant> editedParticipants = getTableData();
                 if(editBox.isSelected()){
                     model = new DefaultTableModel(rowData,columnNames) {
                         @Override
@@ -98,7 +98,7 @@ public class MainPanel extends JPanel {
                         }
                     };
                     table.setModel(model);
-                    updateParticipants(participants);
+                    filterParticipants(editedParticipants);
                 }
                 else{
                     model = new DefaultTableModel(rowData,columnNames) {
@@ -108,7 +108,7 @@ public class MainPanel extends JPanel {
                         }
                     };
                     table.setModel(model);
-                    updateParticipants(participants);
+                    filterParticipants(editedParticipants);                    
                 }
                 
             }
@@ -127,9 +127,9 @@ public class MainPanel extends JPanel {
                 if(row != -1){
                     for(Participant p : participants){
                         if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&
-                                p.getCountry().equals(table.getModel().getValueAt(row, 2)) &&
-                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 3)) &&
+                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&                                
+                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
+                                p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
                                 format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
                                 p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
                                 p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
@@ -232,18 +232,18 @@ public class MainPanel extends JPanel {
         final JTextField nameField = new JTextField(25);
         nameField.setFont(Plain);
         filterPanel.add(nameField, "span 1");
-        lbl = new JLabel("Country");
-        lbl.setFont(Plain);
-        filterPanel.add(lbl, "span 1");
-        final JTextField countryField = new JTextField(25);
-        countryField.setFont(Plain);
-        filterPanel.add(countryField, "span 1");
         lbl = new JLabel("Gender");
         lbl.setFont(Plain);
         filterPanel.add(lbl, "span 1");
         final JTextField genderField = new JTextField(25);
         genderField.setFont(Plain);
         filterPanel.add(genderField, "span 1");
+        lbl = new JLabel("Country");
+        lbl.setFont(Plain);
+        filterPanel.add(lbl, "span 1");
+        final JTextField countryField = new JTextField(25);
+        countryField.setFont(Plain);
+        filterPanel.add(countryField, "span 1");
         lbl = new JLabel("Birthday");
         lbl.setFont(Plain);
         filterPanel.add(lbl, "span 1");
@@ -295,14 +295,16 @@ public class MainPanel extends JPanel {
     }
     public void updateParticipants(ArrayList<Participant> participants){
         this.participants = participants;
+        if(participants.size() < 1 )
+            return;
         String[][] rowData = new String[participants.size()][8];
         for(int i = 0; i <  participants.size(); i++)
         {
             Participant p = participants.get(i);
             rowData[i][0] = Integer.toString(p.getID());
             rowData[i][1] = p.getName();
-            rowData[i][2] = p.getCountry();
-            rowData[i][3] = Character.toString(p.getGender());
+            rowData[i][2] = Character.toString(p.getGender());
+            rowData[i][3] = p.getCountry();
             rowData[i][4] = format.format(p.getBirthday());
             rowData[i][5] = Float.toString(p.getHeight());
             rowData[i][6] = Float.toString(p.getWeight());
@@ -313,14 +315,16 @@ public class MainPanel extends JPanel {
         revalidate();
     }
     public void filterParticipants(ArrayList<Participant> filtered){
+        if(filtered.size() < 1)
+            return;
         String[][] rowData = new String[filtered.size()][8];
         for(int i = 0; i <  filtered.size(); i++)
         {
             Participant p = filtered.get(i);
             rowData[i][0] = Integer.toString(p.getID());
             rowData[i][1] = p.getName();
-            rowData[i][2] = p.getCountry();
-            rowData[i][3] = Character.toString(p.getGender());
+            rowData[i][2] = Character.toString(p.getGender());
+            rowData[i][3] = p.getCountry();
             rowData[i][4] = format.format(p.getBirthday());
             rowData[i][5] = Float.toString(p.getHeight());
             rowData[i][6] = Float.toString(p.getWeight());
@@ -338,8 +342,8 @@ public class MainPanel extends JPanel {
         for(Participant p : participants){
             Boolean id = true;
             Boolean name = true;
-            Boolean country = true;
             Boolean gender = true;
+            Boolean country = true;
             Boolean birthday = true;
             Boolean height = true;
             Boolean weight = true;
@@ -350,12 +354,12 @@ public class MainPanel extends JPanel {
             if(nameField.getText().length() > 0 &&
                     !p.getName().trim().equalsIgnoreCase(nameField.getText()))
                 name = false;
-            if(countryField.getText().length() > 0 &&
-                    !p.getCountry().trim().equalsIgnoreCase(countryField.getText()))
-                country = false;
             if(genderField.getText().length() > 0  &&
                     !Character.toString(p.getGender()).trim().equalsIgnoreCase(genderField.getText()))
                 gender = false;
+            if(countryField.getText().length() > 0 &&
+                    !p.getCountry().trim().equalsIgnoreCase(countryField.getText()))
+                country = false;
             if(birthdayField.getText().length() > 0 &&
                     !format.format(p.getBirthday()).trim().equalsIgnoreCase(birthdayField.getText()))
                 birthday = false;
@@ -386,10 +390,9 @@ public class MainPanel extends JPanel {
         weightField.setText("");
         sportField.setText("");
     }
-    public ArrayList<Participant> getTableData () {
-        int rows = model.getRowCount(), cols = model.getColumnCount();
+    public ArrayList<Participant> getTableData () {        
+        int rows = model.getRowCount();        
         ArrayList<Participant> tableParticipants = new ArrayList();
-        // Object[][] tableData = new Object[rows][nCol];
         for (int i = 0 ; i < rows; i++){
             try{
                 tableParticipants.add(new Participant(

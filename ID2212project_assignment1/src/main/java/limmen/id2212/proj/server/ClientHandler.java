@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -36,6 +37,8 @@ public class ClientHandler implements Runnable {
     private final String NOT_FOUND_HTML = "<HTML><HEAD><TITLE>File Not Found</TITLE></HEAD><BODY><H1>HTTP Error 404: File Not Found</H1></BODY></HTML>";
     private final String NOT_IMPL = "HTTP/1.0 501 Not Implemented";
     private final String NOT_IMPL_HTML = "<HTML><HEAD><TITLE>Not Implemented</TITLE></HEAD><BODY><H1>HTTP Error 501: Not Implemented</H1></BODY></HTML>";
+    private final String FORBIDDEN = "HTTP/1.0 403 Forbidden";
+    private final String FORBIDDEN_HTML = "<HTML><HEAD><TITLE>FORBIDDEN</TITLE></HEAD><BODY><H1>HTTP Error 403: Forbidden</H1></BODY></HTML>";
     
     public ClientHandler(Socket clientSocket, File tsvFile){
         this.clientSocket = clientSocket;
@@ -51,15 +54,11 @@ public class ClientHandler implements Runnable {
                 cleanUp();
                 return;
             }
-            //System.out.println(req); //log
             StringTokenizer st = new StringTokenizer(req);
             String method = st.nextToken();
             String name = st.nextToken();
             String version = st.nextToken();
-            while ((req = inReader.readLine()) != null && !req.trim().equals("")) {
-                System.out.println("hoho");
-                System.out.println(req);
-            }
+            String host = inReader.readLine();
             System.out.println("method: " + method);
             if(method.equals("GET"))
                 getReq(name);
@@ -86,7 +85,9 @@ public class ClientHandler implements Runnable {
     private void putReq(String name){
         System.out.println(name);
         if(name.equals("participants.tsv"))
-            System.out.println("correct put Req");
+            saveToFile();
+        else
+            sendErrorMessage(FORBIDDEN, FORBIDDEN_HTML);
     }
     private void setup(){
         try{
@@ -123,6 +124,20 @@ public class ClientHandler implements Runnable {
         outWriter.println();
         outWriter.println(html);
         outWriter.flush();
+    }
+    private void saveToFile(){
+        try{
+            String line;
+            FileWriter fileWriter = new FileWriter("src/main/resources/participants.tsv");
+            while ((line = inReader.readLine()) != null) {
+                fileWriter.write(line);
+                fileWriter.write("\n");
+            }
+            fileWriter.close();
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
     }
     /**
      * Closes the client-connection.
