@@ -87,6 +87,24 @@ public class MainFrame extends JFrame {
                 
             }
         });
+        item = new JMenuItem("New participant");
+        menu.add(item);
+        item.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent arg0)
+            {
+                try {
+                    container.transitionToNewPartPage();
+                    pack();
+                }
+                catch(Exception e)
+                {
+                    
+                }
+                
+            }
+        });
         return menuBar;
     }
     public void updateParticipants(ArrayList<Participant> participants){

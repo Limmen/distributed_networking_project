@@ -18,6 +18,7 @@ public class Container extends JPanel {
     private final GuiController contr;
     private MainPanel mainPanel;
     private StatsPanel statsPanel;
+    private NewPartPanel newParticipantPanel;
     public Container(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));
@@ -33,6 +34,11 @@ public class Container extends JPanel {
         removeAll();
         statsPanel = new StatsPanel(contr);
         add(statsPanel, "span 1");
+    }
+    public void transitionToNewPartPage(){
+        removeAll();
+        newParticipantPanel = new NewPartPanel(contr);
+        add(newParticipantPanel, "span 1");
     }
     public void updateParticipants(ArrayList<Participant> participants){
         if(mainPanel != null)
