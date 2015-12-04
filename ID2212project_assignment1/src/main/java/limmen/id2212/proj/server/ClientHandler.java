@@ -77,7 +77,7 @@ public class ClientHandler implements Runnable {
     }
     private void getReq(String name){
         System.out.println(name);
-        if(name.equals("participants.tsv"))
+        if(name.equals("participants.tsv") || name.equals("/participants.tsv"))
             sendFile();
         else
             sendErrorMessage(NOT_FOUND,NOT_FOUND_HTML);
