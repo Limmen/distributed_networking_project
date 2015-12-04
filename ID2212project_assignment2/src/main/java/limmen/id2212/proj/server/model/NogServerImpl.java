@@ -8,6 +8,7 @@ package limmen.id2212.proj.server.model;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import limmen.id2212.proj.util.ParticipantImpl;
 
 /**
  *
@@ -16,20 +17,19 @@ import java.util.ArrayList;
 public class NogServerImpl extends UnicastRemoteObject implements NogServer {
     private final String serverName;
     private final QueryManager qm;
-    private ArrayList<Participant> participants;
-    public NogServerImpl(String serverName, ArrayList<Participant> participants) throws RemoteException{
+    private ArrayList<ParticipantImpl> participants;
+    public NogServerImpl(String serverName, ArrayList<ParticipantImpl> participants) throws RemoteException{
         this.serverName = serverName;
         this.participants = participants;
         qm = new QueryManager();
-        System.out.println(participants.size());
     }
     @Override
-    public ArrayList<Participant> getParticipants() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<ParticipantImpl> getParticipants() throws RemoteException {
+        return participants;
     }
 
     @Override
-    public void putParticipants(ArrayList<Participant> participants) throws RemoteException {
+    public void putParticipants(ArrayList<ParticipantImpl> participants) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

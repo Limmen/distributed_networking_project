@@ -1,0 +1,47 @@
+/*
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
+package limmen.id2212.proj.client.model;
+
+import javax.swing.SwingWorker;
+import limmen.id2212.proj.client.util.ServerCommand;
+import limmen.id2212.proj.client.view.GuiController;
+import limmen.id2212.proj.server.model.NogServer;
+
+/**
+ * Marketworker class. This class does remote method invocation on the
+ * marketplace remote-interface.
+ * @author kim
+ */
+public class NOGWorker extends SwingWorker<Boolean,Boolean> {
+    private final NogServer serverobj;
+    private final Client client;
+    private final ServerCommand command;
+    private final GuiController contr;
+    public NOGWorker(NogServer serverobj, GuiController contr, ServerCommand command, Client client) {
+        this.client = client;
+        this.serverobj= serverobj;
+        this.command = command;
+        this.contr = contr;
+    }
+    @Override
+    protected Boolean doInBackground() throws Exception {
+        switch(command.getCommandName()){
+            case getParticipants:
+                getParticipants();
+                break;
+            case putParticipants:
+                putParticipants();
+                break;            
+        }
+        return true;
+    }
+    private void getParticipants(){
+        
+    }
+    private void putParticipants(){
+        
+    }
+}
