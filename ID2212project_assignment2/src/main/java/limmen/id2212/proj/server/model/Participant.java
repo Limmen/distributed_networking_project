@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Participant implements Serializable {
     private String name;
     private String country;
     private char gender;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date birthday;
     private float height;
     private float weight;
