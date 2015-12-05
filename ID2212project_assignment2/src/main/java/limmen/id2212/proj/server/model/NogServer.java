@@ -8,7 +8,7 @@ package limmen.id2212.proj.server.model;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import limmen.id2212.proj.util.ParticipantImpl;
+import limmen.id2212.proj.util.Participant;
 
 /**
  *
@@ -16,7 +16,7 @@ import limmen.id2212.proj.util.ParticipantImpl;
  */
 public interface NogServer extends Remote {
     
-    public ArrayList<ParticipantImpl> getParticipants() throws RemoteException;
-    public void putParticipants(ArrayList<ParticipantImpl> participants) throws RemoteException;
+    public ArrayList<Participant> getParticipants() throws RemoteException;
+    public void putParticipants(ArrayList<Participant> participants) throws RemoteException;
     
 }

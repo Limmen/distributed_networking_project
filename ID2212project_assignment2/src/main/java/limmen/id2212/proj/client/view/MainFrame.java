@@ -7,13 +7,14 @@ package limmen.id2212.proj.client.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import limmen.id2212.proj.util.ParticipantImpl;
+import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -107,8 +108,13 @@ public class MainFrame extends JFrame {
         });
         return menuBar;
     }
-    public void updateParticipants(ArrayList<ParticipantImpl> participants){
+    public void updateParticipants(ArrayList<Participant> participants){
+        try{
         container.updateParticipants(participants);
         container.updateStatistics(participants);
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
 }

@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.view;
 
 import java.awt.event.ActionEvent;
@@ -24,8 +24,9 @@ import limmen.id2212.proj.client.model.ClientImpl;
 import limmen.id2212.proj.client.model.NOGWorker;
 import limmen.id2212.proj.client.util.ServerCommand;
 import limmen.id2212.proj.client.util.ServerCommandName;
-import limmen.id2212.proj.util.ParticipantImpl;
 import limmen.id2212.proj.server.model.NogServer;
+import limmen.id2212.proj.util.Participant;
+import limmen.id2212.proj.util.ParticipantImpl;
 
 /**
  *
@@ -37,7 +38,7 @@ public class GuiController {
     private final StartFrame startFrame;
     private MainFrame mainFrame;
     private final DateFormat format;
-    private ArrayList<ParticipantImpl> participants = new ArrayList();
+    private ArrayList<Participant> participants = new ArrayList();
     private NogServer serverobj;
     private final Client client;
     public GuiController(){
@@ -46,7 +47,7 @@ public class GuiController {
         client = new ClientImpl();
         format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
     }
-    public static void main(String[] args){        
+    public static void main(String[] args){
         new GuiController();
     }
     private void connectToServer(){
@@ -78,11 +79,23 @@ public class GuiController {
             }
         });
     }
+    public void remoteExceptionHandler(RemoteException e){
+        e.printStackTrace();
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JOptionPane.showMessageDialog(null, "There was an error"
+                        + " with the connection to the server",
+                        "ConnectionError", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
     public void updateParticipants(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.putParticipants), client).execute();
     }
-    public void updateParticipants(final ArrayList<ParticipantImpl> participants){
+    public void updateParticipants(final ArrayList<Participant> participants){
         this.participants = participants;
+        
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -92,7 +105,7 @@ public class GuiController {
                 }
                 mainFrame.updateParticipants(participants);
             }
-        });        
+        });
     }
     class ConnectListener implements ActionListener {
         private final JTextField hostField;
@@ -105,14 +118,14 @@ public class GuiController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(hostField.getText().length() > 0 && portField.getText().length() > 0){
-                        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getParticipants), client).execute();
+                new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getParticipants), client).execute();
             }
             else{
                 invalidInput();
             }
             hostField.setText("");
             portField.setText("");
-        }        
+        }
     }
     class SaveListener implements ActionListener {
         private final MainPanel mainPanel;
@@ -122,7 +135,7 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            ArrayList<ParticipantImpl> participants = mainPanel.getTableData();
+            ArrayList<Participant> participants = mainPanel.getTableData();
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.putParticipants), client).execute();
         }
     }
@@ -136,8 +149,8 @@ public class GuiController {
         JTextField weightField;
         JTextField sportField;
         AddListener(JTextField idField, JTextField nameField,
-        JTextField genderField, JTextField countryField,JTextField birthdayField, 
-        JTextField heightField, JTextField weightField, JTextField sportField){
+                JTextField genderField, JTextField countryField,JTextField birthdayField,
+                JTextField heightField, JTextField weightField, JTextField sportField){
             this.idField = idField;
             this.nameField = nameField;
             this.genderField = genderField;
@@ -160,7 +173,7 @@ public class GuiController {
                 invalidInput();
                 clear();
                 return;
-            }                            
+            }
             try{
                 int id = Integer.parseInt(idField.getText());
                 String name = nameField.getText();
@@ -171,19 +184,22 @@ public class GuiController {
                 Float weight = Float.parseFloat(weightField.getText());
                 String sport = sportField.getText();
                 
-                for(ParticipantImpl p : participants){
+                for(Participant p : participants){
                     if(p.getID() == id){
                         invalidInput();
                         clear();
                         return;
                     }
                 }
-                participants.add(new ParticipantImpl(id,name,gender,country,birthday,
-                height,weight,sport));
-                new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.putParticipants), client).execute();           
+                participants.add((Participant) new ParticipantImpl(id,name,gender,country,birthday,
+                        height,weight,sport));
+                new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.putParticipants), client).execute();
             }catch(ParseException | NumberFormatException e2){
                 invalidInput();
                 clear();
+            }
+            catch(RemoteException e3){
+                remoteExceptionHandler(e3);
             }
             clear();
             

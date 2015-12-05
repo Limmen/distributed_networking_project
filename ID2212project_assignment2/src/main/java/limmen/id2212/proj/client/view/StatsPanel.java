@@ -5,8 +5,8 @@
 */
 package limmen.id2212.proj.client.view;
 
-import java.awt.Dimension;
 import java.awt.Font;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import limmen.id2212.proj.util.ParticipantImpl;
+import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -31,13 +31,13 @@ public class StatsPanel extends JPanel {
     private final String[] countryColumnNames;
     private final DefaultTableModel sportsModel;
     private final String[] sportsColumnNames;
-    private ArrayList<ParticipantImpl> participants;
+    private ArrayList<Participant> participants;
     private final JLabel totalParts;
     private final JLabel totalCountries;
     private final JLabel totalSports;
     private final JLabel averageWeight;
     private final JLabel averageHeight;
-    public StatsPanel(GuiController contr){
+    public StatsPanel(GuiController contr) throws RemoteException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("NOG statistics");
@@ -108,7 +108,7 @@ public class StatsPanel extends JPanel {
         sportsTable.getTableHeader().setFont(PBold);
         add(new JScrollPane(sportsTable), "span 2");
     }
-    public void updateStatistics(ArrayList<ParticipantImpl> participants){
+    public void updateStatistics(ArrayList<Participant> participants) throws RemoteException{
         this.participants = participants;
         totalParts.setText(Integer.toString(participants.size()));
         totalCountries.setText(Integer.toString(totalCountries(participants)));
@@ -121,42 +121,42 @@ public class StatsPanel extends JPanel {
         revalidate();
         
     }
-    private int totalCountries(ArrayList<ParticipantImpl> participants){
+    private int totalCountries(ArrayList<Participant> participants) throws RemoteException{
         ArrayList<String> countries = new ArrayList();
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             if(!countries.contains(p.getCountry()))
                 countries.add(p.getCountry());
         }
         return countries.size();
     }
-    private int totalSports(ArrayList<ParticipantImpl> participants){
+    private int totalSports(ArrayList<Participant> participants) throws RemoteException{
         ArrayList<String> sports = new ArrayList();
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             if(!sports.contains(p.getSport()))
                 sports.add(p.getSport());
         }
         return sports.size();
     }
-    private float averageWeight(ArrayList<ParticipantImpl> participants){
+    private float averageWeight(ArrayList<Participant> participants) throws RemoteException{
         float totalWeight = 0;
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             totalWeight = totalWeight + p.getWeight();
         }
         return totalWeight/participants.size();
     }
-    private float averageHeight(ArrayList<ParticipantImpl> participants){
+    private float averageHeight(ArrayList<Participant> participants) throws RemoteException{
         float totalHeight = 0;
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             totalHeight = totalHeight + p.getHeight();
         }
         return totalHeight/participants.size();
     }
-    public void updateParticipantsPerCountry(ArrayList<ParticipantImpl> participants){
+    public void updateParticipantsPerCountry(ArrayList<Participant> participants) throws RemoteException{
         HashMap<String, Integer> table = new HashMap();
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             if(!table.containsKey(p.getCountry())){
                 int n = 0;
-                for(ParticipantImpl p2 : participants){
+                for(Participant p2 : participants){
                     if(p2.getCountry().equals(p.getCountry()))
                         n = n +1;
                 }
@@ -172,12 +172,12 @@ public class StatsPanel extends JPanel {
         }
         countryModel.setDataVector(rowData, countryColumnNames);
     }
-    public void updateParticipantsPerSport(ArrayList<ParticipantImpl> participants){
+    public void updateParticipantsPerSport(ArrayList<Participant> participants) throws RemoteException{
         HashMap<String, Integer> table = new HashMap();
-        for(ParticipantImpl p : participants){
+        for(Participant p : participants){
             if(!table.containsKey(p.getSport())){
                 int n = 0;
-                for(ParticipantImpl p2 : participants){
+                for(Participant p2 : participants){
                     if(p2.getSport().equals(p.getSport()))
                         n = n +1;
                 }

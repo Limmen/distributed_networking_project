@@ -5,6 +5,7 @@
 */
 package limmen.id2212.proj.client.model;
 
+import java.rmi.RemoteException;
 import javax.swing.SwingWorker;
 import limmen.id2212.proj.client.util.ServerCommand;
 import limmen.id2212.proj.client.view.GuiController;
@@ -39,9 +40,19 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         return true;
     }
     private void getParticipants(){
-        
+        try{
+            contr.updateParticipants(serverobj.getParticipants());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     private void putParticipants(){
-        
+        try{
+        serverobj.putParticipants(command.getParticipants());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
 }

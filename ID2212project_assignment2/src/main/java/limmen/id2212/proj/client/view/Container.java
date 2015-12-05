@@ -5,9 +5,10 @@
 */
 package limmen.id2212.proj.client.view;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.JPanel;
-import limmen.id2212.proj.util.ParticipantImpl;
+import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -25,12 +26,12 @@ public class Container extends JPanel {
         mainPanel = new MainPanel(contr);
         add(mainPanel, "span 1");
     }
-    public void transitionToHome(){
+    public void transitionToHome() throws RemoteException{
         removeAll();
         mainPanel = new MainPanel(contr);
         add(mainPanel, "span 1");
     }
-    public void transitionToStatsPage(){
+    public void transitionToStatsPage() throws RemoteException{
         removeAll();
         statsPanel = new StatsPanel(contr);
         add(statsPanel, "span 1");
@@ -40,11 +41,11 @@ public class Container extends JPanel {
         newParticipantPanel = new NewPartPanel(contr);
         add(newParticipantPanel, "span 1");
     }
-    public void updateParticipants(ArrayList<ParticipantImpl> participants){
+    public void updateParticipants(ArrayList<Participant> participants) throws RemoteException{
         if(mainPanel != null)
             mainPanel.updateParticipants(participants);
     }
-    public void updateStatistics(ArrayList<ParticipantImpl> participants){
+    public void updateStatistics(ArrayList<Participant> participants) throws RemoteException{
         if(statsPanel != null)
             statsPanel.updateStatistics(participants);
     }
