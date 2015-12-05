@@ -26,18 +26,34 @@ import limmen.id2212.proj.util.ParticipantImpl;
 public class Server {
     private static final String DEFAULT_SERVER_NAME = "ID2212_NOG_INFORMATION_SYSTEM";
     public Server(){
-        try {
-            NogServer nogServer = new NogServerImpl(DEFAULT_SERVER_NAME, readFile());
-            // Register the newly created object at rmiregistry.
-            try {
-                LocateRegistry.getRegistry(1099).list();
-            } catch (RemoteException e) {
-                LocateRegistry.createRegistry(1099);
-            }
-            Naming.rebind(DEFAULT_SERVER_NAME, nogServer);
-            System.out.println(nogServer + " is ready.");
+        try {            
+            NogServer nogServer = new NogServerImpl(DEFAULT_SERVER_NAME);
+            register_bind(nogServer);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    public Server(String init){
+        try {            
+            NogServer nogServer = new NogServerImpl(DEFAULT_SERVER_NAME, readFile());
+            register_bind(nogServer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void register_bind(NogServer nogServer){
+        try{
+        // Register the newly created object at rmiregistry.
+        try {
+            LocateRegistry.getRegistry(1099).list();
+        } catch (RemoteException e) {
+            LocateRegistry.createRegistry(1099);
+        }
+        Naming.rebind(DEFAULT_SERVER_NAME, nogServer);
+        System.out.println(nogServer + " is ready.");
+        }
+        catch(Exception e){
+            
         }
     }
     private ArrayList<Participant> readFile(){
@@ -62,6 +78,11 @@ public class Server {
     }
     
     public static void main(String[] args){
-        new Server();
+        if(args.length > 0){
+            if(args[0].equals("init"))
+                new Server(args[0]);
+        }
+        else
+            new Server();
     }
 }

@@ -22,15 +22,23 @@ public class NogServerImpl extends UnicastRemoteObject implements NogServer {
         this.serverName = serverName;
         this.participants = participants;
         qm = new QueryManager();
+        qm.initialStore(participants);
+    }
+    public NogServerImpl(String serverName) throws RemoteException{
+        this.serverName = serverName;
+        qm = new QueryManager();
+        this.participants = qm.getParticipants();       
+        System.out.println("size: " + participants.size());
     }
     @Override
     public ArrayList<Participant> getParticipants() throws RemoteException {
+        System.out.println("Returning participants");
         return participants;
     }
 
     @Override
     public void putParticipants(ArrayList<Participant> participants) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }    
     
 }
