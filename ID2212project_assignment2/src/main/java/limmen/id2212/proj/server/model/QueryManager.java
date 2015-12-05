@@ -6,7 +6,6 @@
 package limmen.id2212.proj.server.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -23,15 +22,23 @@ public class QueryManager {
     public QueryManager(){
         emFactory = Persistence.createEntityManagerFactory("ID2212.projectPU");
     }
-    public ArrayList<Participant> getParticipants(){
+    synchronized public ArrayList<Participant> getParticipants(){
         EntityManager em = null;
         em = beginTransaction();
-        Query query = em.createQuery("SELECT p FROM ParticipantImpl p");
+        ArrayList<Participant> participants = new ArrayList(em.createQuery("SELECT p FROM ParticipantImpl p").getResultList());
         commitTransaction(em);
-        ArrayList<Participant> participants = new ArrayList(query.getResultList());
         return participants;
     }
-    public void initialStore(ArrayList<Participant> participants){
+    synchronized public void putParticipants(ArrayList<Participant> participants){
+        EntityManager em = null;
+        em = beginTransaction();
+        em.createNativeQuery("DELETE FROM ParticipantImpl;").executeUpdate();
+        for(Participant p : participants){
+            em.persist(p);
+        }
+        commitTransaction(em);
+    }
+    synchronized public void initialStore(ArrayList<Participant> participants){
         EntityManager em = null;
         em = beginTransaction();
         for(Participant p : participants){

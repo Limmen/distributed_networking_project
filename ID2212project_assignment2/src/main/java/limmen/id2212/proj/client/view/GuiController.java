@@ -135,8 +135,9 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            ArrayList<Participant> participants = mainPanel.getTableData();
-            new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.putParticipants), client).execute();
+            ServerCommand command = new ServerCommand(ServerCommandName.putParticipants);
+            command.setParticipants(mainPanel.getTableData());
+            new NOGWorker(serverobj, contr,command, client).execute();
         }
     }
     class AddListener implements ActionListener{
