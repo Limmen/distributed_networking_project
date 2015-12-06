@@ -9,11 +9,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -47,8 +45,7 @@ public class MainPanel extends JPanel {
     private final JTable table;
     private final JScrollPane scrollPane;
     private ArrayList<Participant> participants;
-    private final JCheckBox editBox;
-    public MainPanel(GuiController contr){
+    public MainPanel(final GuiController contr){
         format = new SimpleDateFormat("yyyy/mm/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -82,42 +79,31 @@ public class MainPanel extends JPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         Dimension dim = new Dimension(800,400);
         scrollPane.setPreferredSize(new Dimension(dim.width, table.getRowHeight()*rowsDisplayed));
-        JPanel toggleEdit = new JPanel(new MigLayout("wrap 4"));
-        lbl = new JLabel("Toggle edit-mode: ");
-        lbl.setFont(PBold);
-        toggleEdit.add(lbl, "span 1");
-        editBox = new JCheckBox();
-        editBox.addActionListener( new ActionListener(){
+        JPanel edit_delete = new JPanel(new MigLayout("wrap 4"));
+        JButton edit = new JButton("Edit selected row");
+        edit.setFont(Plain);
+        edit.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-                ArrayList<Participant> editedParticipants = getTableData();
-                if(editBox.isSelected()){
-                    model = new DefaultTableModel(rowData,columnNames) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return true;
+                int row = table.getSelectedRow();
+                if(row != -1){
+                    Participant edit = null;
+                    for(Participant p : participants){
+                        if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
+                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&                                
+                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
+                                p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
+                                format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
+                                p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
+                                p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
+                                p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                            edit = p;
                         }
-                    };
-                    table.setModel(model);
-                    filterParticipants(editedParticipants);
+                    }
+                    new EditFrame(edit, participants, contr);
                 }
-                else{
-                    model = new DefaultTableModel(rowData,columnNames) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    };
-                    table.setModel(model);
-                    filterParticipants(editedParticipants);                    
-                }
-                
             }
         });
-        toggleEdit.add(editBox, "span 1");
-        JButton save = new JButton("Save changes");
-        save.setFont(Plain);
-        save.addActionListener(contr. new SaveListener(this));
-        toggleEdit.add(save, "span 1");
+        edit_delete.add(edit, "span 1");
         JButton delete = new JButton("Delete selected row");
         delete.setFont(Plain);
         delete.addActionListener( new ActionListener(){
@@ -141,8 +127,8 @@ public class MainPanel extends JPanel {
                 }
             }
         } );
-        toggleEdit.add(delete, "span 1");
-        add(toggleEdit, "span 2, gaptop 30");
+        edit_delete.add(delete, "span 1");
+        add(edit_delete, "span 2, gaptop 30");
         lbl = new JLabel("Search: ");
         lbl.setFont(PBold);
         add(lbl, "span 1");
@@ -389,27 +375,6 @@ public class MainPanel extends JPanel {
         heightField.setText("");
         weightField.setText("");
         sportField.setText("");
-    }
-    public ArrayList<Participant> getTableData () {        
-        int rows = model.getRowCount();        
-        ArrayList<Participant> tableParticipants = new ArrayList();
-        for (int i = 0 ; i < rows; i++){
-            try{
-                tableParticipants.add(new Participant(
-                        Integer.parseInt((String) table.getValueAt(i, 0)),
-                        (String) table.getValueAt(i, 1),
-                        (Character)(((String) table.getValueAt(i, 2)).charAt(0)),
-                        (String) table.getValueAt(i, 3),
-                        format.parse((String) table.getValueAt(i, 4)),
-                        Float.parseFloat((String) table.getValueAt(i, 5)),
-                        Float.parseFloat((String) table.getValueAt(i,6)),
-                        (String) table.getValueAt(i, 7)));
-            }
-            catch(ParseException e){
-                e.printStackTrace();
-            }
-        }
-        return tableParticipants;
     }
     
 }

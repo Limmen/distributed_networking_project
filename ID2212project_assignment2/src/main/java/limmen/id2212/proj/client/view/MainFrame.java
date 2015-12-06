@@ -35,7 +35,7 @@ public class MainFrame extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent)
             {
-                closeMainFrame();
+                quit();
             }
         });
         pack();
@@ -43,8 +43,8 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
     
-    private void closeMainFrame(){
-        contr.closeMainFrame();
+    private void quit(){
+        contr.quit();
     }
     private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();
@@ -59,7 +59,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToHome();
-                    contr.updateParticipants();
+                    contr.getParticipants();
                     pack();
                 }
                 catch(Exception e)
@@ -78,7 +78,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToStatsPage();
-                    contr.updateParticipants();
+                    contr.getParticipants();
                     pack();
                 }
                 catch(Exception e)

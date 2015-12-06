@@ -7,11 +7,13 @@ package limmen.id2212.proj.client.model;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import limmen.id2212.proj.util.Participant;
 
 /**
  *
  * @author kim
  */
 public interface Client extends Remote {
-    public void updateParticipants() throws RemoteException;
+    public void updateParticipants(ArrayList<Participant> participants) throws RemoteException;
 }

@@ -6,19 +6,24 @@
 package limmen.id2212.proj.client.model;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import limmen.id2212.proj.client.view.GuiController;
+import limmen.id2212.proj.util.Participant;
 
 /**
  *
  * @author kim
  */
-public class ClientImpl implements Client {
-
-    public ClientImpl(){
-        
+public class ClientImpl extends UnicastRemoteObject implements Client {
+    private final GuiController contr;
+    public ClientImpl(GuiController contr) throws RemoteException{
+        this.contr = contr;
     }
     @Override
-    public void updateParticipants() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateParticipants(ArrayList<Participant> participants) throws RemoteException {
+        contr.updateParticipants(participants);
+        System.out.println("Updated participants!!!!");
     }
     
 }

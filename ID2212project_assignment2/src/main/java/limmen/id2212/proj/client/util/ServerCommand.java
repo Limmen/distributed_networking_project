@@ -6,7 +6,6 @@
 package limmen.id2212.proj.client.util;
 
 import java.util.ArrayList;
-import limmen.id2212.proj.util.Participant;
 
 /**
  *
@@ -14,7 +13,8 @@ import limmen.id2212.proj.util.Participant;
  */
 public class ServerCommand {
     private final ServerCommandName commandName;
-    private ArrayList<Participant> participants;
+    private ArrayList<TableDTO> participants;
+    private TableDTO participant;
     
     public ServerCommand(ServerCommandName commandName){
         this.commandName = commandName;
@@ -22,12 +22,20 @@ public class ServerCommand {
     public ServerCommandName getCommandName() {
         return commandName;
     }
-    public ArrayList<Participant> getParticipants() {
+    public ArrayList<TableDTO> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(ArrayList<Participant> participants) {
-        this.participants = participants;
+    public void setParticipants(ArrayList<TableDTO> tableParticipants) {
+        this.participants = tableParticipants;
+    }
+
+    public TableDTO getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(TableDTO participant) {
+        this.participant = participant;
     }
     
 }

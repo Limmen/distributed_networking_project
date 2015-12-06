@@ -11,5 +11,8 @@ package limmen.id2212.proj.client.util;
  */
 public enum ServerCommandName {
     getParticipants,
-    putParticipants;
+    putParticipants,
+    addParticipant,
+    deleteParticipant,
+    editParticipant;
 }

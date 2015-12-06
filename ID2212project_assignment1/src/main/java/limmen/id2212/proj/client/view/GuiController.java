@@ -52,8 +52,12 @@ public class GuiController {
             }
         });
     }
-    public void updateParticipants(){
+    public void getParticipants(){
         new RequestWorker(contr).execute();
+    }
+    public void putParticipants(ArrayList<Participant> participants){
+        new PutWorker(contr, participants).execute();
+        
     }
     public void updateParticipants(final ArrayList<Participant> participants){
         this.participants = participants;
@@ -87,18 +91,6 @@ public class GuiController {
             hostField.setText("");
             portField.setText("");
         }        
-    }
-    class SaveListener implements ActionListener {
-        private final MainPanel mainPanel;
-        
-        SaveListener(MainPanel mainPanel){
-            this.mainPanel = mainPanel;
-        }
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            ArrayList<Participant> participants = mainPanel.getTableData();
-            new PutWorker(contr, participants).execute();
-        }
     }
     class AddListener implements ActionListener{
         JTextField idField;

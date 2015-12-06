@@ -58,6 +58,7 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
         catch(Exception e3){
             e3.printStackTrace();
         }
+        new RequestWorker(contr).execute();
         return true;
     }
     private void errorHandling(){

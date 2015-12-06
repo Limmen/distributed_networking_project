@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package limmen.id2212.proj.util;
+package limmen.id2212.proj.client.util;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -13,8 +13,7 @@ import java.util.Date;
  *
  * @author kim
  */
-public interface Participant extends Remote {
-    
+public interface TableDTO extends Remote {
     public int getID() throws RemoteException;    
     public String getName() throws RemoteException;    
     public String getCountry() throws RemoteException;    

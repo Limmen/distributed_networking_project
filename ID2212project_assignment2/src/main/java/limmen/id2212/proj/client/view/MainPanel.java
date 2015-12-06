@@ -26,8 +26,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import limmen.id2212.proj.client.util.TableDTO;
+import limmen.id2212.proj.client.util.TableDTOImpl;
 import limmen.id2212.proj.util.Participant;
-import limmen.id2212.proj.util.ParticipantImpl;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -39,17 +40,16 @@ public class MainPanel extends JPanel {
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
     private final String[][] rowData;
     private final String[] columnNames;
     private final SimpleDateFormat format;
     private final JTextField filter;
-    private final TableRowSorter<DefaultTableModel> sorter;
+    private TableRowSorter<DefaultTableModel> sorter;
     private final int rowsDisplayed = 15;
-    private final JTable table;
+    private JTable table;
     private final JScrollPane scrollPane;
-    private ArrayList<Participant> participants;
-    private final JCheckBox editBox;
+    private ArrayList<TableDTO> tableData;
     public MainPanel(GuiController contr){
         format = new SimpleDateFormat("yyyy/mm/dd");
         this.contr = contr;
@@ -84,51 +84,20 @@ public class MainPanel extends JPanel {
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         Dimension dim = new Dimension(800,400);
         scrollPane.setPreferredSize(new Dimension(dim.width, table.getRowHeight()*rowsDisplayed));
-        JPanel toggleEdit = new JPanel(new MigLayout("wrap 4"));
-        lbl = new JLabel("Toggle edit-mode: ");
-        lbl.setFont(PBold);
-        toggleEdit.add(lbl, "span 1");
-        editBox = new JCheckBox();
-        editBox.addActionListener(new ActionListener(){
+        JPanel edit_delete = new JPanel(new MigLayout("wrap 4"));
+        JButton edit = new JButton("Edit selected row");
+        edit.setFont(Plain);
+        edit.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
-                ArrayList<Participant> editedParticipants = getTableData();
-                if(editBox.isSelected()){
-                    model = new DefaultTableModel(rowData,columnNames) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return true;
-                        }
-                    };
-                    table.setModel(model);
-                    filterParticipants(editedParticipants);
-                }
-                else{
-                    model = new DefaultTableModel(rowData,columnNames) {
-                        @Override
-                        public boolean isCellEditable(int row, int column) {
-                            return false;
-                        }
-                    };
-                    table.setModel(model);
-                    filterParticipants(editedParticipants);                    
-                }
-                
+                editParticipant();
             }
         });
-        toggleEdit.add(editBox, "span 1");
-        JButton save = new JButton("Save changes");
-        save.setFont(Plain);
-        save.addActionListener(contr. new SaveListener(this));
-        toggleEdit.add(save, "span 1");
+        edit_delete.add(edit, "span 1");
         JButton delete = new JButton("Delete selected row");
         delete.setFont(Plain);
-        delete.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent ae){
-                deleteParticipant();
-            }
-        } );
-        toggleEdit.add(delete, "span 1");
-        add(toggleEdit, "span 2, gaptop 30");
+        delete.addActionListener(contr.new deleteListener(table));
+        edit_delete.add(delete, "span 1");
+        add(edit_delete, "span 2, gaptop 30");
         lbl = new JLabel("Search: ");
         lbl.setFont(PBold);
         add(lbl, "span 1");
@@ -281,65 +250,96 @@ public class MainPanel extends JPanel {
     }
     private void deleteParticipant(){
         try{
-        ArrayList<Participant> updatedParticipants = new ArrayList();
-        int row = table.getSelectedRow();
-        if(row != -1){
-            for(Participant p : participants){
-                if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                        p.getName().equals(table.getModel().getValueAt(row, 1)) &&
-                        Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                        p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                        format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                        p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                        p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                        p.getSport().equals(table.getModel().getValueAt(row, 7)))){
-                    updatedParticipants.add(p);
+            ArrayList<TableDTO> updatedTableData = new ArrayList();
+            int row = table.getSelectedRow();
+            if(row != -1){
+                for(TableDTO p : tableData){
+                    if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
+                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
+                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
+                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
+                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
+                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
+                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
+                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                        updatedTableData.add(p);
+                    }
                 }
+                //updateParticipants(updatedParticipants);
             }
-            updateParticipants(updatedParticipants);
+        }catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
         }
+    }
+    private void editParticipant(){
+        try{
+            int row = table.getSelectedRow();
+            if(row != -1){
+                TableDTO edit = null;
+                for(TableDTO p : tableData){
+                    if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
+                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
+                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
+                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
+                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
+                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
+                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
+                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                        edit = p;
+                    }
+                }
+                new EditFrame(edit,tableData, contr);
+            }
         }catch(RemoteException e){
             contr.remoteExceptionHandler(e);
         }
     }
     public void updateParticipants(ArrayList<Participant> participants) throws RemoteException{
-        this.participants = participants;
+        this.tableData = convertToTableDTO(participants);
         if(participants.size() < 1 )
             return;
         String[][] rowData = new String[participants.size()][8];
-        for(int i = 0; i <  participants.size(); i++)
-        {
-            Participant p = participants.get(i);
-            rowData[i][0] = Integer.toString(p.getID());
-            rowData[i][1] = p.getName();
-            rowData[i][2] = Character.toString(p.getGender());
-            rowData[i][3] = p.getCountry();
-            rowData[i][4] = format.format(p.getBirthday());
-            rowData[i][5] = Float.toString(p.getHeight());
-            rowData[i][6] = Float.toString(p.getWeight());
-            rowData[i][7] = p.getSport();
+        try{
+            
+            for(int i = 0; i <  participants.size(); i++)
+            {
+                Participant p = participants.get(i);
+                rowData[i][0] = Integer.toString(p.getID());
+                rowData[i][1] = p.getName();
+                rowData[i][2] = Character.toString(p.getGender());
+                rowData[i][3] = p.getCountry();
+                rowData[i][4] = format.format(p.getBirthday());
+                rowData[i][5] = Float.toString(p.getHeight());
+                rowData[i][6] = Float.toString(p.getWeight());
+                rowData[i][7] = p.getSport();
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
         model.setDataVector(rowData, columnNames);
         repaint();
         revalidate();
     }
-    public void filterParticipants(ArrayList<Participant> filtered){
+    public void filterParticipants(ArrayList<TableDTO> filtered){
         if(filtered.size() < 1)
             return;
         String[][] rowData = new String[filtered.size()][8];
         try{
-        for(int i = 0; i <  filtered.size(); i++)
-        {
-            Participant p = filtered.get(i);
-            rowData[i][0] = Integer.toString(p.getID());
-            rowData[i][1] = p.getName();
-            rowData[i][2] = Character.toString(p.getGender());
-            rowData[i][3] = p.getCountry();
-            rowData[i][4] = format.format(p.getBirthday());
-            rowData[i][5] = Float.toString(p.getHeight());
-            rowData[i][6] = Float.toString(p.getWeight());
-            rowData[i][7] = p.getSport();
-        }
+            
+            for(int i = 0; i <  filtered.size(); i++)
+            {
+                TableDTO p = filtered.get(i);
+                rowData[i][0] = Integer.toString(p.getID());
+                rowData[i][1] = p.getName();
+                rowData[i][2] = Character.toString(p.getGender());
+                rowData[i][3] = p.getCountry();
+                rowData[i][4] = format.format(p.getBirthday());
+                rowData[i][5] = Float.toString(p.getHeight());
+                rowData[i][6] = Float.toString(p.getWeight());
+                rowData[i][7] = p.getSport();
+            }
+            
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -351,8 +351,8 @@ public class MainPanel extends JPanel {
     public void filter(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
-        ArrayList<Participant> filtered = new ArrayList();
-        for(Participant p : participants){
+        ArrayList<TableDTO> filtered = new ArrayList();
+        for(TableDTO p : tableData){
             Boolean id = true;
             Boolean name = true;
             Boolean gender = true;
@@ -362,32 +362,33 @@ public class MainPanel extends JPanel {
             Boolean weight = true;
             Boolean sport = true;
             try{
-            if(idField.getText().length() > 0 &&
-                    !Integer.toString(p.getID()).trim().equalsIgnoreCase(idField.getText()))
-                id = false;
-            if(nameField.getText().length() > 0 &&
-                    !p.getName().trim().equalsIgnoreCase(nameField.getText()))
-                name = false;
-            if(genderField.getText().length() > 0  &&
-                    !Character.toString(p.getGender()).trim().equalsIgnoreCase(genderField.getText()))
-                gender = false;
-            if(countryField.getText().length() > 0 &&
-                    !p.getCountry().trim().equalsIgnoreCase(countryField.getText()))
-                country = false;
-            if(birthdayField.getText().length() > 0 &&
-                    !format.format(p.getBirthday()).trim().equalsIgnoreCase(birthdayField.getText()))
-                birthday = false;
-            if(heightField.getText().length() > 0 &&
-                    !(Float.toString(p.getHeight()).trim().equalsIgnoreCase(heightField.getText())))
-                height = false;
-            if(weightField.getText().length() > 0 &&
-                    !(Float.toString(p.getWeight()).trim().equalsIgnoreCase(weightField.getText())))
-                weight = false;
-            if(sportField.getText().length() > 0 &&
-                    !p.getSport().trim().equalsIgnoreCase(sportField.getText()))
-                sport = false;
-            if(id && name && country && gender && birthday && height && weight && sport)
-                filtered.add(p);
+                if(idField.getText().length() > 0 &&
+                        !Integer.toString(p.getID()).trim().equalsIgnoreCase(idField.getText()))
+                    id = false;
+                if(nameField.getText().length() > 0 &&
+                        !p.getName().trim().equalsIgnoreCase(nameField.getText()))
+                    name = false;
+                if(genderField.getText().length() > 0  &&
+                        !Character.toString(p.getGender()).trim().equalsIgnoreCase(genderField.getText()))
+                    gender = false;
+                if(countryField.getText().length() > 0 &&
+                        !p.getCountry().trim().equalsIgnoreCase(countryField.getText()))
+                    country = false;
+                if(birthdayField.getText().length() > 0 &&
+                        !format.format(p.getBirthday()).trim().equalsIgnoreCase(birthdayField.getText()))
+                    birthday = false;
+                if(heightField.getText().length() > 0 &&
+                        !(Float.toString(p.getHeight()).trim().equalsIgnoreCase(heightField.getText())))
+                    height = false;
+                if(weightField.getText().length() > 0 &&
+                        !(Float.toString(p.getWeight()).trim().equalsIgnoreCase(weightField.getText())))
+                    weight = false;
+                if(sportField.getText().length() > 0 &&
+                        !p.getSport().trim().equalsIgnoreCase(sportField.getText()))
+                    sport = false;
+                if(id && name && country && gender && birthday && height && weight && sport)
+                    filtered.add(new TableDTOImpl(p.getID(),p.getName(), p.getGender()
+                            ,p.getCountry(),p.getBirthday(), p.getHeight(),p.getWeight(),p.getSport()));
             }
             catch(RemoteException e){
                 contr.remoteExceptionHandler(e);
@@ -408,26 +409,25 @@ public class MainPanel extends JPanel {
         weightField.setText("");
         sportField.setText("");
     }
-    public ArrayList<Participant> getTableData () {        
-        int rows = model.getRowCount();        
-        ArrayList<Participant> tableParticipants = new ArrayList();
-        for (int i = 0 ; i < rows; i++){
-            try{
-                tableParticipants.add((Participant) new ParticipantImpl(
-                        Integer.parseInt((String) table.getValueAt(i, 0)),
-                        (String) table.getValueAt(i, 1),
-                        (Character)(((String) table.getValueAt(i, 2)).charAt(0)),
-                        (String) table.getValueAt(i, 3),
-                        format.parse((String) table.getValueAt(i, 4)),
-                        Float.parseFloat((String) table.getValueAt(i, 5)),
-                        Float.parseFloat((String) table.getValueAt(i,6)),
-                        (String) table.getValueAt(i, 7)));
-            }
-            catch(ParseException e){
-                e.printStackTrace();
+    public ArrayList<TableDTO> getTableData(){
+        return tableData;
+    }
+    private ArrayList<TableDTO> convertToTableDTO(ArrayList<Participant> participants){
+        ArrayList<TableDTO> tableData = new ArrayList();
+        try{
+            for(Participant p : participants){
+                tableData.add(new TableDTOImpl(p.getID(), p.getName(), p.getGender(),
+                        p.getCountry(),
+                        p.getBirthday(),
+                        p.getHeight(),
+                        p.getWeight(),
+                        p.getSport()));
             }
         }
-        return tableParticipants;
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+        return tableData;
     }
     
 }

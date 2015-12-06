@@ -35,12 +35,21 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
                 break;
             case putParticipants:
                 putParticipants();
-                break;            
+                break; 
+            case addParticipant:
+                addParticipant();
+                break;
+            case editParticipant:
+                editParticipant();
+                break;
+            case deleteParticipant:
+                deleteParticipant();
+                break;
         }
         return true;
     }
     private void getParticipants(){
-        try{
+        try{    
             contr.updateParticipants(serverobj.getParticipants());
         }
         catch(RemoteException e){
@@ -50,6 +59,33 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private void putParticipants(){
         try{
         serverobj.putParticipants(command.getParticipants());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void addParticipant(){
+        try{
+            serverobj.addParticipant(command.getParticipant());
+            contr.getParticipants();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void editParticipant(){
+        try{
+            serverobj.editParticipant(command.getParticipant());
+            contr.getParticipants();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void deleteParticipant(){
+        try{
+            serverobj.deleteParticipant(command.getParticipant());
+            contr.getParticipants();
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);

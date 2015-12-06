@@ -58,7 +58,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToHome();
-                    contr.updateParticipants();
+                    contr.getParticipants();
                     pack();
                 }
                 catch(Exception e)
@@ -77,7 +77,7 @@ public class MainFrame extends JFrame {
             {
                 try {
                     container.transitionToStatsPage();
-                    contr.updateParticipants();
+                    contr.getParticipants();
                     pack();
                 }
                 catch(Exception e)
