@@ -106,27 +106,7 @@ public class MainPanel extends JPanel {
         edit_delete.add(edit, "span 1");
         JButton delete = new JButton("Delete selected row");
         delete.setFont(Plain);
-        delete.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent ae) {
-                ArrayList<Participant> updatedParticipants = new ArrayList();
-                int row = table.getSelectedRow();
-                if(row != -1){
-                    for(Participant p : participants){
-                        if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&                                
-                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                                p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                                format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                                p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                                p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                                p.getSport().equals(table.getModel().getValueAt(row, 7)))){
-                            updatedParticipants.add(p);
-                        }
-                    }
-                    updateParticipants(updatedParticipants);
-                }
-            }
-        } );
+        delete.addActionListener(contr.new DeleteListener(table));
         edit_delete.add(delete, "span 1");
         add(edit_delete, "span 2, gaptop 30");
         lbl = new JLabel("Search: ");

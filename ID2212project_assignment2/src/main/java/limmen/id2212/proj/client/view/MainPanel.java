@@ -95,7 +95,7 @@ public class MainPanel extends JPanel {
         edit_delete.add(edit, "span 1");
         JButton delete = new JButton("Delete selected row");
         delete.setFont(Plain);
-        delete.addActionListener(contr.new deleteListener(table));
+        delete.addActionListener(contr.new DeleteListener(table));
         edit_delete.add(delete, "span 1");
         add(edit_delete, "span 2, gaptop 30");
         lbl = new JLabel("Search: ");

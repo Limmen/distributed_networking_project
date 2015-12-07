@@ -1,19 +1,23 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package limmen.id2212.proj.client.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import limmen.id2212.proj.client.model.Participant;
@@ -34,7 +38,7 @@ public class GuiController {
         startFrame = new StartFrame(contr);
         format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
     }
-    public static void main(String[] args){        
+    public static void main(String[] args){
         new GuiController();
     }
     public void closeMainFrame(){
@@ -60,6 +64,7 @@ public class GuiController {
         
     }
     public void updateParticipants(final ArrayList<Participant> participants){
+        System.out.println("updating participants " + participants.size());
         this.participants = participants;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -70,7 +75,7 @@ public class GuiController {
                 }
                 mainFrame.updateParticipants(participants);
             }
-        });        
+        });
     }
     class ConnectListener implements ActionListener {
         private final JTextField hostField;
@@ -90,7 +95,7 @@ public class GuiController {
             }
             hostField.setText("");
             portField.setText("");
-        }        
+        }
     }
     class AddListener implements ActionListener{
         JTextField idField;
@@ -102,8 +107,8 @@ public class GuiController {
         JTextField weightField;
         JTextField sportField;
         AddListener(JTextField idField, JTextField nameField,
-        JTextField genderField, JTextField countryField,JTextField birthdayField, 
-        JTextField heightField, JTextField weightField, JTextField sportField){
+                JTextField genderField, JTextField countryField,JTextField birthdayField,
+                JTextField heightField, JTextField weightField, JTextField sportField){
             this.idField = idField;
             this.nameField = nameField;
             this.genderField = genderField;
@@ -126,7 +131,7 @@ public class GuiController {
                 invalidInput();
                 clear();
                 return;
-            }                            
+            }
             try{
                 int id = Integer.parseInt(idField.getText());
                 String name = nameField.getText();
@@ -145,8 +150,8 @@ public class GuiController {
                     }
                 }
                 participants.add(new Participant(id,name,gender,country,birthday,
-                height,weight,sport));
-                new PutWorker(contr, participants).execute();                
+                        height,weight,sport));
+                new PutWorker(contr, participants).execute();
             }catch(ParseException | NumberFormatException e2){
                 invalidInput();
                 clear();
@@ -165,5 +170,35 @@ public class GuiController {
             sportField.setText("");
         }
         
+    }
+    class DeleteListener implements ActionListener {
+        private final JTable table;
+        
+        DeleteListener(JTable table){
+            this.table = table;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ArrayList<Participant> updatedParticipants = new ArrayList();
+            int row = table.getSelectedRow();
+            if(row != -1){
+                for(Participant p : participants){
+                    if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
+                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
+                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
+                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
+                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
+                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
+                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
+                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                        updatedParticipants.add(p);
+                    }
+                }
+                System.out.println("selected row: " + table.getModel().getValueAt(row, 0));
+                participants = updatedParticipants;
+                System.out.println("participants size: " + participants.size());
+                new PutWorker(contr, participants).execute();               
+            }
+        }
     }
 }

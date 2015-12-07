@@ -214,10 +214,10 @@ public class GuiController {
             sportField.setText("");
         }        
     }
-    class deleteListener implements ActionListener {
+    class DeleteListener implements ActionListener {
         private final JTable table;
         
-        deleteListener(JTable table){
+        DeleteListener(JTable table){
             this.table = table;
         }
         @Override

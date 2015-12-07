@@ -50,29 +50,29 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             outWriter.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
-          //  FileWriter fileWriter = new FileWriter("src/main/resources/result.tsv");
             participants = new ArrayList();
+            int i = 0;
             while ((str = reader.readLine()) != null) {
+                try{
+                    System.out.println("nr: " + i);
                 DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
-            //    fileWriter.write(str);
                 String[] values = str.split("\\t", -1);
                 participants.add(new Participant(Integer.parseInt(values[0]),
                         values[1], values[2].charAt(0), values[3], format.parse(values[4]),
                         Float.parseFloat(values[5]), Float.parseFloat(values[6]),
                         values[7]));
+                }
+                catch(Exception e){
+                    System.out.println("Couldnt read participant nr " + i + " continuing");
+                    e.printStackTrace();
+                    //write to log file. Could'nt parse participant, malformed.
+                }
+                i++;
             }
-//            fileWriter.close();
             socket.close();
         }
-        catch(UnknownHostException e){
-            e.printStackTrace();
-            return false;
-        }
-        catch(IOException e2){
-            e2.printStackTrace();
-            return false;
-        }
         catch(Exception e3){
+            //unknown host or IO exception
             e3.printStackTrace();
         }
         updateParticipants(participants);
