@@ -9,7 +9,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,13 +24,13 @@ import java.util.StringTokenizer;
  * @author kim
  */
 public class ClientHandler implements Runnable {
-    private FileInputStream fileReader = null;
-    private BufferedInputStream fileWrapper = null;
+    private final FileInputStream fileReader = null;
+    private final BufferedInputStream fileWrapper = null;
     private BufferedReader inReader;
     private PrintWriter outWriter;
     private OutputStream out = null;
     private final Socket clientSocket;
-    private File tsvFile;
+    private final File tsvFile;
     private final String SERVER = "Server: ID2212_proj1_subassignment_1";
     private final String OK = "HTTP/1.0 200 OK";
     private final String NOT_FOUND = "HTTP/1.0 404 File Not Found";
@@ -73,7 +73,6 @@ public class ClientHandler implements Runnable {
             return;
         }
         cleanUp();
-        return;
     }
     private void getReq(String name){
         System.out.println(name);
@@ -100,20 +99,15 @@ public class ClientHandler implements Runnable {
         }
     }
     private void sendFile(){
-        try{
-            byte [] dataBytes  = new byte [(int)tsvFile.length()];
-            fileReader = new FileInputStream(tsvFile);
-            fileWrapper = new BufferedInputStream(fileReader);
-            fileWrapper.read(dataBytes,0,dataBytes.length);
-            out.write(dataBytes,0,dataBytes.length);
-            out.flush();
-            System.out.println("Done.");
-        }
-        catch(FileNotFoundException e){
-            
+        try (BufferedReader br = new BufferedReader(new FileReader(tsvFile))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                outWriter.println(line);
+            }
+            outWriter.flush();
         }
         catch(IOException e2){
-            
+            e2.printStackTrace();
         }
     }
     private void sendErrorMessage(String code,String html){
@@ -156,8 +150,7 @@ public class ClientHandler implements Runnable {
                 fileWrapper.close();
             clientSocket.close();
         } catch (IOException ioe) {
-            return;
+            ioe.printStackTrace();
         }
-    }
-    
+    }    
 }

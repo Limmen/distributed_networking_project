@@ -62,17 +62,15 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
                         Float.parseFloat(values[5]), Float.parseFloat(values[6]),
                         values[7]));
                 }
-                catch(Exception e){
-                    System.out.println("Couldnt read participant nr " + i + " continuing");
-                    e.printStackTrace();
-                    //write to log file. Could'nt parse participant, malformed.
+                catch(Exception e){                    
+                    e.printStackTrace();                    
                 }
-                i++;
+                i++;                
             }
+            System.out.println("null? :  " + reader.readLine());
             socket.close();
         }
         catch(Exception e3){
-            //unknown host or IO exception
             e3.printStackTrace();
         }
         updateParticipants(participants);

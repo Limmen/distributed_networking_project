@@ -19,8 +19,8 @@ import java.util.ArrayList;
  * @author kim
  */
 public class Listener implements Runnable {
-    private int PORT;
-    private File tsvFile;
+    private final int PORT;
+    private final File tsvFile;
     private boolean running;
     private ServerSocket serverSocket;
     
@@ -73,8 +73,7 @@ public class Listener implements Runnable {
     private ArrayList<String> parseTSV(File file){
         BufferedReader tsvReader = null;
         ArrayList<String> participants = new ArrayList() ;
-        try{
-            // TSVFile = new BufferedReader(new FileReader("src/main/resources/participants.tsv"));
+        try{ 
             tsvReader= new BufferedReader(new FileReader(file));
         }
         catch(FileNotFoundException e){

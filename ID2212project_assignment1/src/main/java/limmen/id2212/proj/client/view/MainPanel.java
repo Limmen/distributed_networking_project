@@ -35,7 +35,7 @@ public class MainPanel extends JPanel {
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final GuiController contr;
-    private DefaultTableModel model;
+    private final DefaultTableModel model;
     private final String[][] rowData;
     private final String[] columnNames;
     private final SimpleDateFormat format;

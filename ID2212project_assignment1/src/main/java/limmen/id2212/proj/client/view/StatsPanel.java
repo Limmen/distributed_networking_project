@@ -5,7 +5,6 @@
 */
 package limmen.id2212.proj.client.view;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
