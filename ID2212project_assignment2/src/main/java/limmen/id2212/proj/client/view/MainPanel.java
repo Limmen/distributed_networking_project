@@ -51,7 +51,7 @@ public class MainPanel extends JPanel {
     private final JScrollPane scrollPane;
     private ArrayList<TableDTO> tableData;
     public MainPanel(GuiController contr){
-        format = new SimpleDateFormat("yyyy/mm/dd");
+        format = new SimpleDateFormat("yyyy/MM/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("Participants in NOG");

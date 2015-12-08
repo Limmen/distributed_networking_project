@@ -6,12 +6,9 @@
 package limmen.id2212.proj.client.model;
 
 import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     private final DateFormat format;
     public RequestWorker(GuiController contr){
         this.contr = contr;
-        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
+        format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
     @Override
     protected Boolean doInBackground(){

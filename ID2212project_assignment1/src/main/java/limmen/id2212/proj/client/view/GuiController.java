@@ -13,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -33,7 +35,7 @@ public class GuiController {
     private ArrayList<Participant> participants = new ArrayList();
     public GuiController(){
         startFrame = new StartFrame(contr);
-        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
+        format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
     public static void main(String[] args){
         new GuiController();
@@ -194,7 +196,61 @@ public class GuiController {
                 System.out.println("selected row: " + table.getModel().getValueAt(row, 0));
                 participants = updatedParticipants;
                 System.out.println("participants size: " + participants.size());
-                new PutWorker(contr, participants).execute();               
+                new PutWorker(contr, participants).execute();
+            }
+        }
+    }
+    
+    class EditListener implements ActionListener{
+        JTextField idField;
+        JTextField nameField;
+        JTextField genderField;
+        JTextField countryField;
+        JTextField birthdayField;
+        JTextField heightField;
+        JTextField weightField;
+        JTextField sportField;
+        EditFrame editPanel;
+        Participant participant;
+        EditListener(JTextField idField, JTextField nameField,
+                JTextField genderField, JTextField countryField,JTextField birthdayField,
+                JTextField heightField, JTextField weightField, JTextField sportField, Participant participant,EditFrame frame){
+            this.idField = idField;
+            this.nameField = nameField;
+            this.genderField = genderField;
+            this.countryField = countryField;
+            this.birthdayField = birthdayField;
+            this.heightField = heightField;
+            this.weightField = weightField;
+            this.sportField  = sportField;
+            this.editPanel = frame;
+            this.participant = participant;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(nameField.getText().length() > 0 &&
+                    genderField.getText().length() == 1 &&
+                    countryField.getText().length() > 0 &&
+                    birthdayField.getText().length() > 0 &&
+                    weightField.getText().length() > 0 &&
+                    heightField.getText().length() > 0 &&
+                    sportField.getText().length() > 0){
+                participant.setName(nameField.getText());
+                participant.setGender(genderField.getText().charAt(0));
+                participant.setCountry(countryField.getText());
+                try {
+                    participant.setBirthday(format.parse(birthdayField.getText()));
+                } catch (ParseException ex) {
+                    Logger.getLogger(EditFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                participant.setWeight(Float.parseFloat(weightField.getText()));
+                participant.setHeight(Float.parseFloat(heightField.getText()));
+                participant.setSport(sportField.getText());
+                new PutWorker(contr, participants).execute();
+                editPanel.dispose();
+            }
+            else{
+                invalidInput();
             }
         }
     }

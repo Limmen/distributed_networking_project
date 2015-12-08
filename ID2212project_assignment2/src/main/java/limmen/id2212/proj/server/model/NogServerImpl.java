@@ -23,6 +23,7 @@ public class NogServerImpl extends UnicastRemoteObject implements NogServer {
     public NogServerImpl(String serverName, ArrayList<Participant> participants) throws RemoteException{
         this.serverName = serverName;
         qm = new QueryManager();
+        System.out.println("init!");
         qm.initialStore(participants);        
     }
     public NogServerImpl(String serverName) throws RemoteException{

@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 import limmen.id2212.proj.util.Participant;
 import limmen.id2212.proj.util.ParticipantImpl;
@@ -58,7 +59,7 @@ public class Server {
     }
     private ArrayList<Participant> readFile(){
         ArrayList<Participant> participants = new ArrayList();
-        DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
         try{
             BufferedReader buffReader = new BufferedReader(new FileReader("/home/kim/participants.tsv"));
             String str = buffReader.readLine();

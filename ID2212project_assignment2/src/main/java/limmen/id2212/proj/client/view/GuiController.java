@@ -49,7 +49,7 @@ public class GuiController {
         mainFrame = new MainFrame(contr);
         registerClient();
         getParticipants();     
-        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
+        format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
     public static void main(String[] args){
         new GuiController();

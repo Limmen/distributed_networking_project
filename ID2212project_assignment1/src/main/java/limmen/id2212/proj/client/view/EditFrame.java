@@ -6,15 +6,11 @@
 package limmen.id2212.proj.client.view;
 
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -32,7 +28,9 @@ public class EditFrame extends JFrame {
     private final ArrayList<Participant> participants;
     private final Participant participant;
     private final GuiController contr;
+    private final EditFrame frame;
     public EditFrame(Participant p, ArrayList<Participant> participants, GuiController contr){
+        frame = this;
         this.participants = participants;
         this.participant = p;
         this.contr = contr;
@@ -115,41 +113,10 @@ public class EditFrame extends JFrame {
             sportField.setText(participant.getSport());
             add(sportField, "span 1");
             JButton save = new JButton("Save edit");
-            save.addActionListener( new ActionListener(){
-                public void actionPerformed(ActionEvent ae) {
-                    try {
-                        if(nameField.getText().length() > 0 &&
-                                genderField.getText().length() == 1 &&
-                                countryField.getText().length() > 0 &&
-                                birthdayField.getText().length() > 0 &&
-                                weightField.getText().length() > 0 &&
-                                heightField.getText().length() > 0 &&
-                                sportField.getText().length() > 0){
-                        participant.setName(nameField.getText());
-                        participant.setGender(genderField.getText().charAt(0));
-                        participant.setCountry(countryField.getText());
-                        participant.setBirthday(format.parse(birthdayField.getText()));
-                        participant.setWeight(Float.parseFloat(weightField.getText()));
-                        participant.setHeight(Float.parseFloat(heightField.getText()));
-                        participant.setSport(sportField.getText());
-                        contr.putParticipants(participants);
-                        dispose();
-                        }
-                        else
-                            invalidInput();
-                    } catch (ParseException ex) {
-                        invalidInput();
-                    }
-                }
-            } );
-            add(save, "span 2");                        
-        }
-        private void invalidInput(){
-            JOptionPane.showMessageDialog(null, "That is not valid input \n " + 
-                    "Every field need to filled in. \n Gender is one-character identifier e.g ('M','F' or 'T') \n " +
-                    "Birthday needs to be on the form yyyy/mm/dd",
-                        "Invalid input", JOptionPane.INFORMATION_MESSAGE);
-        }
+            save.addActionListener(contr. new EditListener(idField, nameField, genderField,
+                    countryField, birthdayField, heightField, weightField, countryField,
+                    participant, frame));
+            add(save, "span 2");
+        }        
     }
-    
 }

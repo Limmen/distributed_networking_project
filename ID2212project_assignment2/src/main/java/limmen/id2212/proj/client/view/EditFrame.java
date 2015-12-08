@@ -6,24 +6,16 @@
 package limmen.id2212.proj.client.view;
 
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import static java.lang.String.format;
 import java.rmi.RemoteException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import limmen.id2212.proj.client.util.TableDTO;
-import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**

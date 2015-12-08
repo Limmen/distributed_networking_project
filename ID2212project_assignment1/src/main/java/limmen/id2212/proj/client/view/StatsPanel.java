@@ -150,7 +150,7 @@ public class StatsPanel extends JPanel {
         }
         return totalHeight/participants.size();
     }
-    public void updateParticipantsPerCountry(ArrayList<Participant> participants){
+    private void updateParticipantsPerCountry(ArrayList<Participant> participants){
         HashMap<String, Integer> table = new HashMap();
         for(Participant p : participants){
             if(!table.containsKey(p.getCountry())){
@@ -171,7 +171,7 @@ public class StatsPanel extends JPanel {
         }
         countryModel.setDataVector(rowData, countryColumnNames);
     }
-    public void updateParticipantsPerSport(ArrayList<Participant> participants){
+    private void updateParticipantsPerSport(ArrayList<Participant> participants){
         HashMap<String, Integer> table = new HashMap();
         for(Participant p : participants){
             if(!table.containsKey(p.getSport())){

@@ -46,7 +46,7 @@ public class MainPanel extends JPanel {
     private final JScrollPane scrollPane;
     private ArrayList<Participant> participants;
     public MainPanel(final GuiController contr){
-        format = new SimpleDateFormat("yyyy/mm/dd");
+        format = new SimpleDateFormat("yyyy/MM/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("Participants in NOG");
@@ -280,7 +280,7 @@ public class MainPanel extends JPanel {
         repaint();
         revalidate();
     }
-    public void filterParticipants(ArrayList<Participant> filtered){
+    private void filterParticipants(ArrayList<Participant> filtered){
         if(filtered.size() < 1)
             return;
         String[][] rowData = new String[filtered.size()][8];
@@ -301,7 +301,7 @@ public class MainPanel extends JPanel {
         repaint();
         revalidate();
     }
-    public void filter(JTextField idField, JTextField nameField, JTextField countryField,
+    private void filter(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
         ArrayList<Participant> filtered = new ArrayList();

@@ -4,7 +4,7 @@
 50532	Nurminen, Sari	F	Sweden	1972/11/07	167.0	59.0	Cross Country
 50553	Odevall, Katrin	F	Sweden	1974/12/08	164.0	63.0	Speedskating
 50021	Ohlsson, Lars	M	Sweden	1972/09/12	191.0	78.0	Biathlon
-50543	Ramstedt, Helene	F	Sweden	1979/04/20	170.0	62.0	Skijumping
+50543	Ramstedtaan, Helene	F	Sweden	1979/04/20	220.0	62.0	Sweden
 50022	Roslund, Mats	M	Sweden	1973/12/22	180.0	75.0	Biathlon
 50521	Rydberg, Anneli	F	Sweden	1974/02/25	174.0	72.0	Biathlon
 50516	Sandberg, Ingela	F	Sweden	1974/04/26	163.0	60.0	Alpine Skiing
@@ -63,7 +63,6 @@
 18045	Rautavaara, Mika	M	Finland	1980/07/03	188.0	80.0	Skijumping
 18025	Nieminen, Erkki	M	Finland	1974/04/07	179.0	72.0	Biathlon
 18016	Norri, Pekka	M	Finland	1971/05/08	177.0	79.0	Alpine Skiing
-18026	J�rvinen, Heikki	M	Finland	1976/03/10	185.0	76.0	Biathlon
 18046	Paasikangas, Esko	M	Finland	1977/06/03	181.0	62.0	Skijumping
 18035	Morozov, Alexander	M	Finland	1975/07/30	177.0	70.0	Cross Country
 18036	Fomin, Sergei	M	Finland	1976/08/29	180.0	76.0	Cross Country
@@ -125,7 +124,6 @@
 17551	Mortensen, Louise	F	Denmark	1979/04/20	168.0	62.0	Speedskating
 17552	S�rensen, Dorthe	F	Denmark	1977/01/02	169.0	61.0	Speedskating
 17532	Kjeldsen, Anja	F	Denmark	1979/12/17	168.0	58.0	Cross Country
-17542	J�rgensen, Christine	F	Denmark	1978/03/09	163.0	50.0	Skijumping
 17521	Henriksen, Beatrix	F	Denmark	1976/03/11	169.0	60.0	Biathlon
 17522	Jepsen, Nina	F	Denmark	1975/04/13	172.0	62.0	Biathlon
 17543	Nielsen, Gitte	F	Denmark	1981/08/10	161.0	53.0	Skijumping
@@ -251,3 +249,4 @@
 25556	Snorradottir, Kristbj�rg	F	Iceland	1976/07/10	172.0	65.0	Speedskating
 25526	Gestsdottir, Adalbj�rg	F	Iceland	1979/04/18	168.0	60.0	Biathlon
 99999	Kim Hammar	M	M	1994/06/04	184.0	84.0	Football
+111	yoo	M	M	1994/06/02	185.0	90.0	Rugby

@@ -34,7 +34,7 @@ public class Participant {
         this.height=height;
         this.weight=weight;
         this.sport=sport;
-        format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
+        format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
     @Override
     public String toString(){
