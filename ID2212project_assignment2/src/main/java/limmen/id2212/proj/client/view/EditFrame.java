@@ -1,38 +1,42 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
 import java.awt.Font;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import limmen.id2212.proj.client.util.TableDTO;
+import limmen.id2212.proj.client.util.ParticipantDTO;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Editframe. This frame is shown when the user clicks the "edit selected row"
+ * in  the main-panel.
  * @author kim
  */
-public class EditFrame extends JFrame {
+class EditFrame extends JFrame {
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
-    private final ArrayList<TableDTO> tableData;
-    private final TableDTO participant;
+    private final ParticipantDTO participant;
     private final GuiController contr;
     private final EditFrame frame;
-    public EditFrame(TableDTO p, ArrayList<TableDTO> tableData, GuiController contr){
+    
+    /**
+     * Class constructor.
+     * @param p participant to be edited
+     * @param contr GuiController
+     */
+    EditFrame(ParticipantDTO p, GuiController contr){
         frame = this;
-        this.tableData = tableData;
         this.participant = p;
         this.contr = contr;
         this.setLayout(new MigLayout());
@@ -42,7 +46,7 @@ public class EditFrame extends JFrame {
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
     }
-    
+    //Container panel for the editframe
     private class Container extends JPanel{
         Container(){
             setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));  //insets T, L, B, R
@@ -54,6 +58,7 @@ public class EditFrame extends JFrame {
             }
         }
     }
+    //EditPanel for the editframe
     private class EditPanel extends JPanel{
         JTextField idField;
         JTextField nameField;
@@ -120,10 +125,10 @@ public class EditFrame extends JFrame {
             add(sportField, "span 1");
             JButton save = new JButton("Save edit");
             save.addActionListener(contr. new EditListener(idField, nameField, genderField,
-            countryField, birthdayField, heightField, weightField, sportField,
-            participant, frame));
+                    countryField, birthdayField, heightField, weightField, sportField,
+                    participant, frame));
             add(save, "span 2");
-        }        
+        }
     }
     
 }

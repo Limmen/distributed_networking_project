@@ -46,7 +46,7 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
      * This is where the work is done. Creates connection to the server,
      * sends a GET request for participant data and then collects the data
      * and updates the GUI.
-     * @return
+     * @return boolean wether the request was succesful or not.
      */
     @Override
     protected Boolean doInBackground(){

@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.server.model;
 
@@ -15,7 +15,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 import limmen.id2212.proj.util.Participant;
 import limmen.id2212.proj.util.ParticipantImpl;
@@ -26,6 +25,10 @@ import limmen.id2212.proj.util.ParticipantImpl;
  */
 public class Server {
     private static final String DEFAULT_SERVER_NAME = "ID2212_NOG_INFORMATION_SYSTEM";
+
+    /**
+     * Class constructor. Initializes the remote-server-object.
+     */
     public Server(){
         try {            
             NogServer nogServer = new NogServerImpl(DEFAULT_SERVER_NAME);
@@ -34,6 +37,12 @@ public class Server {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Alternative contstructor that's used if database need to be built from
+     * scratch
+     * @param init 
+     */
     public Server(String init){
         try {            
             NogServer nogServer = new NogServerImpl(DEFAULT_SERVER_NAME, readFile());
@@ -42,6 +51,7 @@ public class Server {
             e.printStackTrace();
         }
     }
+    //Method to register a serverobject at rmiregistry
     private void register_bind(NogServer nogServer){
         try{
         // Register the newly created object at rmiregistry.
@@ -57,6 +67,8 @@ public class Server {
             
         }
     }
+    //parses content of tsv-file into list. Only called when program is started
+    //with "init" flag.
     private ArrayList<Participant> readFile(){
         ArrayList<Participant> participants = new ArrayList();
         DateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
@@ -78,6 +90,10 @@ public class Server {
         return participants;
     }
     
+    /**
+     * Entrypoint of the program
+     * @param args
+     */
     public static void main(String[] args){
         if(args.length > 0){
             if(args[0].equals("init"))

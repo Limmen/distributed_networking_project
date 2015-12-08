@@ -16,12 +16,17 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author kim
  */
-public class NewPartPanel extends JPanel {
+public class NewParticipantPanel extends JPanel {
     private final GuiController contr;
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
-    public NewPartPanel(GuiController contr){
+
+    /**
+     *
+     * @param contr
+     */
+    public NewParticipantPanel(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("Add new participant to the NOG information-system");

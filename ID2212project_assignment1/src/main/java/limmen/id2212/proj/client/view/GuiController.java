@@ -86,8 +86,9 @@ public class GuiController {
      * @param participants list of all participants.
      */
     public void putParticipants(ArrayList<Participant> participants){
+        this.participants = participants;
         new PutWorker(contr, participants).execute();
-        
+        updateParticipants(participants);        
     }
     
     /**
@@ -183,8 +184,9 @@ public class GuiController {
                     }
                 }
                 participants.add(new Participant(id,name,gender,country,birthday,
-                        height,weight,sport));
+                        height,weight,sport));                
                 new PutWorker(contr, participants).execute();
+                updateParticipants(participants);
             }catch(ParseException | NumberFormatException e2){
                 invalidInput();
                 clear();
@@ -230,6 +232,7 @@ public class GuiController {
                 }
                 participants = updatedParticipants;
                 new PutWorker(contr, participants).execute();
+                updateParticipants(participants);
             }
         }
     }
@@ -275,6 +278,7 @@ public class GuiController {
                     participant.setHeight(Float.parseFloat(heightField.getText()));
                     participant.setSport(sportField.getText());
                     new PutWorker(contr, participants).execute();
+                    updateParticipants(participants);
                     editPanel.dispose();}
                 catch(ParseException | NumberFormatException e2){
                     invalidInput();

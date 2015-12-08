@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -10,11 +10,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
@@ -26,16 +24,17 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import limmen.id2212.proj.client.util.TableDTO;
-import limmen.id2212.proj.client.util.TableDTOImpl;
+import limmen.id2212.proj.client.util.ParticipantDTO;
+import limmen.id2212.proj.client.util.ParticipantDTOImpl;
 import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * MainPanel of the MainFrame.
+ * Contains a table with all participants.
  * @author kim
  */
-public class MainPanel extends JPanel {
+class MainPanel extends JPanel {
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
@@ -49,8 +48,13 @@ public class MainPanel extends JPanel {
     private final int rowsDisplayed = 15;
     private JTable table;
     private final JScrollPane scrollPane;
-    private ArrayList<TableDTO> tableData;
-    public MainPanel(GuiController contr){
+    private ArrayList<ParticipantDTO> tableData;
+    
+    /**
+     * Class constructor. The UI with all components is built here.
+     * @param contr GuiController
+     */
+    MainPanel(GuiController contr){
         format = new SimpleDateFormat("yyyy/MM/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -252,8 +256,8 @@ public class MainPanel extends JPanel {
         try{
             int row = table.getSelectedRow();
             if(row != -1){
-                TableDTO edit = null;
-                for(TableDTO p : tableData){
+                ParticipantDTO edit = null;
+                for(ParticipantDTO p : tableData){
                     if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)) &&
                             p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&
                             Character.toString(p.getGender()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)) &&
@@ -265,14 +269,20 @@ public class MainPanel extends JPanel {
                         edit = p;
                     }
                 }
-                new EditFrame(edit,tableData, contr);
+                new EditFrame(edit,contr);
             }
         }catch(RemoteException e){
             contr.remoteExceptionHandler(e);
         }
     }
-    public void updateParticipants(ArrayList<Participant> participants) throws RemoteException{
-        this.tableData = convertToTableDTO(participants);
+    
+    /**
+     * Method to update the participant-data in the GUI.
+     * @param participants
+     * @throws RemoteException
+     */
+    void updateParticipants(ArrayList<Participant> participants) throws RemoteException{
+        this.tableData = convertToParticipantDTO(participants);
         if(participants.size() < 1 )
             return;
         String[][] rowData = new String[participants.size()][8];
@@ -298,7 +308,8 @@ public class MainPanel extends JPanel {
         repaint();
         revalidate();
     }
-    public void filterParticipants(ArrayList<TableDTO> filtered){
+    //filter participants
+    private void filterParticipants(ArrayList<ParticipantDTO> filtered){
         if(filtered.size() < 1)
             return;
         String[][] rowData = new String[filtered.size()][8];
@@ -306,7 +317,7 @@ public class MainPanel extends JPanel {
             
             for(int i = 0; i <  filtered.size(); i++)
             {
-                TableDTO p = filtered.get(i);
+                ParticipantDTO p = filtered.get(i);
                 rowData[i][0] = Integer.toString(p.getID());
                 rowData[i][1] = p.getName();
                 rowData[i][2] = Character.toString(p.getGender());
@@ -325,11 +336,12 @@ public class MainPanel extends JPanel {
         repaint();
         revalidate();
     }
-    public void filter(JTextField idField, JTextField nameField, JTextField countryField,
+    //pick out participants that fullfills the filter-criteras
+    private void filter(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
-        ArrayList<TableDTO> filtered = new ArrayList();
-        for(TableDTO p : tableData){
+        ArrayList<ParticipantDTO> filtered = new ArrayList();
+        for(ParticipantDTO p : tableData){
             Boolean id = true;
             Boolean name = true;
             Boolean gender = true;
@@ -364,7 +376,7 @@ public class MainPanel extends JPanel {
                         !p.getSport().trim().equalsIgnoreCase(sportField.getText()))
                     sport = false;
                 if(id && name && country && gender && birthday && height && weight && sport)
-                    filtered.add(new TableDTOImpl(p.getID(),p.getName(), p.getGender()
+                    filtered.add(new ParticipantDTOImpl(p.getID(),p.getName(), p.getGender()
                             ,p.getCountry(),p.getBirthday(), p.getHeight(),p.getWeight(),p.getSport()));
             }
             catch(RemoteException e){
@@ -373,7 +385,6 @@ public class MainPanel extends JPanel {
         }
         filterParticipants(filtered);
     }
-    
     private void clear(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){
@@ -386,14 +397,12 @@ public class MainPanel extends JPanel {
         weightField.setText("");
         sportField.setText("");
     }
-    public ArrayList<TableDTO> getTableData(){
-        return tableData;
-    }
-    private ArrayList<TableDTO> convertToTableDTO(ArrayList<Participant> participants){
-        ArrayList<TableDTO> tableData = new ArrayList();
+    //Convert participant-objects to ParticipantDTO
+    private ArrayList<ParticipantDTO> convertToParticipantDTO(ArrayList<Participant> participants){
+        ArrayList<ParticipantDTO> tableData = new ArrayList();
         try{
             for(Participant p : participants){
-                tableData.add(new TableDTOImpl(p.getID(), p.getName(), p.getGender(),
+                tableData.add(new ParticipantDTOImpl(p.getID(), p.getName(), p.getGender(),
                         p.getCountry(),
                         p.getBirthday(),
                         p.getHeight(),

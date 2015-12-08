@@ -83,14 +83,14 @@ public class Participant {
     }   
     /**
      * Get Participant gender
-     * @return g ender
+     * @return gender
      */
     public char getGender() {
         return gender;
     }    
     /**
      * Get Participant birthday
-     * @return
+     * @return birthday date
      */
     public Date getBirthday() {
         return birthday;

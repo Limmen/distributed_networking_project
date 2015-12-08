@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -18,13 +18,18 @@ import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * The main GUI-frame for the application.
  * @author kim
  */
-public class MainFrame extends JFrame {
+class MainFrame extends JFrame {
     private final GuiController contr;
     private final Container container;
-    public MainFrame(GuiController contr){
+    
+    /**
+     * Class constructor
+     * @param contr GuiController
+     */
+    MainFrame(GuiController contr){
         this.contr = contr;
         this.setLayout(new MigLayout());
         this.setTitle("NOG Informationsystem");
@@ -42,10 +47,11 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
     }
-    
+    //Clean-up a few things before exiting
     private void quit(){
         contr.quit();
     }
+    //Creates JMenuBar for the MainFrame
     private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
@@ -96,7 +102,7 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent arg0)
             {
                 try {
-                    container.transitionToNewPartPage();
+                    container.transitionToNewParticipantPage();
                     pack();
                 }
                 catch(Exception e)
@@ -108,10 +114,16 @@ public class MainFrame extends JFrame {
         });
         return menuBar;
     }
-    public void updateParticipants(ArrayList<Participant> participants){
+    
+    /**
+     * Method to update participantdata at mainPanel or statisticsPanel,
+     * depending on which panel is active.
+     * @param participants list of participants.
+     */
+    void updateParticipants(ArrayList<Participant> participants){
         try{
-        container.updateParticipants(participants);
-        container.updateStatistics(participants);
+            container.updateParticipants(participants);
+            container.updateStatistics(participants);
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);

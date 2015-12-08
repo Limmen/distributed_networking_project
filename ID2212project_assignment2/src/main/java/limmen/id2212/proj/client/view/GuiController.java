@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -27,33 +27,45 @@ import limmen.id2212.proj.client.model.ClientImpl;
 import limmen.id2212.proj.client.model.NOGWorker;
 import limmen.id2212.proj.client.util.ServerCommand;
 import limmen.id2212.proj.client.util.ServerCommandName;
-import limmen.id2212.proj.client.util.TableDTO;
-import limmen.id2212.proj.client.util.TableDTOImpl;
+import limmen.id2212.proj.client.util.ParticipantDTO;
+import limmen.id2212.proj.client.util.ParticipantDTOImpl;
 import limmen.id2212.proj.server.model.NogServer;
 import limmen.id2212.proj.util.Participant;
 
 /**
- *
+ * A controller. All calls to the model from the view go through here.
+ * All calls from the model to update the view also goes through here.
  * @author kim
  */
 public class GuiController {
     private static final String DEFAULT_SERVER_NAME = "ID2212_NOG_INFORMATION_SYSTEM";
     private final GuiController contr = this;
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
     private final DateFormat format;
     private ArrayList<Participant> participants = new ArrayList();
     private NogServer serverobj;
     private Client client;
+    
+    /**
+     * Class constructor.
+     * Creates main-frame upon initialization.
+     */
     public GuiController(){
         connectToServer();
         mainFrame = new MainFrame(contr);
         registerClient();
-        getParticipants();     
+        getParticipants();
         format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
+    
+    /**
+     * Main-method, entry-point of the program.
+     * @param args
+     */
     public static void main(String[] args){
         new GuiController();
     }
+    //Uses rmiregistry to get initial reference to remoteObject
     private void connectToServer(){
         try {
             try {
@@ -69,7 +81,7 @@ public class GuiController {
         System.out.println("Connected to server: " + DEFAULT_SERVER_NAME);
     }
     private void registerClient(){
-        try{      
+        try{
             client = new ClientImpl(contr);
             serverobj.registerClient(client);
         }
@@ -77,16 +89,24 @@ public class GuiController {
             remoteExceptionHandler(e);
         }
     }
-    public void quit(){
+    /**
+     * Called when the user closes the mainframe.
+     * Deregisters at the server (telling the server that it can now discard
+     * the reference to this client).
+     */
+    void quit(){
         try{
-            serverobj.deRegisterClient(client);            
+            serverobj.deRegisterClient(client);
         }
         catch(RemoteException e){
             remoteExceptionHandler(e);
         }
         System.exit(0);
     }
-    public void invalidInput(){
+    /**
+     * Generic dialog-box for when the user enters invalid input.
+     */
+    private void invalidInput(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -95,6 +115,11 @@ public class GuiController {
             }
         });
     }
+    
+    /**
+     * Dialog-box to inform user about remoteException.
+     * @param e
+     */
     public void remoteExceptionHandler(RemoteException e){
         e.printStackTrace();
         SwingUtilities.invokeLater(new Runnable() {
@@ -106,9 +131,21 @@ public class GuiController {
             }
         });
     }
+    
+    /**
+     * Methods that spawns a NOGWorker to fetch the latest participants-data
+     * from the server.
+     */
     public final void getParticipants(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getParticipants), client).execute();
     }
+    
+    /**
+     * Method to update the clients cache of participants data.
+     * SwingUtilities.InvokeLater because this method usually get called from
+     * outside the EDT, so we need to explicit put the GUI-update on the EDT.
+     * @param participants list of participants
+     */
     public void updateParticipants(final ArrayList<Participant> participants){
         this.participants = participants;
         SwingUtilities.invokeLater(new Runnable() {
@@ -118,26 +155,7 @@ public class GuiController {
             }
         });
     }
-    class ConnectListener implements ActionListener {
-        private final JTextField hostField;
-        private final JTextField portField;
-        
-        ConnectListener(JTextField hostField, JTextField portField){
-            this.hostField = hostField;
-            this.portField = portField;
-        }
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if(hostField.getText().length() > 0 && portField.getText().length() > 0){
-                new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getParticipants), client).execute();
-            }
-            else{
-                invalidInput();
-            }
-            hostField.setText("");
-            portField.setText("");
-        }
-    }
+    //ActionListener for add-particpant button pn the NewParticipantPanel.
     class AddListener implements ActionListener{
         JTextField idField;
         JTextField nameField;
@@ -190,10 +208,10 @@ public class GuiController {
                         return;
                     }
                 }
-                TableDTO p = new TableDTOImpl(id,name,gender,country,birthday,height,weight,sport);
+                ParticipantDTO p = new ParticipantDTOImpl(id,name,gender,country,birthday,height,weight,sport);
                 ServerCommand command = new ServerCommand(ServerCommandName.addParticipant);
                 command.setParticipant(p);
-                new NOGWorker(serverobj, contr,command, client).execute();                
+                new NOGWorker(serverobj, contr,command, client).execute();
             }catch(ParseException | NumberFormatException e2){
                 invalidInput();
                 clear();
@@ -201,7 +219,7 @@ public class GuiController {
             catch(RemoteException e3){
                 remoteExceptionHandler(e3);
             }
-            clear();            
+            clear();
         }
         void clear(){
             idField.setText("");
@@ -212,8 +230,9 @@ public class GuiController {
             heightField.setText("");
             weightField.setText("");
             sportField.setText("");
-        }        
+        }
     }
+    //ActionListener for the delete-button on the MainPanel
     class DeleteListener implements ActionListener {
         private final JTable table;
         
@@ -222,29 +241,30 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-           int row = table.getSelectedRow();
+            int row = table.getSelectedRow();
             if(row != -1){
-               try {
-                   TableDTO p = new TableDTOImpl(Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)),
-                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 1),
-                           ((String)table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)).charAt(0),
-                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 3),
-                           format.parse((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)),
-                           Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)),
-                           Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)),
-                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 7));
-                   ServerCommand command = new ServerCommand(ServerCommandName.deleteParticipant);
-                   command.setParticipant(p);
-                   new NOGWorker(serverobj, contr,command, client).execute();
-               } catch (ParseException ex) {
-                   Logger.getLogger(GuiController.class.getName()).log(Level.SEVERE, null, ex);
-               }
-               catch(RemoteException e2){
-                   contr.remoteExceptionHandler(e2);
-               }
+                try {
+                    ParticipantDTO p = new ParticipantDTOImpl(Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)),
+                            (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 1),
+                            ((String)table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)).charAt(0),
+                            (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 3),
+                            format.parse((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)),
+                            Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)),
+                            Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)),
+                            (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 7));
+                    ServerCommand command = new ServerCommand(ServerCommandName.deleteParticipant);
+                    command.setParticipant(p);
+                    new NOGWorker(serverobj, contr,command, client).execute();
+                } catch (ParseException ex) {
+                    Logger.getLogger(GuiController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch(RemoteException e2){
+                    contr.remoteExceptionHandler(e2);
+                }
             }
         }
     }
+    //ActionListener for the edit-button on the EditFrame
     class EditListener implements ActionListener{
         JTextField idField;
         JTextField nameField;
@@ -255,10 +275,10 @@ public class GuiController {
         JTextField weightField;
         JTextField sportField;
         EditFrame editPanel;
-        TableDTO participant;
+        ParticipantDTO participant;
         EditListener(JTextField idField, JTextField nameField,
                 JTextField genderField, JTextField countryField,JTextField birthdayField,
-                JTextField heightField, JTextField weightField, JTextField sportField, TableDTO participant,EditFrame frame){
+                JTextField heightField, JTextField weightField, JTextField sportField, ParticipantDTO participant,EditFrame frame){
             this.idField = idField;
             this.nameField = nameField;
             this.genderField = genderField;
@@ -306,4 +326,4 @@ public class GuiController {
         }
     }
 }
-    
+

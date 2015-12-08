@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -19,10 +19,10 @@ import limmen.id2212.proj.util.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Statistics-panel. Contains statistics about participants.
  * @author kim
  */
-public class StatsPanel extends JPanel {
+class StatsPanel extends JPanel {
     private final GuiController contr;
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
@@ -37,7 +37,13 @@ public class StatsPanel extends JPanel {
     private final JLabel totalSports;
     private final JLabel averageWeight;
     private final JLabel averageHeight;
-    public StatsPanel(GuiController contr) throws RemoteException{
+    
+    /**
+     * Class constructor. Builds the UI and creates all swing-components.
+     * @param contr GuiController
+     * @throws RemoteException thrown when problem with remote method-call occurs.
+     */
+    StatsPanel(GuiController contr) throws RemoteException{
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("NOG statistics");
@@ -89,7 +95,7 @@ public class StatsPanel extends JPanel {
         JTable countryTable = new JTable(countryModel);
         countryTable.setFont(Plain);
         countryTable.getTableHeader().setFont(PBold);
-        add(new JScrollPane(countryTable), "span 2");       
+        add(new JScrollPane(countryTable), "span 2");
         sportsColumnNames = new String[2];
         sportsColumnNames[0] = "Country";
         sportsColumnNames[1] = "Number of participants";
@@ -108,7 +114,13 @@ public class StatsPanel extends JPanel {
         sportsTable.getTableHeader().setFont(PBold);
         add(new JScrollPane(sportsTable), "span 2");
     }
-    public void updateStatistics(ArrayList<Participant> participants) throws RemoteException{
+    
+    /**
+     * Update participant-data in the UI
+     * @param participants list of participants
+     * @throws RemoteException thrown when problem with remote method-call occurs.
+     */
+    void updateStatistics(ArrayList<Participant> participants) throws RemoteException{
         this.participants = participants;
         totalParts.setText(Integer.toString(participants.size()));
         totalCountries.setText(Integer.toString(totalCountries(participants)));
@@ -151,7 +163,8 @@ public class StatsPanel extends JPanel {
         }
         return totalHeight/participants.size();
     }
-    public void updateParticipantsPerCountry(ArrayList<Participant> participants) throws RemoteException{
+    //method to create table of number of participants per country
+    private void updateParticipantsPerCountry(ArrayList<Participant> participants) throws RemoteException{
         HashMap<String, Integer> table = new HashMap();
         for(Participant p : participants){
             if(!table.containsKey(p.getCountry())){
@@ -172,6 +185,7 @@ public class StatsPanel extends JPanel {
         }
         countryModel.setDataVector(rowData, countryColumnNames);
     }
+    //method to create table of number of participants per sport
     public void updateParticipantsPerSport(ArrayList<Participant> participants) throws RemoteException{
         HashMap<String, Integer> table = new HashMap();
         for(Participant p : participants){

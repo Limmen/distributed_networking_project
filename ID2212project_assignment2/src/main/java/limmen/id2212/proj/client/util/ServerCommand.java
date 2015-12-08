@@ -1,40 +1,67 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Course project - ID2212 Network Programming with Java
+ * Royal Institute of Technology
+ * 2015 (c) Kim Hammar 
  */
 package limmen.id2212.proj.client.util;
 
 import java.util.ArrayList;
 
 /**
- *
+ * Class that represents a command to send to the server and contains
+ * neccessary data to invoke the corresponding method on the server.
  * @author kim
  */
 public class ServerCommand {
     private final ServerCommandName commandName;
-    private ArrayList<TableDTO> participants;
-    private TableDTO participant;
+    private ArrayList<ParticipantDTO> participants;
+    private ParticipantDTO participant;
     
+    /**
+     * Class constructor
+     * @param commandName name of the command
+     */
     public ServerCommand(ServerCommandName commandName){
         this.commandName = commandName;
     }
+
+    /**
+     * getCommandName
+     * @return commandName
+     */
     public ServerCommandName getCommandName() {
         return commandName;
     }
-    public ArrayList<TableDTO> getParticipants() {
+
+    /**
+     * getParticipants
+     * @return list of participant data 
+     */
+    public ArrayList<ParticipantDTO> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(ArrayList<TableDTO> tableParticipants) {
-        this.participants = tableParticipants;
+    /**
+     * setParticipants
+     * @param participants list of participant-data
+     */
+    public void setParticipants(ArrayList<ParticipantDTO> participants) {
+        this.participants = participants;
     }
 
-    public TableDTO getParticipant() {
+    /**
+     * getParticipant
+     * @return participant
+     */
+    public ParticipantDTO getParticipant() {
         return participant;
     }
 
-    public void setParticipant(TableDTO participant) {
+    /**
+     * setParticipant
+     * @param participant participant data
+     */
+    public void setParticipant(ParticipantDTO participant) {
         this.participant = participant;
     }
     

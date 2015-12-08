@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.model;
 
@@ -12,8 +12,9 @@ import limmen.id2212.proj.client.view.GuiController;
 import limmen.id2212.proj.server.model.NogServer;
 
 /**
- * Marketworker class. This class does remote method invocation on the
- * marketplace remote-interface.
+ * NOGWorker class. This class does remote method invocations on the
+ * NogServer remote-interface. The method depends on the servercommand
+ * that's given upon initialization.
  * @author kim
  */
 public class NOGWorker extends SwingWorker<Boolean,Boolean> {
@@ -21,21 +22,35 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private final Client client;
     private final ServerCommand command;
     private final GuiController contr;
+    
+    /**
+     * Class constructor
+     * @param serverobj Reference to remote NogServer object
+     * @param contr GuiController
+     * @param command command that specifies which remote-method to invoke
+     * @param client Client that requests the remote-method invocation
+     */
     public NOGWorker(NogServer serverobj, GuiController contr, ServerCommand command, Client client) {
         this.client = client;
         this.serverobj= serverobj;
         this.command = command;
         this.contr = contr;
     }
+    
+    /**
+     * This is where the work is done. This method will call approperiate method
+     * depending on what command that was given upon intialization.
+     * @return boolean whether the invocation went ok or not.
+     */
     @Override
-    protected Boolean doInBackground() throws Exception {
+    protected Boolean doInBackground() {
         switch(command.getCommandName()){
             case getParticipants:
                 getParticipants();
                 break;
             case putParticipants:
                 putParticipants();
-                break; 
+                break;
             case addParticipant:
                 addParticipant();
                 break;
@@ -49,7 +64,7 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         return true;
     }
     private void getParticipants(){
-        try{    
+        try{
             contr.updateParticipants(serverobj.getParticipants());
         }
         catch(RemoteException e){
@@ -58,7 +73,7 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     }
     private void putParticipants(){
         try{
-        serverobj.putParticipants(command.getParticipants());
+            serverobj.putParticipants(command.getParticipants());
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);

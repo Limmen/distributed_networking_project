@@ -41,10 +41,8 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
 
     /**
      * This is where the work is done. Create connection to the server, send
-     * put-request and then send the participant data. When we're done we 
-     * spawn a request-worker to fetch the new data from the server and update
-     * the GUI.
-     * @return
+     * put-request and then send the participant data.
+     * @return boolean whether the request was successful or not.
      */
     @Override
     protected Boolean doInBackground(){
@@ -73,12 +71,6 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
         catch(Exception e3){
             e3.printStackTrace();
         }
-        try {
-            Thread.sleep(1000);                 
-        } catch(InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-        new RequestWorker(contr).execute();
         return true;
     }
 }
