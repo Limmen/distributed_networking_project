@@ -1,25 +1,26 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.server;
 
 /**
- *
+ * Startup-class. Entry point for the server application.
  * @author kim
  */
 
 public class Startup {
-    
     /**
-     *
+     * Entry point for the server.
+     * Starts a Listener-thread with a given path to tsv-file.
+     * @param args
      */
-    public Startup(){
-        
-    }
     public static void main(String[] args){
-        new Thread(new Listener("src/main/resources/participants.tsv")).start();
+        if(args.length == 1)
+            new Thread(new Listener(args[0])).start();
+        else
+            new Thread(new Listener("src/main/resources/participants.tsv")).start();
     }
 }
 

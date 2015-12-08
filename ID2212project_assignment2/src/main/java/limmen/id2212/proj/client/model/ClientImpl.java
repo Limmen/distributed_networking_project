@@ -23,7 +23,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     @Override
     public void updateParticipants(ArrayList<Participant> participants) throws RemoteException {
         contr.updateParticipants(participants);
-        System.out.println("Updated participants!!!!");
     }
     
 }

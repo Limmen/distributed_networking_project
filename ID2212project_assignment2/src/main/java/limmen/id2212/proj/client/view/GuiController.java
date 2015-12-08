@@ -225,14 +225,14 @@ public class GuiController {
            int row = table.getSelectedRow();
             if(row != -1){
                try {
-                   TableDTO p = new TableDTOImpl(Integer.parseInt((String) table.getModel().getValueAt(row, 0)),
-                           (String) table.getModel().getValueAt(row, 1),
-                           ((String)table.getModel().getValueAt(row, 2)).charAt(0),
-                           (String) table.getModel().getValueAt(row, 3),
-                           format.parse((String) table.getModel().getValueAt(row, 4)),
-                           Float.parseFloat((String) table.getModel().getValueAt(row, 5)),
-                           Float.parseFloat((String) table.getModel().getValueAt(row, 6)),
-                           (String) table.getModel().getValueAt(row, 7));
+                   TableDTO p = new TableDTOImpl(Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)),
+                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 1),
+                           ((String)table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)).charAt(0),
+                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 3),
+                           format.parse((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)),
+                           Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)),
+                           Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)),
+                           (String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 7));
                    ServerCommand command = new ServerCommand(ServerCommandName.deleteParticipant);
                    command.setParticipant(p);
                    new NOGWorker(serverobj, contr,command, client).execute();

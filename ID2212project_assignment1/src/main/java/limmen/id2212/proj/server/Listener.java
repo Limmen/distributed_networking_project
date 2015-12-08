@@ -1,21 +1,19 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.server;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
- *
+ * Listener thread that will listen on a specific port for
+ * incomming TCP-connections. Spawns client-handlers with TSV-file to handle
+ * client connections.
  * @author kim
  */
 public class Listener implements Runnable {
@@ -24,14 +22,28 @@ public class Listener implements Runnable {
     private boolean running;
     private ServerSocket serverSocket;
     
+    /**
+     * Alternative constructor if port is not specified, default port is 8080.
+     * @param path
+     */
     public Listener(String path){
         tsvFile = new File(path);
         PORT = 8080;
     }
+    
+    /**
+     * Class constructor.
+     * @param path path to tsv-file
+     * @param port port to listen for tcp-connections
+     */
     public Listener(String path, int port){
         tsvFile = new File(path);
         PORT = port;
     }
+    
+    /**
+     * listen-loop
+     */
     @Override
     public void run() {
         running = true;
@@ -50,11 +62,10 @@ public class Listener implements Runnable {
             terminate();
         }
     }
-    
     /**
      * Clean up the serversocket.
      */
-    public void cleanUp(){
+    private void cleanUp(){
         try{
             serverSocket.close();
         }
@@ -62,38 +73,10 @@ public class Listener implements Runnable {
             running = false;
         }
     }
-    
     /**
      * Terminates this thread
      */
-    public void terminate(){
+    private void terminate(){
         running = false;
     }
-    
-    private ArrayList<String> parseTSV(File file){
-        BufferedReader tsvReader = null;
-        ArrayList<String> participants = new ArrayList() ;
-        try{ 
-            tsvReader= new BufferedReader(new FileReader(file));
-        }
-        catch(FileNotFoundException e){
-            e.printStackTrace();
-            System.exit(0);
-        }
-        try{
-            String dataRow = tsvReader.readLine();
-            while (dataRow != null){
-                participants.add(dataRow);
-                dataRow = tsvReader.readLine();
-            }
-            tsvReader.close();
-        }
-        catch(IOException e2){
-            e2.printStackTrace();
-            System.exit(0);
-        }
-        return participants;
-    }
-    
-    
 }

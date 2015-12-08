@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -17,13 +17,19 @@ import limmen.id2212.proj.client.model.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * MainFrame class. Represents the GUI for the client when he has specified
+ * a server to interact with.
  * @author kim
  */
-public class MainFrame extends JFrame {
+class MainFrame extends JFrame {
     private final GuiController contr;
     private final Container container;
-    public MainFrame(GuiController contr){
+    
+    /**
+     * Class constructor.
+     * @param contr GuiController
+     */
+    MainFrame(GuiController contr){
         this.contr = contr;
         this.setLayout(new MigLayout());
         this.setTitle("NOG Informationsystem");
@@ -41,10 +47,10 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
     }
-    
     private void closeMainFrame(){
         contr.closeMainFrame();
     }
+    //Creates JMenuBar for the MainFrame
     private JMenuBar createMenu(){
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("Menu");
@@ -56,16 +62,9 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0)
             {
-                try {
-                    container.transitionToHome();
-                    contr.getParticipants();
-                    pack();
-                }
-                catch(Exception e)
-                {
-                    
-                }
-                
+                container.transitionToHome();
+                contr.getParticipants();
+                pack();
             }
         });
         item = new JMenuItem("Statistics");
@@ -75,16 +74,9 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0)
             {
-                try {
-                    container.transitionToStatsPage();
-                    contr.getParticipants();
-                    pack();
-                }
-                catch(Exception e)
-                {
-                    
-                }
-                
+                container.transitionToStatsPage();
+                contr.getParticipants();
+                pack();
             }
         });
         item = new JMenuItem("New participant");
@@ -94,20 +86,18 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent arg0)
             {
-                try {
-                    container.transitionToNewPartPage();
-                    pack();
-                }
-                catch(Exception e)
-                {
-                    
-                }
-                
+                container.transitionToNewPartPage();
+                pack();
             }
         });
         return menuBar;
     }
-    public void updateParticipants(ArrayList<Participant> participants){
+    /**
+     * Method to update participantdata at mainPanel or statisticsPanel,
+     * depending on which panel is active.
+     * @param participants list of all participants.
+     */
+    void updateParticipants(ArrayList<Participant> participants){
         container.updateParticipants(participants);
         container.updateStatistics(participants);
     }

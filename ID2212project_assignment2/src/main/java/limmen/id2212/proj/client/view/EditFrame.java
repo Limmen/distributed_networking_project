@@ -120,7 +120,7 @@ public class EditFrame extends JFrame {
             add(sportField, "span 1");
             JButton save = new JButton("Save edit");
             save.addActionListener(contr. new EditListener(idField, nameField, genderField,
-            countryField, birthdayField, heightField, weightField, countryField,
+            countryField, birthdayField, heightField, weightField, sportField,
             participant, frame));
             add(save, "span 2");
         }        

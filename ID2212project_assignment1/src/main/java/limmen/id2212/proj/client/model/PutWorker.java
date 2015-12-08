@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Course project - ID2212 Network Programming with Java
+ * Royal Institute of Technology
+ * 2015 (c) Kim Hammar 
  */
 package limmen.id2212.proj.client.model;
 
@@ -14,7 +14,8 @@ import javax.swing.SwingWorker;
 import limmen.id2212.proj.client.view.GuiController;
 
 /**
- *
+ * Put-worker. Thread to handle PUT-requests to the server. 
+ * Neccessary to not freeze the UI in case of network latency.
  * @author kim
  */
 public class PutWorker extends SwingWorker<Boolean, Boolean> {
@@ -27,10 +28,24 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
     private final String httpPutRequest = "PUT participants.tsv HTTP/1.1";
     private final String hostHeader = "Host: " + httpServer;
     private final ArrayList<Participant> participants;
+
+    /**
+     * Class constructor
+     * @param contr GuiController
+     * @param participants list of participants
+     */
     public PutWorker(GuiController contr, ArrayList<Participant> participants){
         this.contr = contr;
         this.participants = participants;
     }
+
+    /**
+     * This is where the work is done. Create connection to the server, send
+     * put-request and then send the participant data. When we're done we 
+     * spawn a request-worker to fetch the new data from the server and update
+     * the GUI.
+     * @return
+     */
     @Override
     protected Boolean doInBackground(){
         try{
@@ -58,11 +73,13 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
         catch(Exception e3){
             e3.printStackTrace();
         }
+        try {
+            Thread.sleep(1000);                 
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
         new RequestWorker(contr).execute();
         return true;
     }
-    private void errorHandling(){
-        
-    }
-    
 }
+

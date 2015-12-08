@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
+*/
 package limmen.id2212.proj.client.view;
 
 import java.awt.Font;
@@ -13,15 +13,21 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * New-Participant-Panel. Panel where user can create new participants and
+ * add them to the datastore.
  * @author kim
  */
-public class NewPartPanel extends JPanel {
+class NewParticipantPanel extends JPanel {
     private final GuiController contr;
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
-    public NewPartPanel(GuiController contr){
+    
+    /**
+     * Class constructor. Builds the UI with all swing-components.
+     * @param contr GuiController
+     */
+    NewParticipantPanel(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("Add new participant to the NOG information-system");
@@ -78,7 +84,7 @@ public class NewPartPanel extends JPanel {
         JButton addButton = new JButton("Add");
         addButton.setFont(PBold);
         addButton.addActionListener(contr. new AddListener(idField,nameField,
-        genderField,countryField,birthdayField, heightField, weightField,sportField));
+                genderField,countryField,birthdayField, heightField, weightField,sportField));
         add(addButton, "span 2, gaptop 20");
     }
 }

@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.server;
 
@@ -20,7 +20,8 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- *
+ * Clienthandler class. Handles a client-connection. Will read 1
+ * request from client and respond.
  * @author kim
  */
 public class ClientHandler implements Runnable {
@@ -40,10 +41,19 @@ public class ClientHandler implements Runnable {
     private final String FORBIDDEN = "HTTP/1.0 403 Forbidden";
     private final String FORBIDDEN_HTML = "<HTML><HEAD><TITLE>FORBIDDEN</TITLE></HEAD><BODY><H1>HTTP Error 403: Forbidden</H1></BODY></HTML>";
     
+    /**
+     * Class constructor.
+     * @param clientSocket end-point for connection with client.
+     * @param tsvFile tsvfile containing participants data.
+     */
     public ClientHandler(Socket clientSocket, File tsvFile){
         this.clientSocket = clientSocket;
         this.tsvFile = tsvFile;
     }
+    
+    /**
+     * Read http-request and respond, then terminate.
+     */
     @Override
     public void run() {
         setup();
@@ -59,7 +69,7 @@ public class ClientHandler implements Runnable {
             String name = st.nextToken();
             String version = st.nextToken();
             String host = inReader.readLine();
-            System.out.println("method: " + method);
+            System.out.println(method + " request");
             if(method.equals("GET"))
                 getReq(name);
             if(method.equals("PUT")){
@@ -75,14 +85,12 @@ public class ClientHandler implements Runnable {
         cleanUp();
     }
     private void getReq(String name){
-        System.out.println(name);
         if(name.equals("participants.tsv") || name.equals("/participants.tsv"))
             sendFile();
         else
             sendErrorMessage(NOT_FOUND,NOT_FOUND_HTML);
     }
     private void putReq(String name){
-        System.out.println(name);
         if(name.equals("participants.tsv"))
             saveToFile();
         else
@@ -136,7 +144,7 @@ public class ClientHandler implements Runnable {
     /**
      * Closes the client-connection.
      */
-    public void cleanUp(){
+    private void cleanUp(){
         try {
             if(out != null)
                 out.close();
@@ -152,5 +160,5 @@ public class ClientHandler implements Runnable {
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }
-    }    
+    }
 }

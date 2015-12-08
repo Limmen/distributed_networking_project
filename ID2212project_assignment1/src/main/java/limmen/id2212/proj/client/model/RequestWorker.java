@@ -1,8 +1,8 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * Course project - ID2212 Network Programming with Java
+ * Royal Institute of Technology
+ * 2015 (c) Kim Hammar 
+ */
 package limmen.id2212.proj.client.model;
 
 import java.io.BufferedReader;
@@ -17,7 +17,8 @@ import javax.swing.SwingWorker;
 import limmen.id2212.proj.client.view.GuiController;
 
 /**
- *
+ * Request-worker. Thread to handle GET-requests to the server and updates the UI
+ * when needed. Neccessary to not freeze the UI in case of network latency.
  * @author kim
  */
 public class RequestWorker extends SwingWorker<Boolean, Boolean> {
@@ -31,10 +32,22 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     private final String hostHeader = "Host: " + httpServer;
     private ArrayList<Participant> participants;
     private final DateFormat format;
+
+    /**
+     * Class constructor.
+     * @param contr GuiController
+     */
     public RequestWorker(GuiController contr){
         this.contr = contr;
         format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
+
+    /**
+     * This is where the work is done. Creates connection to the server,
+     * sends a GET request for participant data and then collects the data
+     * and updates the GUI.
+     * @return
+     */
     @Override
     protected Boolean doInBackground(){
         try{
@@ -48,23 +61,17 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
             participants = new ArrayList();
-            int i = 0;
             while ((str = reader.readLine()) != null) {
                 try{
-                    System.out.println("nr: " + i);
-                DateFormat format = new SimpleDateFormat("yyyy/mm/dd", Locale.ENGLISH);
-                String[] values = str.split("\\t", -1);
-                participants.add(new Participant(Integer.parseInt(values[0]),
-                        values[1], values[2].charAt(0), values[3], format.parse(values[4]),
-                        Float.parseFloat(values[5]), Float.parseFloat(values[6]),
-                        values[7]));
+                    String[] values = str.split("\\t", -1);
+                    participants.add(new Participant(Integer.parseInt(values[0]),
+                            values[1], values[2].charAt(0), values[3], format.parse(values[4]),
+                            Float.parseFloat(values[5]), Float.parseFloat(values[6]),
+                            values[7]));
                 }
-                catch(Exception e){                    
-                    e.printStackTrace();                    
+                catch(Exception e){
                 }
-                i++;                
             }
-            System.out.println("null? :  " + reader.readLine());
             socket.close();
         }
         catch(Exception e3){
@@ -72,8 +79,7 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
         }
         updateParticipants(participants);
         return true;
-    }
-    
+    }    
     private void updateParticipants(ArrayList<Participant> participants){
         contr.updateParticipants(participants);
     }

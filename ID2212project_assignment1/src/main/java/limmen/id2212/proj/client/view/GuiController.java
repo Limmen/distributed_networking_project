@@ -1,7 +1,7 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
 */
 package limmen.id2212.proj.client.view;
 
@@ -13,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -24,7 +22,8 @@ import limmen.id2212.proj.client.model.PutWorker;
 import limmen.id2212.proj.client.model.RequestWorker;
 
 /**
- *
+ * A controller. All calls to the model from the view go through here.
+ * All calls from the model to update the view also goes through here.
  * @author kim
  */
 public class GuiController {
@@ -33,20 +32,39 @@ public class GuiController {
     private MainFrame mainFrame;
     private final DateFormat format;
     private ArrayList<Participant> participants = new ArrayList();
+    
+    /**
+     * Class constructor.
+     * Creates start-frame upon initialization.
+     */
     public GuiController(){
         startFrame = new StartFrame(contr);
         format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
     }
+    
+    /**
+     * Main-method, entry-point of the program.
+     * @param args
+     */
     public static void main(String[] args){
         new GuiController();
     }
-    public void closeMainFrame(){
+    
+    /**
+     * This method is called when the user closes the mainFrame.
+     * Will close the mainframe and show the startframe.
+     */
+    void closeMainFrame(){
         startFrame.setVisible(true);
         mainFrame.setVisible(false);
         mainFrame = null;
         
     }
-    public void invalidInput(){
+    
+    /**
+     * Generic dialog-box for when the user enters invalid input.
+     */
+    void invalidInput(){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -55,15 +73,29 @@ public class GuiController {
             }
         });
     }
+    
+    /**
+     * Spawns a RequestWorker to fetch participants from server.
+     */
     public void getParticipants(){
         new RequestWorker(contr).execute();
     }
+    
+    /**
+     * Spawns a PutWorker to store participants at the server.
+     * @param participants list of all participants.
+     */
     public void putParticipants(ArrayList<Participant> participants){
         new PutWorker(contr, participants).execute();
         
     }
+    
+    /**
+     * Updates participants at the client.
+     * If the mainFrame is not already visible, it will be initialized.
+     * @param participants list of all participants.
+     */
     public void updateParticipants(final ArrayList<Participant> participants){
-        System.out.println("updating participants " + participants.size());
         this.participants = participants;
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -76,6 +108,7 @@ public class GuiController {
             }
         });
     }
+    //ActionListener for connect-button at startframe.
     class ConnectListener implements ActionListener {
         private final JTextField hostField;
         private final JTextField portField;
@@ -96,6 +129,7 @@ public class GuiController {
             portField.setText("");
         }
     }
+    //ActionListener for add-button at mainFrame.
     class AddListener implements ActionListener{
         JTextField idField;
         JTextField nameField;
@@ -170,6 +204,7 @@ public class GuiController {
         }
         
     }
+    //ActionListener for delete-button at MainFrame.
     class DeleteListener implements ActionListener {
         private final JTable table;
         
@@ -182,27 +217,24 @@ public class GuiController {
             int row = table.getSelectedRow();
             if(row != -1){
                 for(Participant p : participants){
-                    if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
-                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                    if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)) &&
+                            p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&
+                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)) &&
+                            p.getCountry().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 3)) &&
+                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)) &&
+                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)) &&
+                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)) &&
+                            p.getSport().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 7)))){
                         updatedParticipants.add(p);
                     }
                 }
-                System.out.println("selected row: " + table.getModel().getValueAt(row, 0));
                 participants = updatedParticipants;
-                System.out.println("participants size: " + participants.size());
                 new PutWorker(contr, participants).execute();
             }
         }
     }
-    
+    //ActionListener for Edit-button at EditFrame
     class EditListener implements ActionListener{
-        JTextField idField;
         JTextField nameField;
         JTextField genderField;
         JTextField countryField;
@@ -212,10 +244,9 @@ public class GuiController {
         JTextField sportField;
         EditFrame editPanel;
         Participant participant;
-        EditListener(JTextField idField, JTextField nameField,
+        EditListener(JTextField nameField,
                 JTextField genderField, JTextField countryField,JTextField birthdayField,
                 JTextField heightField, JTextField weightField, JTextField sportField, Participant participant,EditFrame frame){
-            this.idField = idField;
             this.nameField = nameField;
             this.genderField = genderField;
             this.countryField = countryField;
@@ -235,19 +266,19 @@ public class GuiController {
                     weightField.getText().length() > 0 &&
                     heightField.getText().length() > 0 &&
                     sportField.getText().length() > 0){
-                participant.setName(nameField.getText());
-                participant.setGender(genderField.getText().charAt(0));
-                participant.setCountry(countryField.getText());
-                try {
+                try{
+                    participant.setName(nameField.getText());
+                    participant.setGender(genderField.getText().charAt(0));
+                    participant.setCountry(countryField.getText());
                     participant.setBirthday(format.parse(birthdayField.getText()));
-                } catch (ParseException ex) {
-                    Logger.getLogger(EditFrame.class.getName()).log(Level.SEVERE, null, ex);
+                    participant.setWeight(Float.parseFloat(weightField.getText()));
+                    participant.setHeight(Float.parseFloat(heightField.getText()));
+                    participant.setSport(sportField.getText());
+                    new PutWorker(contr, participants).execute();
+                    editPanel.dispose();}
+                catch(ParseException | NumberFormatException e2){
+                    invalidInput();
                 }
-                participant.setWeight(Float.parseFloat(weightField.getText()));
-                participant.setHeight(Float.parseFloat(heightField.getText()));
-                participant.setSport(sportField.getText());
-                new PutWorker(contr, participants).execute();
-                editPanel.dispose();
             }
             else{
                 invalidInput();

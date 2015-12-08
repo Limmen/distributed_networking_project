@@ -1,8 +1,8 @@
 /*
-* To change this license header, choose License Headers in Project Properties.
-* To change this template file, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * Course project - ID2212 Network Programming with Java
+ * Royal Institute of Technology
+ * 2015 (c) Kim Hammar 
+ */
 package limmen.id2212.proj.client.view;
 
 import java.awt.Dimension;
@@ -27,10 +27,11 @@ import limmen.id2212.proj.client.model.Participant;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * MainPanel of the MainFrame.
+ * Contains a table with all participants.
  * @author kim
  */
-public class MainPanel extends JPanel {
+class MainPanel extends JPanel {
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
@@ -45,7 +46,12 @@ public class MainPanel extends JPanel {
     private final JTable table;
     private final JScrollPane scrollPane;
     private ArrayList<Participant> participants;
-    public MainPanel(final GuiController contr){
+
+    /**
+     * Class constructor. The UI with all components is built here.
+     * @param contr GuiController
+     */
+    MainPanel(final GuiController contr){
         format = new SimpleDateFormat("yyyy/MM/dd");
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
@@ -82,24 +88,25 @@ public class MainPanel extends JPanel {
         JPanel edit_delete = new JPanel(new MigLayout("wrap 4"));
         JButton edit = new JButton("Edit selected row");
         edit.setFont(Plain);
+        //ActionListener for edit-button. Will create a EditFrame.
         edit.addActionListener( new ActionListener(){
             public void actionPerformed(ActionEvent ae) {
                 int row = table.getSelectedRow();
                 if(row != -1){
                     Participant edit = null;
                     for(Participant p : participants){
-                        if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                                p.getName().equals(table.getModel().getValueAt(row, 1)) &&                                
-                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                                p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                                format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                                p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                                p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                                p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                        if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)) &&
+                                p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&                                
+                                Character.toString(p.getGender()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)) &&
+                                p.getCountry().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 3)) &&
+                                format.format(p.getBirthday()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)) &&
+                                p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)) &&
+                                p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)) &&
+                                p.getSport().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 7)))){
                             edit = p;
                         }
                     }
-                    new EditFrame(edit, participants, contr);
+                    new EditFrame(edit,contr);
                 }
             }
         });
@@ -114,6 +121,7 @@ public class MainPanel extends JPanel {
         add(lbl, "span 1");
         filter = new JTextField(25);
         filter.setFont(Plain);
+        //Filters participant on search-string
         filter.getDocument().addDocumentListener(new DocumentListener(){
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -146,7 +154,9 @@ public class MainPanel extends JPanel {
         JPanel navigator = new JPanel(new MigLayout("wrap 2"));
         JButton prev = new JButton("<");
         prev.setFont(PBold);
+        //previous button for going through participants
         prev.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 JScrollBar bar = scrollPane.getVerticalScrollBar();
                 bar.setValue(bar.getValue()- table.getRowHeight()*(rowsDisplayed-1));
@@ -155,7 +165,9 @@ public class MainPanel extends JPanel {
         navigator.add(prev, "span 1");
         JButton next = new JButton(">");
         next.setFont(PBold);
+        //next button for going through participants
         next.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 JScrollBar bar = scrollPane.getVerticalScrollBar();
                 bar.setValue(bar.getValue() + table.getRowHeight()*(rowsDisplayed-1));
@@ -164,7 +176,9 @@ public class MainPanel extends JPanel {
         navigator.add(next, "span 1");
         JButton first = new JButton("first");
         first.setFont(PBold);
+        //first button for showing the first page of participants
         first.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 int height = table.getRowHeight()*(rowsDisplayed-1);
                 JScrollBar bar = scrollPane.getVerticalScrollBar();
@@ -174,12 +188,15 @@ public class MainPanel extends JPanel {
         navigator.add(first, "span 1");
         JButton last = new JButton("last");
         last.setFont(PBold);
+        //last button for showing the last page of participants
         last.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 JScrollBar bar = scrollPane.getVerticalScrollBar();
                 bar.setValue(table.getRowCount()*table.getRowHeight());
             }
         } );
+        //Filter-form
         navigator.add(last, "span 1");
         add(navigator, "span 2, align center");
         JPanel filterPanel = new JPanel(new MigLayout("wrap 2"));
@@ -236,16 +253,20 @@ public class MainPanel extends JPanel {
         filterPanel.add(sportField, "span 1");
         JPanel buttonsPanel = new JPanel(new MigLayout("wrap 2"));
         JButton apply = new JButton("apply filter");
+        //Apply filter-criterias.
         apply.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 filter(idField, nameField, countryField,
                         genderField, birthdayField, heightField,
                         weightField, sportField);
             }
         } );
+        //Clear filter-form.
         buttonsPanel.add(apply, "span 1");
         JButton clear = new JButton("clear");
         clear.addActionListener( new ActionListener(){
+            @Override
             public void actionPerformed(ActionEvent ae) {
                 clear(idField, nameField, countryField,
                         genderField, birthdayField, heightField,
@@ -259,7 +280,12 @@ public class MainPanel extends JPanel {
         filterPanel.add(buttonsPanel, "span 1, align center");
         add(filterPanel, "span 2, align center");
     }
-    public void updateParticipants(ArrayList<Participant> participants){
+
+    /**
+     * Update participant data.
+     * @param participants list of participants.
+     */
+    void updateParticipants(ArrayList<Participant> participants){
         this.participants = participants;
         if(participants.size() < 1 )
             return;
@@ -279,7 +305,7 @@ public class MainPanel extends JPanel {
         model.setDataVector(rowData, columnNames);
         repaint();
         revalidate();
-    }
+    }    
     private void filterParticipants(ArrayList<Participant> filtered){
         if(filtered.size() < 1)
             return;
@@ -342,8 +368,7 @@ public class MainPanel extends JPanel {
                 filtered.add(p);
         }
         filterParticipants(filtered);
-    }
-    
+    }    
     private void clear(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){

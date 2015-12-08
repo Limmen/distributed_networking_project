@@ -60,16 +60,19 @@ public class NogServerImpl extends UnicastRemoteObject implements NogServer {
     @Override
     public void editParticipant(TableDTO p) throws RemoteException {
         qm.editParticipant(p);
+        updateClients();
     }
 
     @Override
     public void addParticipant(TableDTO p) throws RemoteException {
         qm.editParticipant(p);
+        updateClients();
     }
 
     @Override
     public void deleteParticipant(TableDTO p) throws RemoteException {
         qm.deleteParticipant(p.getID());
+        updateClients();
     }
     
 }

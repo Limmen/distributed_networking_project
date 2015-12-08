@@ -248,43 +248,20 @@ public class MainPanel extends JPanel {
         filterPanel.add(buttonsPanel, "span 1, align center");
         add(filterPanel, "span 2, align center");
     }
-    private void deleteParticipant(){
-        try{
-            ArrayList<TableDTO> updatedTableData = new ArrayList();
-            int row = table.getSelectedRow();
-            if(row != -1){
-                for(TableDTO p : tableData){
-                    if(!(p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
-                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
-                        updatedTableData.add(p);
-                    }
-                }
-                //updateParticipants(updatedParticipants);
-            }
-        }catch(RemoteException e){
-            contr.remoteExceptionHandler(e);
-        }
-    }
     private void editParticipant(){
         try{
             int row = table.getSelectedRow();
             if(row != -1){
                 TableDTO edit = null;
                 for(TableDTO p : tableData){
-                    if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(row, 0)) &&
-                            p.getName().equals(table.getModel().getValueAt(row, 1)) &&
-                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(row, 2)) &&
-                            p.getCountry().equals(table.getModel().getValueAt(row, 3)) &&
-                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(row, 4)) &&
-                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 5)) &&
-                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(row, 6)) &&
-                            p.getSport().equals(table.getModel().getValueAt(row, 7)))){
+                    if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)) &&
+                            p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&
+                            Character.toString(p.getGender()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)) &&
+                            p.getCountry().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 3)) &&
+                            format.format(p.getBirthday()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)) &&
+                            p.getHeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 5)) &&
+                            p.getWeight() == Float.parseFloat((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 6)) &&
+                            p.getSport().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 7)))){
                         edit = p;
                     }
                 }
