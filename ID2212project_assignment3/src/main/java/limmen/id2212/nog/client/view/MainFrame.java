@@ -5,11 +5,12 @@
 */
 package limmen.id2212.nog.client.view;
 
-import java.awt.Font;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import limmen.id2212.nog.client.model.Client;
+import limmen.id2212.nog.server.ChatRoom;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -17,34 +18,33 @@ import net.miginfocom.swing.MigLayout;
  * @author kim
  */
 class MainFrame extends JFrame {
-    private final Font Plain = new Font("Serif", Font.PLAIN, 14);
-    private final Font Title = new Font("Serif", Font.PLAIN, 18);
-    private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);    
-    private final GuiController contr;    
-    
-    MainFrame(GuiController contr){        
+    private final GuiController contr;
+    private final Container container;
+    MainFrame(GuiController contr){
         this.contr = contr;
         this.setLayout(new MigLayout());
-        this.setTitle("Edit Participant");
-        this.setContentPane(new JScrollPane(new Container()));
+        this.setTitle("NOG Chat rooms");
+        this.container = new Container();
+        this.setContentPane(new JScrollPane(container));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent)
+            {
+                quit();
+            }
+        });
         pack();
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
     }
-    private class Container extends JPanel{
-        Container(){
-            setLayout(new MigLayout("wrap 1, insets 50 50 50 50"));  //insets T, L, B, R
-            add(new MainPanel(), "span 1");
-            
-        }
+    private void quit(){
+        contr.quit();
+    }    
+    void updateMainFrameClients(ArrayList<Client> clients) throws RemoteException{
+        container.updateMainFrameClients(clients);
     }
-    private class MainPanel extends JPanel{
-        public MainPanel(){
-            setLayout(new MigLayout("wrap 2"));
-            JLabel lbl = new JLabel("NOG Chat rooms");
-            lbl.setFont(Title);
-            add(lbl, "span 2");            
-        }
+    void updateMainFrameChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException{
+        container.updateMainFrameChatRooms(chatRooms);
     }
     
 }

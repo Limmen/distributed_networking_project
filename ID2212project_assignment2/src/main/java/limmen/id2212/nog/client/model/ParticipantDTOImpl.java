@@ -5,7 +5,6 @@
  */
 package limmen.id2212.nog.client.model;
 
-import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
@@ -15,7 +14,7 @@ import java.util.Date;
  * Extends UniCastRemoteObject to automaticly export the remote object.
  * @author kim
  */
-public class ParticipantDTOImpl extends UnicastRemoteObject implements Serializable,ParticipantDTO {
+public class ParticipantDTOImpl extends UnicastRemoteObject implements ParticipantDTO {
     private int ID;
     private String name;
     private String country;

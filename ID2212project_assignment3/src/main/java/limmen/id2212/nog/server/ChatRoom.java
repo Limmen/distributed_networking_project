@@ -19,5 +19,6 @@ public interface ChatRoom extends Remote {
     public int getID() throws RemoteException;
     public ArrayList<String> getMessages() throws RemoteException;
     public ArrayList<Client> getUsers() throws RemoteException;
-    public void addMessage(Client user, String message) throws RemoteException;   
+    public void addMessage(Client user, String message) throws RemoteException;
+    public Client getCreator() throws RemoteException;
 }

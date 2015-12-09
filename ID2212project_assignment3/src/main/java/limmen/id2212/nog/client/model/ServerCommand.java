@@ -10,8 +10,7 @@ package limmen.id2212.nog.client.model;
  * @author kim
  */
 public class ServerCommand {
-    private final ServerCommandName commandName;
-
+    private final ServerCommandName commandName;    
     public ServerCommand(ServerCommandName commandName){
         this.commandName = commandName;
     }

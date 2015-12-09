@@ -47,5 +47,10 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
     public void addMessage(Client user , String message) throws RemoteException {
         messages.add(user.getName() + " " + message + "\n");
     }
+
+    @Override
+    public Client getCreator() throws RemoteException {
+        return creator;
+    }
     
 }

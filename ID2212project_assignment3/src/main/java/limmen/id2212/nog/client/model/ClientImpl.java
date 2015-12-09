@@ -5,10 +5,36 @@
 */
 package limmen.id2212.nog.client.model;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import limmen.id2212.nog.client.view.GuiController;
+import limmen.id2212.nog.server.ChatRoom;
+
 /**
  *
  * @author kim
  */
-public class ClientImpl {
+public class ClientImpl extends UnicastRemoteObject implements Client {
+    private final String username;
+    private final GuiController contr;
+    public ClientImpl(GuiController contr, String username) throws RemoteException{
+        this.contr = contr;
+        this.username = username;
+    }
+    @Override
+    public void notifyNewMessage(ArrayList<String> messages) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyChatRoomDestroyed(ChatRoom room) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getName() throws RemoteException {
+        return username;
+    }
     
 }

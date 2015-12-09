@@ -5,6 +5,7 @@
 */
 package limmen.id2212.nog.client.view;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ class StatsPanel extends JPanel {
         countryColumnNames = new String[2];
         countryColumnNames[0] = "Country";
         countryColumnNames[1] = "Number of participants";
-        String[][] RowData = new String[0][0];
+        String[][] RowData = new String[0][0];        
         lbl = new JLabel("Participants/Country");
         lbl.setFont(Plain);
         add(lbl, "span 2, gaptop 20");
@@ -95,7 +96,9 @@ class StatsPanel extends JPanel {
         JTable countryTable = new JTable(countryModel);
         countryTable.setFont(Plain);
         countryTable.getTableHeader().setFont(PBold);
-        add(new JScrollPane(countryTable), "span 2");
+        JScrollPane scroll = new JScrollPane(countryTable);
+        scroll.setPreferredSize(new Dimension(425,200));
+        add(scroll, "span 2");
         sportsColumnNames = new String[2];
         sportsColumnNames[0] = "Country";
         sportsColumnNames[1] = "Number of participants";
@@ -112,7 +115,10 @@ class StatsPanel extends JPanel {
         JTable sportsTable = new JTable(sportsModel);
         sportsTable.setFont(Plain);
         sportsTable.getTableHeader().setFont(PBold);
-        add(new JScrollPane(sportsTable), "span 2");
+        scroll = new JScrollPane(sportsTable);
+        scroll.setPreferredSize(new Dimension(425,200));
+        add(scroll, "span 2");
+        
     }
     
     /**

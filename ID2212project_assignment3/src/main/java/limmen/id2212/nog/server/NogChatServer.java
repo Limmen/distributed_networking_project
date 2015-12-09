@@ -19,4 +19,6 @@ public interface NogChatServer extends Remote {
     public ArrayList<ChatRoom> getChatRooms() throws RemoteException;
     public ArrayList<Client> getUsers() throws RemoteException;
     public void addChatRoom(Client creator) throws RemoteException;
+    public void registerClient(Client client) throws RemoteException, NameAlreadyTakenException;
+    public void deRegisterClient(Client client) throws RemoteException;
 }

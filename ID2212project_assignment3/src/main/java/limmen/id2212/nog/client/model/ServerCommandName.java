@@ -11,5 +11,8 @@ package limmen.id2212.nog.client.model;
  */
 public enum ServerCommandName {
 
-    getClients;
+    getClients,
+    registerClient,
+    deRegisterClient,
+    getChatRooms;
 }

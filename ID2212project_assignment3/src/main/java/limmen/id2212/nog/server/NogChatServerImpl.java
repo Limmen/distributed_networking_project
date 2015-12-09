@@ -40,5 +40,19 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
     public void addChatRoom(Client creator) throws RemoteException {
         chatrooms.add(new ChatRoomImpl(creator ,incrementId()));
     }
+
+    @Override
+    public void deRegisterClient(Client client) throws RemoteException {
+        clients.remove(client);
+    }
+
+    @Override
+    public void registerClient(Client client) throws RemoteException, NameAlreadyTakenException {
+        for(Client i : clients){
+            if(i.getName().equals(client.getName()))
+                throw new NameAlreadyTakenException(client.getName() + " is used by another user");            
+        }
+        clients.add(client);
+    }
     
 }

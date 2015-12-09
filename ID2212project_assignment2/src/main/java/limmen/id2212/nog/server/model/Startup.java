@@ -73,7 +73,7 @@ public class Startup {
         ArrayList<Participant> participants = new ArrayList();
         DateFormat format = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
         try{
-            BufferedReader buffReader = new BufferedReader(new FileReader("/home/kim/participants.tsv"));
+            BufferedReader buffReader = new BufferedReader(new FileReader("src/main/resources/participants.tsv"));
             String str = buffReader.readLine();
             while (str != null) {
                 String[] values = str.split("\\t", -1);
