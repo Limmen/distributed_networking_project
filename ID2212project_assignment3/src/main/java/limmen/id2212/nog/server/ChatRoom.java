@@ -5,10 +5,19 @@
 */
 package limmen.id2212.nog.server;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import limmen.id2212.nog.client.model.Client;
+
 /**
  *
  * @author kim
  */
-public interface ChatRoom {
+public interface ChatRoom extends Remote {
     
+    public int getID() throws RemoteException;
+    public ArrayList<String> getMessages() throws RemoteException;
+    public ArrayList<Client> getUsers() throws RemoteException;
+    public void addMessage(Client user, String message) throws RemoteException;   
 }

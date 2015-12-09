@@ -5,10 +5,18 @@
 */
 package limmen.id2212.nog.server;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import limmen.id2212.nog.client.model.Client;
+
 /**
  *
  * @author kim
  */
-public interface NogChatServer {
+public interface NogChatServer extends Remote {
     
+    public ArrayList<ChatRoom> getChatRooms() throws RemoteException;
+    public ArrayList<Client> getUsers() throws RemoteException;
+    public void addChatRoom(Client creator) throws RemoteException;
 }
