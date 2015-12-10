@@ -24,7 +24,7 @@ class MainFrame extends JFrame {
         this.contr = contr;
         this.setLayout(new MigLayout());
         this.setTitle("NOG Chat rooms");
-        this.container = new Container();
+        this.container = new Container(contr);
         this.setContentPane(new JScrollPane(container));
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override

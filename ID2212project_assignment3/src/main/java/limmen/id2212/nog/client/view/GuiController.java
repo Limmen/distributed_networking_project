@@ -12,6 +12,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import limmen.id2212.nog.client.model.Client;
@@ -53,12 +54,19 @@ public class GuiController {
             }
         });
     }
+    void getClients(){
+        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();        
+    }
+    void getChatRooms(){
+        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
+    }
     public void updateMainFrameClients(final ArrayList<Client> clients){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try{
-                    mainFrame.updateMainFrameClients(clients);
+                    if(mainFrame != null)
+                        mainFrame.updateMainFrameClients(clients);
                 }catch(RemoteException e){
                     remoteExceptionHandler(e);
                 }
@@ -81,8 +89,8 @@ public class GuiController {
         this.client = client;
         mainFrame = new MainFrame(contr);
         startFrame.setVisible(false);
-        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
-        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
+        getClients();
+        getChatRooms();
     }
     public void failedRegistration(Client client){
         SwingUtilities.invokeLater(new Runnable() {
@@ -109,6 +117,38 @@ public class GuiController {
                 invalidInput();
             }
             nameField.setText("");
+        }
+    }
+    //ActionListener for connect-button at startframe.
+    class SendListener implements ActionListener {
+        private final JTextArea messageArea;
+        private final ChatRoom chatRoom;
+        
+        SendListener(ChatRoom chatRoom, JTextArea messageArea){
+            this.chatRoom = chatRoom;
+            this.messageArea = messageArea;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(messageArea.getText().length() > 0){
+                new NOGWorker(chatRoom, contr, new ServerCommand(ServerCommandName.sendMessage), messageArea.getText(), client).execute();
+            }
+            else{
+                invalidInput();
+            }
+            messageArea.setText("");
+        }
+    }
+    Client getClient(){
+        return client;
+    }
+        //ActionListener for connect-button at startframe.
+    class NewChatRoomListener implements ActionListener {                
+        NewChatRoomListener(){                             
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.addChatRoom), client).execute();
         }
     }
     void quit(){

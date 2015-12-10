@@ -18,4 +18,6 @@ public interface Client extends Remote {
     public void notifyNewMessage(ArrayList<String> messages) throws RemoteException;
     public void notifyChatRoomDestroyed(ChatRoom room) throws RemoteException;
     public String getName() throws RemoteException;
+    public void updateClients(ArrayList<Client> clients) throws RemoteException;
+    public void updateChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException;
 }

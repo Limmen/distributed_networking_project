@@ -18,7 +18,7 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
     private final String serverName;
     private ArrayList<Client> clients = new ArrayList();
     private ArrayList<ChatRoom> chatrooms = new ArrayList();
-    private int idCount = -1;
+    private int idCount = 0;
     public NogChatServerImpl(String serverName) throws RemoteException{
         this.serverName = serverName;
     }
@@ -39,11 +39,27 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
     @Override
     public void addChatRoom(Client creator) throws RemoteException {
         chatrooms.add(new ChatRoomImpl(creator ,incrementId()));
+        for(Client c : clients){
+            c.updateChatRooms(chatrooms);
+        }
     }
 
     @Override
     public void deRegisterClient(Client client) throws RemoteException {
         clients.remove(client);
+        ArrayList<ChatRoom> updRooms = new ArrayList();
+        for(ChatRoom r : chatrooms){
+            if (r.getUsers().contains(client)){
+                r.removeUser(client);
+                if(!r.getCreator().equals(client))
+                    updRooms.add(r);
+            }
+        }
+        for(Client c : clients){
+            c.updateClients(clients);
+        }
+        this.chatrooms = updRooms;
+        System.out.println("Client deRegistered, size : " + clients.size());
     }
 
     @Override
@@ -53,6 +69,9 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
                 throw new NameAlreadyTakenException(client.getName() + " is used by another user");            
         }
         clients.add(client);
+        for(Client c : clients){
+            c.updateClients(clients);
+        }
     }
     
 }

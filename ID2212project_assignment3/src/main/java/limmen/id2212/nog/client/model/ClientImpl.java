@@ -36,5 +36,15 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     public String getName() throws RemoteException {
         return username;
     }
+
+    @Override
+    public void updateClients(ArrayList<Client> clients) throws RemoteException {
+        contr.updateMainFrameClients(clients);
+    }
+
+    @Override
+    public void updateChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException {
+        contr.updateMainFrameChatRooms(chatRooms);
+    }
     
 }

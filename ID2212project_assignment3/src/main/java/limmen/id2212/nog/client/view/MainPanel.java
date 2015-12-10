@@ -10,6 +10,7 @@ import java.awt.Font;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -25,6 +26,7 @@ import net.miginfocom.swing.MigLayout;
  * @author kim
  */
 public class MainPanel extends JPanel{
+    private final GuiController contr;
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
@@ -33,7 +35,8 @@ public class MainPanel extends JPanel{
     private final DefaultListModel usersModel;    
     private final JTable chatRoomsTable;
     private final JList usersList;
-    public MainPanel(){
+    public MainPanel(GuiController contr){
+        this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("NOG Chat rooms");
         lbl.setFont(Title);
@@ -71,6 +74,10 @@ public class MainPanel extends JPanel{
         usersPanel.add(scroll, "span 1");
         add(chatRoomsPanel, "span 1");
         add(usersPanel, "span 1");
+        JButton newChatRoomButton = new JButton("Create new chatroom");
+        newChatRoomButton.setFont(PBold);
+        newChatRoomButton.addActionListener(contr.new NewChatRoomListener());
+        add(newChatRoomButton, "span 2, gaptop 20");
     }
     void updateMainFrameClients(ArrayList<Client> clients) throws RemoteException{
         if(clients.size() < 1 )

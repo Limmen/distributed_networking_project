@@ -8,6 +8,7 @@ package limmen.id2212.nog.client.model;
 import java.rmi.RemoteException;
 import javax.swing.SwingWorker;
 import limmen.id2212.nog.client.view.GuiController;
+import limmen.id2212.nog.server.ChatRoom;
 import limmen.id2212.nog.server.NameAlreadyTakenException;
 import limmen.id2212.nog.server.NogChatServer;
 
@@ -16,11 +17,13 @@ import limmen.id2212.nog.server.NogChatServer;
  * @author kim
  */
 public class NOGWorker extends SwingWorker<Boolean,Boolean> {
-    private final NogChatServer serverobj;
+    private NogChatServer serverobj;
     private Client client;
     private final ServerCommand command;
-    private final GuiController contr;
+    private GuiController contr;
     private String username;
+    private ChatRoom chatRoom;
+    private String message;
     
     public NOGWorker(NogChatServer serverobj, GuiController contr, ServerCommand command, Client client) {
         this.client = client;
@@ -34,6 +37,13 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         this.contr = contr;
         this.username = username;
     }
+    public NOGWorker(ChatRoom chatRoom, GuiController contr, ServerCommand command, String message, Client client) {
+        this.chatRoom= chatRoom;
+        this.client = client;
+        this.command = command;
+        this.contr = contr;
+        this.message = message;
+    }
     @Override
     protected Boolean doInBackground() {
         switch(command.getCommandName()){
@@ -45,6 +55,12 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
                 break;
             case registerClient:
                 registerClient();
+                break;
+            case addChatRoom:
+                addChatRoom();
+                break;
+            case sendMessage:
+                sendMessage();
                 break;
         }
         return true;
@@ -60,6 +76,23 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private void getChatRooms(){
         try{
             contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void addChatRoom(){
+        try{
+            serverobj.addChatRoom(client);
+            contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void sendMessage(){
+        try{
+            chatRoom.addMessage(client, message);
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);

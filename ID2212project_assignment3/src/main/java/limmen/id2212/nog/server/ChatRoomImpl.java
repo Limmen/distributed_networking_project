@@ -52,5 +52,27 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
     public Client getCreator() throws RemoteException {
         return creator;
     }
+
+    @Override
+    public void addUser(Client user) throws RemoteException {
+        users.add(user);
+    }
+
+    @Override
+    public void removeUser(Client user) throws RemoteException {
+        System.out.println("trying to remove user/cr");
+        if(users.contains(user)){
+            users.remove(user);
+            System.out.println("User removed!");
+        }
+        if(creator.equals(user)){
+            System.out.println("creator is user");            
+        }
+    }
+
+    @Override
+    public void destroy(Client user) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
