@@ -1,0 +1,195 @@
+%% Report template.
+%% Author: Kim Hammar
+\documentclass[a4paper, 11pt]{article}
+\usepackage{graphicx}
+%\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} 
+%\usepackage[swedish]{babel}
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{float}
+\usepackage{vhistory}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{lettrine}
+\graphicspath{ {./images/} }
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+\pagestyle{fancy}
+\fancypagestyle{firststyle}
+{
+  \lhead{}
+  \chead{}
+  \rhead{\textbf{TITLE} Title}
+   \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
+}
+  \lhead{}
+  \chead{}
+  \rhead{\leftmark}
+  \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
+
+\title{Course project}
+\author{Kim Hammar}
+\date{7 dec 2015}
+\begin{document}
+\maketitle
+\thispagestyle{firststyle}
+\begin{versionhistory}
+ \vhEntry{0.1}{07.12.15}{KH}{First draft}
+\end{versionhistory}
+\newpage
+\tableofcontents
+\newpage
+
+%\begin{figure}[H]
+%\includegraphics[scale=0.5]{klass.png}
+%\caption{Konceptuell modell över systemet}
+%\end{figure}
+\section{Abstract}
+Course project in a course on Network programming in Java \citep{kth_1}, carried out at Royal Institute of Technology, Stockholm.
+\newpage
+\section{Task specification}
+\textit{You are ``hired'' by JEM inc (Java Enterprise Microsystems Inc.) to design and develop the distributed application software (clients and servers) for the NOG (Nordic Olympic Games) event.} \\ \\
+The NOG information system should allow storing, retrieving and updating personal information about NOG participants. The system should also be able to provide statistical information about participants. The system is to be developed in two version(1) a single-user version; (2) a multi-user version. \\ 
+You should also develop a NOG virtual meeting place. The NOG virtual meeting place is Internet based software which offers remotely located users to communicate and share information represented as textual, image or audio files. 
+\subsection{Sub-assignment 1. A Single-User Information System for NOG}
+Develop a distributed application in Java that allows storing, retrieving and updating information about participants of NOG. The application should concist of a client with a user interface and a server. In this assignment we assume a \textbf{single user} semantics for the application, i.e It's not required to support coherency of multiple copies of participant records which may be cached by multiple client at the same time.
+\subsection{Sub-assignment 2. A Multi-User Information System for NOG}
+Develop a multi-user application, similar to the solution developed in sub-assignment 1. In this version a multi-user semantic is required. Many users can fetch the participants-data at the same time and when one user updates his local-cache of the data, the change need to be replicated among all clients connected in order to prevent them from using stale data.
+\subsection{Sub-assignment 3. Chat Rooms for NOG}
+Develop a distributed ``building of chat rooms''.
+
+\newpage
+\section{Platform}
+The platform used for the devlopment-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS. \\ \\
+Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
+\section{Software and technologies used}
+\begin{itemize}
+\item Java Remote Method Invocation (java.* package)
+\item Java Persistence API (java.* package)
+\item JDBC (java.* package)
+\item Java Swing (java.* package)
+\item Java Socket (java.net package)
+\item PostgreSQL 9.3.9
+\end{itemize}
+\newpage
+\section{The application}
+\subsection{Functionality}
+\subsection{Protocols used}
+\subsection{GUI}
+\subsection{Architecture}
+
+\section{Benchmarks}
+\subsection{Without latency simulation}
+%%Table with borders 
+\begin{table}[]
+\centering
+\label{my-label}
+\begin{tabular}{|l|l|l|r|}
+\hline
+\textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
+1Thread & 100 & 990.09900990099 & 17579.091893564357 \\ \hline
+2Threads & 100 & 1470.5882352941178 & 26110.121783088234 \\ \hline
+4Threads & 100 & 1886.7924528301887 & 33499.778891509435 \\ \hline
+10Threads & 100 & 2631.5789473684213 & 46723.37582236842 \\ \hline
+TOTAL & 400 & 1486.988847583643 & 26401.312732342005 \\ \hline
+\end{tabular}
+\caption{My caption}
+\end{table}
+\subsection{With latency simulation}
+%%Table with borders 
+\begin{table}[]
+\centering
+\label{my-label}
+\begin{tabular}{|l|l|l|r|}
+\hline
+\textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
+1Thread & 100 & 4.946087644673063 & 87.81720651152439 \\ \hline
+2Threads & 100 & 9.870693909781858 & 175.25301364623434 \\ \hline
+4Threads & 100 & 19.68503937007874 & 349.50556717519686 \\ \hline
+10Threads & 100 & 49.18839153959666 & 873.3341275209051 \\ \hline
+TOTAL & 400 & 10.672358591248667 & 189.48647612059767 \\ \hline
+\end{tabular}
+\caption{My caption}
+\end{table}
+\section{Documentation}
+\newpage
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
+
+%\textbf // bold
+%\textit // italic
+
+%%Punktlista
+%%
+%%\begin{itemize}
+%%  \item The first item
+%%  \item The second item
+%%  \item The third etc \ldots
+%%\end{itemize}
+
+%% Numrerad lista
+%%
+%%\begin{enumerate}
+%%  \item The first item
+%%  \item The second item
+%%  \item The third etc \ldots
+%%\end{enumerate}
+
+%%table without borders:
+%%\begin{table}[]
+%%\centering
+%%\label{my-label}
+%%\begin{tabular}{llr}
+%%Animal     & Description & Price (\$) \\ \hline
+%%Gnat       & per gram    & 13.65      \\
+%%           & each        & 0.01       \\
+%%Gnu        & stuffed     & 92.50      \\
+%%Emu        & stuffed     & 33.33      \\
+%%Armadillo  & frozen      & 8.99       \\ \hline
+%%\end{tabular}
+%%\caption{My caption}
+%%\end{table}
+
+%%Table with borders
+%% 
+%%\begin{table}[]
+%%\centering
+%%\label{my-label}
+%%\begin{tabular}{|l|l|r|}
+%%\hline
+%%\textbf{Animal}      & \textbf{Description}  & \textbf{Price} \textit{(\$)} \\ \hline
+%%Gnat        & per gram     & 13.65      \\ \hline
+%%            & each         & 0.01       \\ \hline
+%%Gnu         & stuffed      & 92.50      \\ \hline
+%%Emu         & stuffed      & 33.33      \\ \hline
+%%Armadillo   & frozen       & 8.99       \\ \hline
+%%\end{tabular}
+%\caption{My caption}
+%\end{table}
+
+
+%%C-c C-c //Kompilerar det som behöver kompileras (latex eller bibtex elr whatever, emacs är smart!
+%%C-c C-v //Visa pdf
+%%C-c = //Visa innehållsförteckningen
+%%C-c C-k //Kill the TeX subprocess (tex-kill-job). 
+%%C-c C-f // Invoke TeX on the current file (tex-file).
+%%C-c C-l // se output av senaste kommandot, error meddelande t.ex.
+%%C-c C-c "XeLaTex" //kompilera med XeLaTex
+

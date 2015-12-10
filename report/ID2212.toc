@@ -1,0 +1,14 @@
+\contentsline {section}{\numberline {1}Abstract}{3}{section.1}
+\contentsline {section}{\numberline {2}Task specification}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Sub-assignment 1. A Single-User Information System for NOG}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Sub-assignment 2. A Multi-User Information System for NOG}{4}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Sub-assignment 3. Chat Rooms for NOG}{4}{subsection.2.3}
+\contentsline {section}{\numberline {3}Platform}{5}{section.3}
+\contentsline {section}{\numberline {4}Software and technologies used}{5}{section.4}
+\contentsline {section}{\numberline {5}The application}{6}{section.5}
+\contentsline {subsection}{\numberline {5.1}Functionality}{6}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Protocols used}{6}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.3}GUI}{6}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Architecture}{6}{subsection.5.4}
+\contentsline {section}{\numberline {6}Benchmarks}{6}{section.6}
+\contentsline {section}{\numberline {7}Documentation}{6}{section.7}

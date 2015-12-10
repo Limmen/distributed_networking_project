@@ -107,8 +107,18 @@ public class ClientHandler implements Runnable {
         }
     }
     private void sendFile(){
+/*        try {
+            Thread.sleep(200);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        } */
         try (BufferedReader br = new BufferedReader(new FileReader(tsvFile))) {
-            String line;
+            String line;            
+            outWriter.println("HTTP/1.0 200 OK");
+            outWriter.println("Date:" + (new Date()));
+            outWriter.println(SERVER);
+            outWriter.println("Content-type: text/html");
+            outWriter.println();
             while ((line = br.readLine()) != null) {
                 outWriter.println(line);
             }

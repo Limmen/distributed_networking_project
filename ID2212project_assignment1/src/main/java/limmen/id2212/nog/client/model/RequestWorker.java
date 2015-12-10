@@ -60,14 +60,20 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
             outWriter.flush();
             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String str;
+            String http_code = reader.readLine();
+            String date = reader.readLine();
+            String server = reader.readLine();
+            String content_type = reader.readLine();
+            //A empty line before content
+            reader.readLine();
             participants = new ArrayList();
             while ((str = reader.readLine()) != null) {
-                try{
+                try{   
                     String[] values = str.split("\\t", -1);
                     participants.add(new Participant(Integer.parseInt(values[0]),
                             values[1], values[2].charAt(0), values[3], format.parse(values[4]),
                             Float.parseFloat(values[5]), Float.parseFloat(values[6]),
-                            values[7]));
+                            values[7])); 
                 }
                 catch(Exception e){
                 }
