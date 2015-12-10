@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.25)  10 DEC 2015 11:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.25)  10 DEC 2015 20:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -622,48 +622,74 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
  [5]
+<./images/no_delay.png, id=134, 501.875pt x 501.875pt>
+File: ./images/no_delay.png Graphic file (type png)
 
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 92.
+<use ./images/no_delay.png>
+Package pdftex.def Info: ./images/no_delay.png used on input line 111.
+(pdftex.def)             Requested size: 250.93687pt x 250.93687pt.
+ [6]
+Underfull \hbox (badness 10000) in paragraph at lines 116--133
 
-
-Overfull \hbox (18.86134pt too wide) in paragraph at lines 95--104
- [][] 
  []
 
-[6] (./ID2212.bbl) 
+<./images/delay.png, id=141, 501.875pt x 501.875pt>
+File: ./images/delay.png Graphic file (type png)
+ <use ./images/delay.png>
+Package pdftex.def Info: ./images/delay.png used on input line 135.
+(pdftex.def)             Requested size: 250.93687pt x 250.93687pt.
+
+[7 <./images/no_delay.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 141--155
+
+ []
+
+[8 <./images/delay.png>] <./images/rmiplot.png, id=157, 501.875pt x 501.875pt>
+File: ./images/rmiplot.png Graphic file (type png)
+
+<use ./images/rmiplot.png>
+Package pdftex.def Info: ./images/rmiplot.png used on input line 157.
+(pdftex.def)             Requested size: 250.93687pt x 250.93687pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 160--161
+
+ []
+
+[9 <./images/rmiplot.png>] [10] (./ID2212.bbl)
+
 AED: lastpage setting LastPage
-[7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 111.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 111.
+[11]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 168.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 168.
  (./ID2212.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 111.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 111.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 168.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 168.
 Package rerunfilecheck Info: File `ID2212.out' has not changed.
-(rerunfilecheck)             Checksum: C1501E03A1DB914EB2FB19812896CC5D;888.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 111.
+(rerunfilecheck)             Checksum: 4DF6B4E08B2288D5A17898B75A7260C3;1274.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 168.
  ) 
 Here is how much of TeX's memory you used:
- 6376 strings out of 493304
- 91370 string characters out of 6139871
- 181169 words of memory out of 5000000
- 9708 multiletter control sequences out of 15000+600000
+ 6416 strings out of 493304
+ 92053 string characters out of 6139871
+ 183360 words of memory out of 5000000
+ 9730 multiletter control sequences out of 15000+600000
  9624 words of font info for 34 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 35i,11n,43p,468b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 35i,12n,43p,819b,351s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texli
-ve/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmtt10.pfb>
-Output written on ID2212.pdf (7 pages, 129880 bytes).
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmtt10.pfb>
+Output written on ID2212.pdf (11 pages, 183926 bytes).
 PDF statistics:
- 168 PDF objects out of 1000 (max. 8388607)
- 148 compressed objects within 2 object streams
- 28 named destinations out of 1000 (max. 500000)
- 113 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 224 PDF objects out of 1000 (max. 8388607)
+ 196 compressed objects within 2 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 160 words of extra memory for PDF output out of 10000 (max. 10000000)
 

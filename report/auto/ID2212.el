@@ -29,7 +29,9 @@
     "lettrine"
     "hyperref")
    (LaTeX-add-labels
-    "my-label")
+    "Load-test for http-server"
+    "Load-test for http-server with latency simulation"
+    "Performance test for rmi-server")
    (LaTeX-add-bibliographies
     "references")))
 

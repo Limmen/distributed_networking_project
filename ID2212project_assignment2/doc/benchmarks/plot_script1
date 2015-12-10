@@ -1,0 +1,7 @@
+set terminal pngcairo font "arial,10" size 500,500
+set output 'rmiplot.png'
+set boxwidth 0.75
+set ylabel "seconds"
+set style fill solid
+set title "Load test for rmi-server. 100 remote-method-calls of each method"
+plot "data.dat" using 2:xtic(1) with boxes

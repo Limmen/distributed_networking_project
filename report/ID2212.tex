@@ -28,7 +28,7 @@
 {
   \lhead{}
   \chead{}
-  \rhead{\textbf{TITLE} Title}
+  \rhead{\textbf{Course project} ID2212}
    \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
 }
   \lhead{}
@@ -43,7 +43,7 @@
 \maketitle
 \thispagestyle{firststyle}
 \begin{versionhistory}
- \vhEntry{0.1}{07.12.15}{KH}{First draft}
+\vhEntry{0.1}{07.12.15}{KH}{First draft}
 \end{versionhistory}
 \newpage
 \tableofcontents
@@ -69,7 +69,7 @@ Develop a distributed ``building of chat rooms''.
 
 \newpage
 \section{Platform}
-The platform used for the devlopment-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS. \\ \\
+The platform used for the devlopment-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS, CPU: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz \\ \\
 Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \section{Software and technologies used}
 \begin{itemize}
@@ -87,39 +87,79 @@ Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \subsection{GUI}
 \subsection{Architecture}
 
-\section{Benchmarks}
-\subsection{Without latency simulation}
+\section{Load-testing}
+\subsection{Sub-assignment 1. A Single-User Information System for NOG}
+These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
+My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently.
+\subsubsection{Without latency simulation}
 %%Table with borders 
-\begin{table}[]
+\begin{table}[H]
 \centering
-\label{my-label}
+\label{Load-test for http-server}
 \begin{tabular}{|l|l|l|r|}
 \hline
 \textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
-1Thread & 100 & 990.09900990099 & 17579.091893564357 \\ \hline
-2Threads & 100 & 1470.5882352941178 & 26110.121783088234 \\ \hline
-4Threads & 100 & 1886.7924528301887 & 33499.778891509435 \\ \hline
-10Threads & 100 & 2631.5789473684213 & 46723.37582236842 \\ \hline
-TOTAL & 400 & 1486.988847583643 & 26401.312732342005 \\ \hline
+1Thread & 100 & 990.099 & 17579.091 \\ \hline
+2Threads & 100 & 1470.588 & 26110.122 \\ \hline
+4Threads & 100 & 1886.792 & 33499.779 \\ \hline
+10Threads & 100 & 2631.579 & 46723.376 \\ \hline
+TOTAL & 400 & 1486.989 & 26401.313 \\ \hline
 \end{tabular}
-\caption{My caption}
+\caption{Load-test for http-server}
 \end{table}
-\subsection{With latency simulation}
+\begin{figure}[H]
+\includegraphics[scale=0.5]{no_delay.png}
+\caption{Throughput/sec for different number of threads}
+\end{figure}
+The result show that 10 threads gave more than doubled the througput compared to 1 thread. But it was'nt the result I expected, I expected a linear growth in throughput with respect to number of threads, until we reach $\approx 7$ threads (which is the maximum number of threads that can run in parallell on the test-machine) where the througput would stabilize around some value.
+\subsubsection{With latency simulation}
+Since the server was running on my local machine it barely was'ny any latency between the requests at all, I figured that was the reason the tests did'nt match my expectations.
+To simulate network-latency that might occur outside of the test-environment I added a 200 millisecond delay at the server while handling the requests and re-did the tests to see if it had any effect.
+\\
 %%Table with borders 
-\begin{table}[]
+\begin{table}[H]
 \centering
-\label{my-label}
+\label{Load-test for http-server with latency simulation}
 \begin{tabular}{|l|l|l|r|}
 \hline
 \textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
-1Thread & 100 & 4.946087644673063 & 87.81720651152439 \\ \hline
-2Threads & 100 & 9.870693909781858 & 175.25301364623434 \\ \hline
-4Threads & 100 & 19.68503937007874 & 349.50556717519686 \\ \hline
-10Threads & 100 & 49.18839153959666 & 873.3341275209051 \\ \hline
-TOTAL & 400 & 10.672358591248667 & 189.48647612059767 \\ \hline
+1Thread & 100 & 4.946 & 87.817 \\ \hline
+2Threads & 100 & 9.870 & 175.253 \\ \hline
+4Threads & 100 & 19.685 & 349.505 \\ \hline
+10Threads & 100 & 49.189 & 873.334 \\ \hline
+TOTAL & 400 & 10.672 & 189.486 \\ \hline
 \end{tabular}
-\caption{My caption}
+\caption{Load-test for http-server with latency simulation}
 \end{table}
+\begin{figure}[H]
+\includegraphics[scale=0.5]{delay.png}
+\caption{Throughput/sec for different number of threads}
+\end{figure}
+
+As can be seen from the benchmark-results with the latency-simulation, the througput is much lower, obviously. What's interesting here is the througput gains we get by having multiple threads issuing the requests in parallell.
+\subsection{Sub-assignment 2. A Multi-User Information System for NOG}
+The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done on the sub-assignment 1 http-server, number of calls done for each method is 100.\\
+%%Table with borders 
+\begin{table}[H]
+\centering
+\label{Performance test for rmi-server}
+\begin{tabular}{|l|l|r|}
+\hline
+\textbf{Method}  & \textbf{No. calls} & \textbf{Time (s)} \\ \hline
+getParticipants	& 100 & 0.926 \\ \hline
+addParticipant	& 100 & 0.293 \\ \hline
+deleteParticipant & 100 & 0.110 \\ \hline
+deleteParticipant & 100 & 0.211 \\ \hline
+\end{tabular}
+\caption{Performance-test for rmi-server}
+\end{table}
+\begin{figure}[H]
+\includegraphics[scale=0.5]{rmiplot.png}
+\caption{Benchmark results.}
+\end{figure}
+The result is not very suprising, \textit{getParticipant} is by far the method that takes the most  time and \textit{deleteParticipant} takes the least. \\
+
+This was not a sophisticated load-test but we can still see that the rmi-server is alot slower than the http-server in sub-assignment 1, if we convert the data in the table above we can get that the rmi-server can handle 100 calls for getParticipants in $\approx 0.92$ seconds. In comparison with the load-test result from sub-assignment 1 (the single-threaded version) which could handle $\approx 990$ GET-requestst of the participants, the rmi-server is way slower. The fact that the rmi-server is slower than the http-server is not suprising since the http-server simply reads from a tsv file while the rmi-server goes through many more steps: conversion from relational data to object-data with the ORM, compile psql-commands down to sql etc. but I did'nt expect the differencies to be this big.
 \section{Documentation}
 \newpage
 \nocite{*}
