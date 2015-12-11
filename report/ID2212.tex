@@ -82,16 +82,23 @@ Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \end{itemize}
 \newpage
 \section{The application}
-\subsection{Functionality}
-\subsection{Protocols used}
-\subsection{GUI}
-\subsection{Architecture}
-
-\section{Load-testing}
 \subsection{Sub-assignment 1. A Single-User Information System for NOG}
+\subsubsection{Functionality}
+Distributed java application that allows storing and updating information about participants in NOG. The server is using the HTTP protocol and only supports GET and PUT methods (PUT For storing and GET for fetching). The server is multithreaded but doesnt provide any multi-user semantics in the likes of keeping consistent data among clients (hence the minimized protocol of GET/PUT).
+The client is a simple http-client atached with a GUI developed with Java Swing.
+\subsubsection{Protocols used}
+\begin{itemize}
+\item HTTP 
+  \begin{itemize}
+  \item PUT/GET methods.
+  \end{itemize}
+\end{itemize}
+\subsubsection{GUI}
+\subsubsection{Architecture}
+\subsubsection{Load-testing}
 These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
-My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently.
-\subsubsection{Without latency simulation}
+My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. \\
+\textbf{Without latency simulation}
 %%Table with borders 
 \begin{table}[H]
 \centering
@@ -108,14 +115,14 @@ TOTAL & 400 & 1486.989 & 26401.313 \\ \hline
 \caption{Load-test for http-server}
 \end{table}
 \begin{figure}[H]
-\includegraphics[scale=0.5]{no_delay.png}
+\includegraphics[scale=0.7]{no_delay.png}
 \caption{Throughput/sec for different number of threads}
 \end{figure}
-The result show that 10 threads gave more than doubled the througput compared to 1 thread. But it was'nt the result I expected, I expected a linear growth in throughput with respect to number of threads, until we reach $\approx 7$ threads (which is the maximum number of threads that can run in parallell on the test-machine) where the througput would stabilize around some value.
-\subsubsection{With latency simulation}
-Since the server was running on my local machine it barely was'ny any latency between the requests at all, I figured that was the reason the tests did'nt match my expectations.
-To simulate network-latency that might occur outside of the test-environment I added a 200 millisecond delay at the server while handling the requests and re-did the tests to see if it had any effect.
-\\
+The result show that 10 threads gave more than doubled the througput compared to 1 thread. But it was'nt the result I expected. \\
+I expected a linear growth in throughput with respect to number of threads until we reach $\approx 7$ threads (which is the maximum number of threads that can run in parallell on the test-machine) where the througput would stabilize around some value. \\ \\ 
+\textbf{With latency simulation} \\ 
+Since the server was running on my local machine it barely was'nt any latency between the requests at all, I figured that was the reason the tests did'nt match my expectations.
+To simulate network-latency that might occur outside of the test-environment I added a 200 millisecond delay at the server while handling the requests and re-did the tests to see what  effect it gave.
 %%Table with borders 
 \begin{table}[H]
 \centering
@@ -132,12 +139,34 @@ TOTAL & 400 & 10.672 & 189.486 \\ \hline
 \caption{Load-test for http-server with latency simulation}
 \end{table}
 \begin{figure}[H]
-\includegraphics[scale=0.5]{delay.png}
+\includegraphics[scale=0.7]{delay.png}
 \caption{Throughput/sec for different number of threads}
 \end{figure}
+As can be seen from the benchmark-results with the latency-simulation, the througput is much lower, obviously.
 
-As can be seen from the benchmark-results with the latency-simulation, the througput is much lower, obviously. What's interesting here is the througput gains we get by having multiple threads issuing the requests in parallell.
+What's interesting here is the througput gains we get by having multiple threads issuing the requests in parallell, we can see that 10 threads issuing GET-requests in semi-parallell give $\approx 10$ times higher througput/sec than 1 thread.
 \subsection{Sub-assignment 2. A Multi-User Information System for NOG}
+\subsubsection{Functionality}
+A multi-user distributed application that allows storing, fetching and updating (delete, edit, add) participants data. The server is developed with Java RMI and the persistence layer is developed with JPA (Java Persistence API). The underlying database is PostgreSQL. \\ \\
+The server is multithreaded (with java rmi) and provides functionality to let many user at a time update and have local copies of the data where every update will be replicated among every other user that is connected.
+The client is a simple Java RMI client with a Java Swing GUI.
+\subsubsection{Protocols used}
+Custom developed protocol for remote method calls between server and client. \\
+\textbf{Server-interface:}
+\begin{itemize}
+\item getParticipants
+\item putParticipants
+\item addParticipant
+\item deleteParticipant
+\item editParticipant
+\end{itemize} 
+\textbf{Client-interface:}
+\begin{itemize}
+\item updateParticipants
+\end{itemize}
+\subsubsection{GUI}
+\subsubsection{Architecture}
+\subsubsection{Load-testing}
 The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done on the sub-assignment 1 http-server, number of calls done for each method is 100.\\
 %%Table with borders 
 \begin{table}[H]
@@ -154,12 +183,40 @@ deleteParticipant & 100 & 0.211 \\ \hline
 \caption{Performance-test for rmi-server}
 \end{table}
 \begin{figure}[H]
-\includegraphics[scale=0.5]{rmiplot.png}
+\includegraphics[scale=0.7]{rmiplot.png}
 \caption{Benchmark results.}
 \end{figure}
 The result is not very suprising, \textit{getParticipant} is by far the method that takes the most  time and \textit{deleteParticipant} takes the least. \\
 
 This was not a sophisticated load-test but we can still see that the rmi-server is alot slower than the http-server in sub-assignment 1, if we convert the data in the table above we can get that the rmi-server can handle 100 calls for getParticipants in $\approx 0.92$ seconds. In comparison with the load-test result from sub-assignment 1 (the single-threaded version) which could handle $\approx 990$ GET-requestst of the participants, the rmi-server is way slower. The fact that the rmi-server is slower than the http-server is not suprising since the http-server simply reads from a tsv file while the rmi-server goes through many more steps: conversion from relational data to object-data with the ORM, compile psql-commands down to sql etc. but I did'nt expect the differencies to be this big.
+\subsection{Sub-assignment 3. Chat Rooms for NOG}
+\subsubsection{Functionality}
+Distributed chat application for NOG users.
+The server is deveoped with java RMI and provides functionality for users to create/destroy/add chatrooms, to Direct-Message other users and to block users.
+
+The client is developed with java-rmi and is attached with a GUI developed with java Swing.
+\subsubsection{Protocols used}
+Custom developed protocol for remote method calls between server and client. \\
+\textbf{Server-interface:}
+\begin{itemize}
+\item getClients
+\item registerClient
+\item deRegisterClient
+\item getChatRooms,
+\item addChatRoom
+\item sendMessage
+\item joinChat
+\item destroyChatRoom
+\end{itemize}
+\textbf{Client-interface:}
+\begin{itemize}
+\item updateClients
+\item updateChatRooms
+\item updateChat
+\item chatRoomDestroyed
+\end{itemize}
+\subsubsection{GUI}
+\subsubsection{Architecture}
 \section{Documentation}
 \newpage
 \nocite{*}
