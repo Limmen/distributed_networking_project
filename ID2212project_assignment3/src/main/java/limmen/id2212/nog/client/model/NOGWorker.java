@@ -20,10 +20,11 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private NogChatServer serverobj;
     private Client client;
     private final ServerCommand command;
-    private GuiController contr;
+    private final GuiController contr;
     private String username;
     private ChatRoom chatRoom;
     private String message;
+    private int id;
     
     public NOGWorker(NogChatServer serverobj, GuiController contr, ServerCommand command, Client client) {
         this.client = client;
@@ -44,6 +45,13 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         this.contr = contr;
         this.message = message;
     }
+    public NOGWorker(NogChatServer serverobj, GuiController contr, ServerCommand command, int id, Client client) {
+        this.serverobj = serverobj;
+        this.client = client;
+        this.command = command;
+        this.contr = contr;
+        this.id = id;
+    }
     @Override
     protected Boolean doInBackground() {
         switch(command.getCommandName()){
@@ -61,6 +69,12 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
                 break;
             case sendMessage:
                 sendMessage();
+                break;
+            case joinChat:
+                joinChat();
+                break;
+            case destroyChatRoom:
+                destroyChatRoom();
                 break;
         }
         return true;
@@ -110,6 +124,23 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         }
         catch(NameAlreadyTakenException e2){
             contr.failedRegistration(client);
+        }
+    }
+    private void joinChat(){
+        try{
+            serverobj.joinChatRoom(client, id);            
+            contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void destroyChatRoom(){
+        try{
+            serverobj.destroyChatRoom(id);         
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
         }
     }
     

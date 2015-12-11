@@ -19,7 +19,6 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
     private final ArrayList<Client> users = new ArrayList();
     private final ArrayList<String> messages = new ArrayList();
     private final Client creator;
-    
     public ChatRoomImpl(Client creator, int id) throws RemoteException{
         this.creator = creator;
         this.id = id;
@@ -45,7 +44,8 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
 
     @Override
     public void addMessage(Client user , String message) throws RemoteException {
-        messages.add(user.getName() + " " + message + "\n");
+        messages.add(user.getName() + ": " + message + "\n");
+        notifyUsers();
     }
 
     @Override
@@ -55,6 +55,7 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
 
     @Override
     public void addUser(Client user) throws RemoteException {
+        if(!users.contains(user))
         users.add(user);
     }
 
@@ -69,10 +70,21 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
             System.out.println("creator is user");            
         }
     }
+    @Override
+    public void destroy() throws RemoteException {
+        for(Client c : users){
+            c.chatRoomDestroyed(creator.getName(), id);
+        }
+    }
 
     @Override
-    public void destroy(Client user) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean equals(ChatRoom r) throws RemoteException {
+        return r.getID() == id;
+    }
+    private void notifyUsers() throws RemoteException{
+        for(Client c : users){
+            c.updateChat(this, messages);
+        }
     }
     
 }

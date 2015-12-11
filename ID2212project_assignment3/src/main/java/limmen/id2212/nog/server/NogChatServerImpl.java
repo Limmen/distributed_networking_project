@@ -17,14 +17,14 @@ import limmen.id2212.nog.client.model.Client;
 public class NogChatServerImpl extends UnicastRemoteObject implements NogChatServer {
     private final String serverName;
     private ArrayList<Client> clients = new ArrayList();
-    private ArrayList<ChatRoom> chatrooms = new ArrayList();
+    private ArrayList<ChatRoom> chatRooms = new ArrayList();
     private int idCount = 0;
     public NogChatServerImpl(String serverName) throws RemoteException{
         this.serverName = serverName;
     }
     @Override
     public ArrayList<ChatRoom> getChatRooms() throws RemoteException {
-        return chatrooms;
+        return chatRooms;
     }
 
     @Override
@@ -38,9 +38,9 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
 
     @Override
     public void addChatRoom(Client creator) throws RemoteException {
-        chatrooms.add(new ChatRoomImpl(creator ,incrementId()));
+        chatRooms.add(new ChatRoomImpl(creator ,incrementId()));
         for(Client c : clients){
-            c.updateChatRooms(chatrooms);
+            c.updateChatRooms(chatRooms);
         }
     }
 
@@ -48,7 +48,7 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
     public void deRegisterClient(Client client) throws RemoteException {
         clients.remove(client);
         ArrayList<ChatRoom> updRooms = new ArrayList();
-        for(ChatRoom r : chatrooms){
+        for(ChatRoom r : chatRooms){
             if (r.getUsers().contains(client)){
                 r.removeUser(client);
                 if(!r.getCreator().equals(client))
@@ -58,7 +58,7 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         for(Client c : clients){
             c.updateClients(clients);
         }
-        this.chatrooms = updRooms;
+        this.chatRooms = updRooms;
         System.out.println("Client deRegistered, size : " + clients.size());
     }
 
@@ -71,6 +71,32 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         clients.add(client);
         for(Client c : clients){
             c.updateClients(clients);
+        }
+    }
+
+    @Override
+    public void joinChatRoom(Client client, int id) throws RemoteException {
+        for(ChatRoom r : chatRooms){
+            if(r.getID() == id)
+                r.addUser(client);
+        }
+    }
+
+    @Override
+    public void destroyChatRoom(int id) throws RemoteException {
+        ChatRoom room = null;
+        for(ChatRoom r : chatRooms){
+            if(r.getID() == id){
+                room = r;
+            }
+        }
+        chatRooms.remove(room);
+        notifyClients();
+        room.destroy();        
+    }
+    private void notifyClients() throws RemoteException{
+        for(Client c : clients){
+            c.updateChatRooms(chatRooms);
         }
     }
     

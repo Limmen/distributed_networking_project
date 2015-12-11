@@ -11,7 +11,9 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
@@ -54,8 +56,18 @@ public class GuiController {
             }
         });
     }
+    public void chatRoomDestroyed(final String creator,final int id){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JOptionPane.showMessageDialog(null, "ChatRoom with id: " + id +
+                        " was destroyed by: " + creator,
+                        "ChatRoomDestroyed", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
     void getClients(){
-        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();        
+        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
     }
     void getChatRooms(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
@@ -85,7 +97,16 @@ public class GuiController {
             }
         });
     }
+    public void updateChat(final ChatRoom r, final ArrayList<String> messages){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame.updateChat(r, messages);
+            }
+        });
+    }
     public void successfulRegistration(Client client){
+        System.out.println("Successful reg");
         this.client = client;
         mainFrame = new MainFrame(contr);
         startFrame.setVisible(false);
@@ -111,9 +132,11 @@ public class GuiController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0){
+                System.out.println("Registering");
                 new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.registerClient), nameField.getText()).execute();
             }
             else{
+                System.out.println("invalidInput");
                 invalidInput();
             }
             nameField.setText("");
@@ -139,16 +162,71 @@ public class GuiController {
             messageArea.setText("");
         }
     }
+    class JoinChatRoomListener implements ActionListener {
+        private final JTable table;
+        
+        JoinChatRoomListener(JTable table){
+            this.table = table;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int row = table.getSelectedRow();
+            if(row != -1){
+                int chatRoomID = Integer.parseInt((String)table.getModel().getValueAt(table.convertRowIndexToModel(row), 0));
+                new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.joinChat), chatRoomID, client).execute();
+            }
+        }
+    }
     Client getClient(){
         return client;
     }
-        //ActionListener for connect-button at startframe.
-    class NewChatRoomListener implements ActionListener {                
-        NewChatRoomListener(){                             
+    //ActionListener for connect-button at startframe.
+    class NewChatRoomListener implements ActionListener {
+        NewChatRoomListener(){
         }
         @Override
         public void actionPerformed(ActionEvent e) {
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.addChatRoom), client).execute();
+        }
+    }
+    class DestroyChatRoomListener implements ActionListener {
+        private int id;
+        DestroyChatRoomListener(int id){
+            this.id = id;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+        }
+    }
+    class LeaveChatRoomListener implements ActionListener {
+        private int id;
+        LeaveChatRoomListener(int id){
+            this.id = id;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+        }
+    }
+    class BlockUserListener implements ActionListener {
+        private JList users;
+        BlockUserListener(JList users){
+            this.users = users;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+        }
+    }
+    class InviteUserListener implements ActionListener {
+        private JList users;
+        InviteUserListener(JList users){
+            this.users = users;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
         }
     }
     void quit(){

@@ -16,5 +16,7 @@ public enum ServerCommandName {
     deRegisterClient,
     getChatRooms,
     addChatRoom,
-    sendMessage;
+    sendMessage,
+    joinChat,
+    destroyChatRoom;
 }

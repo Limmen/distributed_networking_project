@@ -23,11 +23,6 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
         this.username = username;
     }
     @Override
-    public void notifyNewMessage(ArrayList<String> messages) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void notifyChatRoomDestroyed(ChatRoom room) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -45,6 +40,21 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     @Override
     public void updateChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException {
         contr.updateMainFrameChatRooms(chatRooms);
+    }
+    
+    @Override
+    public boolean equals(Client c) throws RemoteException {
+        return c.getName().equals(username);
+    }
+
+    @Override
+    public void updateChat(ChatRoom r, ArrayList<String> messages) throws RemoteException {
+        contr.updateChat(r, messages);
+    }
+
+    @Override
+    public void chatRoomDestroyed(String creator, int id) throws RemoteException {
+        contr.chatRoomDestroyed(creator, id);
     }
     
 }

@@ -78,6 +78,10 @@ public class MainPanel extends JPanel{
         newChatRoomButton.setFont(PBold);
         newChatRoomButton.addActionListener(contr.new NewChatRoomListener());
         add(newChatRoomButton, "span 2, gaptop 20");
+        JButton joinChatRoomButton = new JButton("Join selected chatRoom");
+        joinChatRoomButton.setFont(PBold);
+        joinChatRoomButton.addActionListener(contr.new JoinChatRoomListener(chatRoomsTable));
+        add(joinChatRoomButton, "span 2");
     }
     void updateMainFrameClients(ArrayList<Client> clients) throws RemoteException{
         if(clients.size() < 1 )
@@ -90,8 +94,11 @@ public class MainPanel extends JPanel{
         revalidate();
     }
     void updateMainFrameChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException{
+        chatRoomsModel.getDataVector().removeAllElements();
         if(chatRooms.size() < 1 )
             return;
+        for(ChatRoom r : chatRooms)
+            System.out.println("roM" + r.getID());
         String[][] rowData = new String[chatRooms.size()][3];
         for(int i = 0; i <  chatRooms.size(); i++)
         {
@@ -100,7 +107,11 @@ public class MainPanel extends JPanel{
             rowData[i][1] = c.getCreator().getName();
             rowData[i][2] = Integer.toString(c.getUsers().size());
         }
+        for(int i = 0; i < rowData.length; i++){
+            System.out.println("rowData: " + rowData[i][0]);
+        }
         chatRoomsModel.setDataVector(rowData, chatRoomColumnNames);
+        chatRoomsTable.repaint();
         repaint();
         revalidate();
     }

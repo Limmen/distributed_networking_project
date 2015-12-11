@@ -14,10 +14,12 @@ import limmen.id2212.nog.server.ChatRoom;
  *
  * @author kim
  */
-public interface Client extends Remote {
-    public void notifyNewMessage(ArrayList<String> messages) throws RemoteException;
+public interface Client extends Remote {    
     public void notifyChatRoomDestroyed(ChatRoom room) throws RemoteException;
     public String getName() throws RemoteException;
     public void updateClients(ArrayList<Client> clients) throws RemoteException;
     public void updateChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException;
+    public boolean equals(Client c) throws RemoteException;
+    public void updateChat(ChatRoom r, ArrayList<String> messages) throws RemoteException;
+    public void chatRoomDestroyed(String creator, int id) throws RemoteException;
 }
