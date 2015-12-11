@@ -85,7 +85,7 @@ Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \subsection{Sub-assignment 1. A Single-User Information System for NOG}
 \subsubsection{Functionality}
 Distributed java application that allows storing and updating information about participants in NOG. The server is using the HTTP protocol and only supports GET and PUT methods (PUT For storing and GET for fetching). The server is multithreaded but doesnt provide any multi-user semantics in the likes of keeping consistent data among clients (hence the minimized protocol of GET/PUT).
-The client is a simple http-client atached with a GUI developed with Java Swing.
+\\\\The client is a simple http-client atached with a GUI developed with Java Swing.
 \subsubsection{Protocols used}
 \begin{itemize}
 \item HTTP 
@@ -149,7 +149,7 @@ What's interesting here is the througput gains we get by having multiple threads
 \subsubsection{Functionality}
 A multi-user distributed application that allows storing, fetching and updating (delete, edit, add) participants data. The server is developed with Java RMI and the persistence layer is developed with JPA (Java Persistence API). The underlying database is PostgreSQL. \\ \\
 The server is multithreaded (with java rmi) and provides functionality to let many user at a time update and have local copies of the data where every update will be replicated among every other user that is connected.
-The client is a simple Java RMI client with a Java Swing GUI.
+\\\\ The client is a simple Java RMI client with a Java Swing GUI.
 \subsubsection{Protocols used}
 Custom developed protocol for remote method calls between server and client. \\
 \textbf{Server-interface:}
@@ -193,8 +193,7 @@ This was not a sophisticated load-test but we can still see that the rmi-server 
 \subsubsection{Functionality}
 Distributed chat application for NOG users.
 The server is deveoped with java RMI and provides functionality for users to create/destroy/add chatrooms, to Direct-Message other users and to block users.
-
-The client is developed with java-rmi and is attached with a GUI developed with java Swing.
+\\ \\The client is developed with java-rmi and is attached with a GUI developed with java Swing.
 \subsubsection{Protocols used}
 Custom developed protocol for remote method calls between server and client. \\
 \textbf{Server-interface:}
