@@ -108,6 +108,9 @@ public class ChatPanel extends JPanel{
         scroll = new JScrollPane(blockedList);
         scroll.setPreferredSize(new Dimension(200,150));
         add(scroll, "span 2");
+        JButton unBlockButton = new JButton("Unblock selected user");
+        unBlockButton.addActionListener(contr. new UnBlockUserListener(blockedList));
+        add(unBlockButton, "span 2");
         updateChat();    
         updateBlocked();
     }

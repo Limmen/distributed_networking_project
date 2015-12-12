@@ -81,6 +81,12 @@ public class MainPanel extends JPanel{
         scroll = new JScrollPane(usersList);
         scroll.setPreferredSize(new Dimension(200,400));
         usersPanel.add(scroll, "span 1");
+        JButton blockButton = new JButton("Block selected user");
+        blockButton.addActionListener(contr. new BlockUserListener(usersList));
+        JButton inviteButton = new JButton("DM selected user");
+        inviteButton.addActionListener(contr. new InviteUserListener(usersList));
+        usersPanel.add(blockButton, "span 1");
+        usersPanel.add(inviteButton, "span 1");
         add(chatRoomsPanel, "span 1");
         add(usersPanel, "span 1");
         JButton newChatRoomButton = new JButton("Create new chatroom");
@@ -100,6 +106,9 @@ public class MainPanel extends JPanel{
         scroll = new JScrollPane(blockedList);
         scroll.setPreferredSize(new Dimension(200,150));
         add(scroll, "span 2");
+        JButton unBlockButton = new JButton("Unblock selected user");
+        unBlockButton.addActionListener(contr. new UnBlockUserListener(blockedList));
+        add(unBlockButton, "span 2");
         updateBlocked();
     }
     void updateBlocked(ArrayList<String> blocked){

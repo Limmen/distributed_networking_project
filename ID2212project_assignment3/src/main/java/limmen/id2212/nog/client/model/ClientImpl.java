@@ -75,5 +75,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     public void updateLeftChatRoom() throws RemoteException {
         contr.getChatRooms();
     }
+
+    @Override
+    public void unBlockClient(String c) throws RemoteException {
+        blocked.remove(c);
+        contr.updateBlocked(blocked);
+    }
     
 }

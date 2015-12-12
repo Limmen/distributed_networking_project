@@ -70,7 +70,7 @@ public class GuiController {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-               mainFrame.updateBlocked(blocked);
+                mainFrame.updateBlocked(blocked);
             }
         });
     }
@@ -223,6 +223,21 @@ public class GuiController {
         public void actionPerformed(ActionEvent e) {
             try{
                 client.blockClient((String) users.getSelectedValue());
+            }
+            catch(RemoteException e2){
+                remoteExceptionHandler(e2);
+            }
+        }
+    }
+    class UnBlockUserListener implements ActionListener {
+        private JList blockedUsers;
+        UnBlockUserListener(JList blockedUsers){
+            this.blockedUsers = blockedUsers;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try{
+                client.unBlockClient((String) blockedUsers.getSelectedValue());
             }
             catch(RemoteException e2){
                 remoteExceptionHandler(e2);
