@@ -23,7 +23,7 @@ import limmen.id2212.nog.server.ChatRoom;
  */
 public class Container extends JTabbedPane{
     private final GuiController contr;
-    private MainPanel mainPanel;
+    private final MainPanel mainPanel;
     private final Color defaultBackColor;
     private final Color defaultForeColor;
     private final ArrayList<ChatPanel> blinkingPanes = new ArrayList();
@@ -33,10 +33,12 @@ public class Container extends JTabbedPane{
         addTab("Chat center", mainPanel);
         addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Tab: " + getSelectedIndex());
                 if(getSelectedIndex() != 0){
-                if(blinkingPanes.contains((ChatPanel) getComponentAt(getSelectedIndex())))
-                    blinkingPanes.remove((ChatPanel) getComponentAt(getSelectedIndex()));
+                    if(blinkingPanes.contains((ChatPanel) getComponentAt(getSelectedIndex()))){
+                        blinkingPanes.remove((ChatPanel) getComponentAt(getSelectedIndex()));
+                        setForegroundAt(indexOfComponent(getComponentAt(getSelectedIndex())), defaultForeColor);
+                        setBackgroundAt(indexOfComponent(getComponentAt(getSelectedIndex())), defaultBackColor);
+                    }
                 }
             }
         });
@@ -56,40 +58,39 @@ public class Container extends JTabbedPane{
         mainPanel.updateMainFrameClients(clients);
     }
     void updateMainFrameChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException{
-        mainPanel.updateMainFrameChatRooms(chatRooms);
+        ArrayList<ChatRoom> publicRooms = new ArrayList();
         for(ChatRoom r : chatRooms){
+            if(r.chatRoomIsPublic())
+                publicRooms.add(r);
             for(Client c : r.getUsers()){
                 if(c.getName().equals(contr.getClient().getName())){
-                    System.out.println("Name is equals but references is: " + c.equals(contr.getClient()));
-                    System.out.println("The chatroom contains this user");
                     if(!checkIfTabisCreated("ChatRoom " +  r.getID())){
-                        System.out.println("The chatRoom tab is not created");
                         addTab("ChatRoom " + r.getID(), new ChatPanel(r, contr));
                     }
-                    System.out.println("The chatroom tab is created");
                 }
             }
         }
+        mainPanel.updateMainFrameChatRooms(publicRooms);
         for(ChatPanel panel : getAllChatTabs()){
             if(!chatRooms.contains(panel.getChatRoom()))
                 remove(panel);
-        }       
+        }
         repaint();
     }
     void updateChat(ChatRoom r){
         try{
-        for(int i = 1; i < getTabCount(); i++){
-            ChatPanel p = (ChatPanel) getComponentAt(i);
-            if(p.getChatRoom().equals(r)){
-                System.out.println("Updating chat!");
-                p.updateChat();
-                if(!blinkingPanes.contains(p) && !p.equals((ChatPanel) getComponentAt(getSelectedIndex())))
-                    blinkingPanes.add(p);
+            for(int i = 1; i < getTabCount(); i++){
+                ChatPanel p = (ChatPanel) getComponentAt(i);
+                if(p.getChatRoom().equals(r)){
+                    p.updateChat();
+                    
+                    if(!blinkingPanes.contains(p) && indexOfComponent(p) != getSelectedIndex())
+                        blinkingPanes.add(p);
+                }
             }
         }
-        }
-        catch(RemoteException e){
-            
+        catch(RemoteException | ClassCastException e){
+            e.printStackTrace();
         }
     }
     void updateBlocked(ArrayList<String> blocked){
@@ -114,17 +115,17 @@ public class Container extends JTabbedPane{
             chats.add((ChatPanel) getComponentAt(i));
         }
         return chats;
-    } 
+    }
     private void blink(boolean blinkFlag) {
         if (blinkFlag) {
             for(ChatPanel p : blinkingPanes){
                 setForegroundAt(indexOfComponent(p), Color.green);
-                setBackgroundAt(indexOfComponent(p), Color.orange);   
+                setBackgroundAt(indexOfComponent(p), Color.orange);
             }
         } else {
-             for(ChatPanel p : blinkingPanes){
+            for(ChatPanel p : blinkingPanes){
                 setForegroundAt(indexOfComponent(p), defaultForeColor);
-                setBackgroundAt(indexOfComponent(p), defaultBackColor);   
+                setBackgroundAt(indexOfComponent(p), defaultBackColor);
             };
         }
         repaint();

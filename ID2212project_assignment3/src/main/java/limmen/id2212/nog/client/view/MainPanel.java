@@ -137,8 +137,6 @@ public class MainPanel extends JPanel{
         chatRoomsModel.getDataVector().removeAllElements();
         if(chatRooms.size() < 1 )
             return;
-        for(ChatRoom r : chatRooms)
-            System.out.println("roM" + r.getID());
         String[][] rowData = new String[chatRooms.size()][3];
         for(int i = 0; i <  chatRooms.size(); i++)
         {
@@ -146,9 +144,6 @@ public class MainPanel extends JPanel{
             rowData[i][0] = Integer.toString(c.getID());
             rowData[i][1] = c.getCreator().getName();
             rowData[i][2] = Integer.toString(c.getUsers().size());
-        }
-        for(int i = 0; i < rowData.length; i++){
-            System.out.println("rowData: " + rowData[i][0]);
         }
         chatRoomsModel.setDataVector(rowData, chatRoomColumnNames);
         chatRoomsTable.repaint();

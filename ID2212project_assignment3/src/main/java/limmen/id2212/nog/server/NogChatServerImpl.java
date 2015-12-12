@@ -68,7 +68,6 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
             c.updateClients(clients);
         }
         this.chatRooms = updRooms;
-        System.out.println("Client deRegistered, size : " + clients.size());
     }
 
     @Override
@@ -116,7 +115,7 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
                 r.removeUser(client);                
             }
         }        
-        
+        notifyClients();
     }
 
     @Override

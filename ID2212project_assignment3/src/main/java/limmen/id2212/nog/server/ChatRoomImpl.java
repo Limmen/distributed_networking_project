@@ -68,13 +68,12 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
     
     @Override
     public void removeUser(Client user) throws RemoteException {
-        System.out.println("trying to remove user/cr");
         if(users.contains(user)){
             users.remove(user);
-            System.out.println("User removed!");
         }
         messages.add("Server: " + "user " + user.getName() + " left the chatroom \n");
         notifyUsers();
+        user.updateLeftChatRoom();
     }
     @Override
     public void destroy() throws RemoteException {

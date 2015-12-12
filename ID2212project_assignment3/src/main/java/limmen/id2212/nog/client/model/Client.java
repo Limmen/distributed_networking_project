@@ -24,4 +24,5 @@ public interface Client extends Remote {
     public void chatRoomDestroyed(String creator, int id) throws RemoteException;
     public void blockClient(String c) throws RemoteException;
     public ArrayList<String> getBlockedList() throws RemoteException;
+    public void updateLeftChatRoom() throws RemoteException;
 }

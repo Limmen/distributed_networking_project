@@ -77,7 +77,7 @@ public class GuiController {
     void getClients(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
     }
-    void getChatRooms(){
+    public void getChatRooms(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
     }
     public void updateMainFrameClients(final ArrayList<Client> clients){
@@ -114,7 +114,6 @@ public class GuiController {
         });
     }
     public void successfulRegistration(Client client){
-        System.out.println("Successful reg");
         this.client = client;
         mainFrame = new MainFrame(contr);
         startFrame.setVisible(false);
@@ -140,11 +139,9 @@ public class GuiController {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(nameField.getText().length() > 0){
-                System.out.println("Registering");
                 new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.registerClient), nameField.getText()).execute();
             }
             else{
-                System.out.println("invalidInput");
                 invalidInput();
             }
             nameField.setText("");
