@@ -23,8 +23,17 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         this.serverName = serverName;
     }
     @Override
-    public ArrayList<ChatRoom> getChatRooms() throws RemoteException {
-        return chatRooms;
+    public ArrayList<ChatRoom> getChatRooms(Client c) throws RemoteException {
+        ArrayList<ChatRoom> rooms = new ArrayList();
+        for(ChatRoom r : chatRooms){
+            if(r.chatRoomIsPublic())
+                rooms.add(r);
+            else{
+                if(r.getUsers().contains(c))
+                    rooms.add(r);
+            }            
+        }
+        return rooms;
     }
 
     @Override
@@ -38,7 +47,7 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
 
     @Override
     public void addChatRoom(Client creator) throws RemoteException {
-        chatRooms.add(new ChatRoomImpl(creator ,incrementId()));
+        chatRooms.add(new ChatRoomImpl(creator ,incrementId(), true));
         for(Client c : clients){
             c.updateChatRooms(chatRooms);
         }
@@ -98,6 +107,34 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         for(Client c : clients){
             c.updateChatRooms(chatRooms);
         }
+    }
+
+    @Override
+    public void leaveChatRoom(int id, Client client) throws RemoteException {
+        for(ChatRoom r : chatRooms){
+            if(r.getID() == id){
+                r.removeUser(client);                
+            }
+        }        
+        
+    }
+
+    @Override
+    public Client getClient(String username) throws RemoteException {
+        for(Client c : clients){
+            if(c.getName().equals(username))
+                return c;
+        }
+        return null;
+    }
+
+    @Override
+    public void addPrivateChatRoom(Client creator, Client c) throws RemoteException {
+        ChatRoom r = new ChatRoomImpl(creator, incrementId(),false);
+        r.addUser(c);
+        chatRooms.add(r);
+        creator.updateChatRooms(chatRooms);
+        c.updateChatRooms(chatRooms);
     }
     
 }

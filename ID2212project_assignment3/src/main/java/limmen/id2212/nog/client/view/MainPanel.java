@@ -32,15 +32,24 @@ public class MainPanel extends JPanel{
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final DefaultTableModel chatRoomsModel;
     private final String[] chatRoomColumnNames;
-    private final DefaultListModel usersModel;    
+    private final DefaultListModel usersModel;   
+    private final DefaultListModel blockedModel;   
     private final JTable chatRoomsTable;
     private final JList usersList;
+    private final JList blockedList;
     public MainPanel(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("NOG Chat rooms");
         lbl.setFont(Title);
         add(lbl, "span 2");
+        try{
+        lbl = new JLabel("User: " + contr.getClient().getName());
+        add(lbl, "span 2, gaptop 10");
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
         JPanel chatRoomsPanel = new JPanel(new MigLayout("wrap 1"));
         chatRoomColumnNames = new String[3];
         chatRoomColumnNames[0] = "ID";
@@ -82,6 +91,37 @@ public class MainPanel extends JPanel{
         joinChatRoomButton.setFont(PBold);
         joinChatRoomButton.addActionListener(contr.new JoinChatRoomListener(chatRoomsTable));
         add(joinChatRoomButton, "span 2");
+        lbl = new JLabel("Blocked users:");
+        lbl.setFont(Plain);
+        add(lbl, "span 2, gaptop 20");
+        blockedModel = new DefaultListModel<String>();
+        blockedList = new JList(blockedModel);
+        blockedList.setFont(Plain);
+        scroll = new JScrollPane(blockedList);
+        scroll.setPreferredSize(new Dimension(200,150));
+        add(scroll, "span 2");
+        updateBlocked();
+    }
+    void updateBlocked(ArrayList<String> blocked){
+        blockedModel.removeAllElements();
+        for(String str  : blocked){
+            blockedModel.addElement(str);
+        }        
+        repaint();
+        revalidate();
+    }
+      void updateBlocked(){
+        try{
+            blockedModel.removeAllElements();
+            for(String str  : contr.getClient().getBlockedList()){
+                blockedModel.addElement(str);
+            }
+            repaint();
+            revalidate();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
     }
     void updateMainFrameClients(ArrayList<Client> clients) throws RemoteException{
         if(clients.size() < 1 )

@@ -18,5 +18,7 @@ public enum ServerCommandName {
     addChatRoom,
     sendMessage,
     joinChat,
-    destroyChatRoom;
+    destroyChatRoom,
+    leaveChatRoom,
+    privateChatRoom;
 }

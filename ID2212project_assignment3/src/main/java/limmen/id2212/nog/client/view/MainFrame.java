@@ -46,7 +46,10 @@ class MainFrame extends JFrame {
     void updateMainFrameChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException{
         container.updateMainFrameChatRooms(chatRooms);
     }
-    void updateChat(ChatRoom r, ArrayList<String> messages){
-        container.updateChat(r, messages);
+    void updateChat(ChatRoom r){
+        container.updateChat(r);
+    }
+    void updateBlocked(ArrayList<String> blocked){
+        container.updateBlocked(blocked);
     }
 }

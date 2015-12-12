@@ -20,6 +20,8 @@ public interface Client extends Remote {
     public void updateClients(ArrayList<Client> clients) throws RemoteException;
     public void updateChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException;
     public boolean equals(Client c) throws RemoteException;
-    public void updateChat(ChatRoom r, ArrayList<String> messages) throws RemoteException;
+    public void updateChat(ChatRoom r) throws RemoteException;
     public void chatRoomDestroyed(String creator, int id) throws RemoteException;
+    public void blockClient(String c) throws RemoteException;
+    public ArrayList<String> getBlockedList() throws RemoteException;
 }

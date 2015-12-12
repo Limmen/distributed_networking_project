@@ -8,6 +8,7 @@ package limmen.id2212.nog.client.view;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,7 +32,9 @@ public class ChatPanel extends JPanel{
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final JTextArea chatArea;
     private final DefaultListModel usersModel;    
+    private final DefaultListModel blockedModel;    
     private final JList usersList;
+    private final JList blockedList;
     public ChatPanel(ChatRoom chatRoom, GuiController contr) throws RemoteException{
         this.chatRoom = chatRoom;
         this.contr = contr;
@@ -39,6 +42,13 @@ public class ChatPanel extends JPanel{
         JLabel lbl = new JLabel("ChatRoom " + chatRoom.getID());
         lbl.setFont(Title);
         add(lbl, "span 2");
+                try{
+        lbl = new JLabel("User: " + contr.getClient().getName());
+        add(lbl, "span 2, gaptop 10");
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
         chatArea = new JTextArea("");
         chatArea.setLineWrap(true);
         chatArea.setEditable(false);
@@ -89,7 +99,17 @@ public class ChatPanel extends JPanel{
             leaveRoom.addActionListener(contr. new LeaveChatRoomListener(chatRoom.getID()));
             add(leaveRoom, "span 2");
         }
-        updateChat();        
+        lbl = new JLabel("Blocked users:");
+        lbl.setFont(Plain);
+        add(lbl, "span 2, gaptop 20");
+        blockedModel = new DefaultListModel<String>();
+        blockedList = new JList(blockedModel);
+        blockedList.setFont(Plain);
+        scroll = new JScrollPane(blockedList);
+        scroll.setPreferredSize(new Dimension(200,150));
+        add(scroll, "span 2");
+        updateChat();    
+        updateBlocked();
     }
     ChatRoom getChatRoom(){
         return chatRoom;
@@ -97,7 +117,7 @@ public class ChatPanel extends JPanel{
     void updateChat(){
         String chat = "";
         try{
-            for(String s : chatRoom.getMessages()){
+            for(String s : chatRoom.getMessages(contr.getClient())){
                 chat = chat + s;
             }
             chatArea.setText(chat);
@@ -110,6 +130,27 @@ public class ChatPanel extends JPanel{
         }
         catch(RemoteException e){
             e.printStackTrace();
+        }
+    }
+    void updateBlocked(ArrayList<String> blocked){
+        blockedModel.removeAllElements();
+        for(String str  : blocked){
+            blockedModel.addElement(str);
+        }        
+        repaint();
+        revalidate();
+    }
+    void updateBlocked(){
+        try{
+            blockedModel.removeAllElements();
+            for(String str  : contr.getClient().getBlockedList()){
+                blockedModel.addElement(str);
+            }
+            repaint();
+            revalidate();
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
         }
     }
     

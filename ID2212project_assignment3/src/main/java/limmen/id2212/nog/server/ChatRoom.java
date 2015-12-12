@@ -17,7 +17,7 @@ import limmen.id2212.nog.client.model.Client;
 public interface ChatRoom extends Remote {
     
     public int getID() throws RemoteException;
-    public ArrayList<String> getMessages() throws RemoteException;
+    public ArrayList<String> getMessages(Client client) throws RemoteException;
     public ArrayList<Client> getUsers() throws RemoteException;
     public void addMessage(Client user, String message) throws RemoteException;
     public void addUser(Client user) throws RemoteException;
@@ -25,4 +25,5 @@ public interface ChatRoom extends Remote {
     public void destroy() throws RemoteException;
     public Client getCreator() throws RemoteException;
     public boolean equals(ChatRoom r) throws RemoteException;
+    public boolean chatRoomIsPublic() throws RemoteException;
 }

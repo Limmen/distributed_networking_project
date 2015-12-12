@@ -18,6 +18,7 @@ import limmen.id2212.nog.server.ChatRoom;
 public class ClientImpl extends UnicastRemoteObject implements Client {
     private final String username;
     private final GuiController contr;
+    private final ArrayList<String> blocked = new ArrayList();
     public ClientImpl(GuiController contr, String username) throws RemoteException{
         this.contr = contr;
         this.username = username;
@@ -48,13 +49,26 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void updateChat(ChatRoom r, ArrayList<String> messages) throws RemoteException {
-        contr.updateChat(r, messages);
+    public void updateChat(ChatRoom r) throws RemoteException {
+        contr.updateChat(r);
     }
 
     @Override
     public void chatRoomDestroyed(String creator, int id) throws RemoteException {
         contr.chatRoomDestroyed(creator, id);
+    }
+
+    @Override
+    public void blockClient(String c) throws RemoteException {
+        if(!c.equals(username)){
+            blocked.add(c);
+            contr.updateBlocked(blocked);
+        }
+    }
+
+    @Override
+    public ArrayList<String> getBlockedList() throws RemoteException {
+        return blocked;
     }
     
 }

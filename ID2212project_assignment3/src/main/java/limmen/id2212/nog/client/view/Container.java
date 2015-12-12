@@ -76,7 +76,7 @@ public class Container extends JTabbedPane{
         }       
         repaint();
     }
-    void updateChat(ChatRoom r, ArrayList<String> messages){
+    void updateChat(ChatRoom r){
         try{
         for(int i = 1; i < getTabCount(); i++){
             ChatPanel p = (ChatPanel) getComponentAt(i);
@@ -90,6 +90,13 @@ public class Container extends JTabbedPane{
         }
         catch(RemoteException e){
             
+        }
+    }
+    void updateBlocked(ArrayList<String> blocked){
+        mainPanel.updateBlocked(blocked);
+        for(int i = 1; i < getTabCount(); i++){
+            ChatPanel p = (ChatPanel) getComponentAt(i);
+            p.updateBlocked(blocked);
         }
     }
     private boolean checkIfTabisCreated(String title){

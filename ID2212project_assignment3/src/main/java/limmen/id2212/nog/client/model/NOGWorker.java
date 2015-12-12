@@ -52,6 +52,14 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
         this.contr = contr;
         this.id = id;
     }
+    public NOGWorker(NogChatServer serverobj, GuiController contr, ServerCommand command, String username, Client client) {
+        this.serverobj = serverobj;
+        this.client = client;
+        this.username = username;
+        this.command = command;
+        this.contr = contr;
+        this.id = id;
+    }
     @Override
     protected Boolean doInBackground() {
         switch(command.getCommandName()){
@@ -76,6 +84,12 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
             case destroyChatRoom:
                 destroyChatRoom();
                 break;
+            case leaveChatRoom:
+                leaveChatRoom();
+                break;
+            case privateChatRoom:
+                privateChatRoom();
+                break;
         }
         return true;
     }
@@ -89,7 +103,7 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     }
     private void getChatRooms(){
         try{
-            contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+            contr.updateMainFrameChatRooms(serverobj.getChatRooms(client));
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -98,7 +112,7 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private void addChatRoom(){
         try{
             serverobj.addChatRoom(client);
-            contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+            contr.updateMainFrameChatRooms(serverobj.getChatRooms(client));
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -129,7 +143,7 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private void joinChat(){
         try{
             serverobj.joinChatRoom(client, id);            
-            contr.updateMainFrameChatRooms(serverobj.getChatRooms());
+            contr.updateMainFrameChatRooms(serverobj.getChatRooms(client));
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -143,5 +157,22 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
             contr.remoteExceptionHandler(e);
         }
     }
-    
+    private void leaveChatRoom(){
+        try{
+            serverobj.leaveChatRoom(id, client);
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
+    private void privateChatRoom(){
+        try{
+            Client c = serverobj.getClient(username);
+            serverobj.addPrivateChatRoom(client, c);
+            
+        }
+        catch(RemoteException e){
+            contr.remoteExceptionHandler(e);
+        }
+    }
 }

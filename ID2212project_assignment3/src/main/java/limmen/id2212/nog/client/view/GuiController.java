@@ -66,6 +66,14 @@ public class GuiController {
             }
         });
     }
+    public void updateBlocked(final ArrayList<String> blocked){
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+               mainFrame.updateBlocked(blocked);
+            }
+        });
+    }
     void getClients(){
         new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
     }
@@ -97,11 +105,11 @@ public class GuiController {
             }
         });
     }
-    public void updateChat(final ChatRoom r, final ArrayList<String> messages){
+    public void updateChat(final ChatRoom r){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                mainFrame.updateChat(r, messages);
+                mainFrame.updateChat(r);
             }
         });
     }
@@ -206,7 +214,7 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+            new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.leaveChatRoom),id, client).execute();
         }
     }
     class BlockUserListener implements ActionListener {
@@ -216,7 +224,12 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+            try{
+                client.blockClient((String) users.getSelectedValue());
+            }
+            catch(RemoteException e2){
+                remoteExceptionHandler(e2);
+            }
         }
     }
     class InviteUserListener implements ActionListener {
@@ -226,7 +239,7 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            //new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
+            new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.privateChatRoom),(String) users.getSelectedValue(), client).execute();
         }
     }
     void quit(){
