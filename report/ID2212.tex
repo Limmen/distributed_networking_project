@@ -44,6 +44,7 @@
 \thispagestyle{firststyle}
 \begin{versionhistory}
 \vhEntry{0.1}{07.12.15}{KH}{First draft}
+\vhEntry{0.2}{13.12.15}{KH}{Error correction}
 \end{versionhistory}
 \newpage
 \tableofcontents
@@ -73,12 +74,13 @@ The platform used for the devlopment-process, benchmarks and tests is a computer
 Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \section{Software and technologies used}
 \begin{itemize}
-\item Java Remote Method Invocation (java.* package)
-\item Java Persistence API (java.* package)
-\item JDBC (java.* package)
-\item Java Swing (java.* package)
+\item Java Remote Method Invocation (java.rmi package)
+\item Java Persistence API (javax.persistence package)
+\item JDBC (java.sql package)
+\item Java Swing (javax.swing package)
 \item Java Socket (java.net package)
 \item PostgreSQL 9.3.9
+\item Apache JMeter
 \end{itemize}
 \newpage
 \section{The application}
@@ -95,6 +97,7 @@ Distributed java application that allows storing and updating information about 
 \end{itemize}
 \subsubsection{GUI}
 \subsubsection{Architecture}
+\includegraphics[scale=0.35]{assignment1_architecture.png}
 \subsubsection{Load-testing}
 These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
 My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. \\
@@ -166,6 +169,7 @@ Custom developed protocol for remote method calls between server and client. \\
 \end{itemize}
 \subsubsection{GUI}
 \subsubsection{Architecture}
+\includegraphics[scale=0.30]{assignment2_architecture.png}
 \subsubsection{Load-testing}
 The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done on the sub-assignment 1 http-server, number of calls done for each method is 100.\\
 %%Table with borders 
@@ -201,11 +205,13 @@ Custom developed protocol for remote method calls between server and client. \\
 \item getClients
 \item registerClient
 \item deRegisterClient
-\item getChatRooms,
+\item getChatRooms
 \item addChatRoom
 \item sendMessage
 \item joinChat
 \item destroyChatRoom
+\item leaveChatRoom
+\item privateChatRoom
 \end{itemize}
 \textbf{Client-interface:}
 \begin{itemize}
@@ -213,9 +219,13 @@ Custom developed protocol for remote method calls between server and client. \\
 \item updateChatRooms
 \item updateChat
 \item chatRoomDestroyed
+\item BlockClient
+\item unBlockClient
+\item getBlockedList
 \end{itemize}
 \subsubsection{GUI}
 \subsubsection{Architecture}
+\includegraphics[scale=0.30]{assignment3_architecture.png}
 \section{Documentation}
 \newpage
 \nocite{*}
