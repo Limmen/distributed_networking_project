@@ -64,16 +64,21 @@ class Container extends JTabbedPane{
     }
     void updateMainFrameChatRooms(ArrayList<ChatRoom> chatRooms) throws RemoteException{
         ArrayList<ChatRoom> publicRooms = new ArrayList();
-        for(ChatRoom r : chatRooms){
-            if(r.chatRoomIsPublic())
-                publicRooms.add(r);
-            for(Client c : r.getUsers()){
-                if(c.getName().equals(contr.getClient().getName())){
-                    if(!checkIfTabisCreated("ChatRoom " +  r.getID())){
-                        addTab("ChatRoom " + r.getID(), new ChatPanel(r, contr));
+        try{
+            for(ChatRoom r : chatRooms){
+                if(r.chatRoomIsPublic())
+                    publicRooms.add(r);
+                for(Client c : r.getUsers()){
+                    if(c.getName().equals(contr.getClient().getName())){
+                        if(!checkIfTabisCreated("ChatRoom " +  r.getID())){
+                            addTab("ChatRoom " + r.getID(), new ChatPanel(r, contr));
+                        }
                     }
                 }
             }
+        }
+        catch(NullPointerException e){
+            
         }
         mainPanel.updateMainFrameChatRooms(publicRooms);
         for(ChatPanel panel : getAllChatTabs()){
