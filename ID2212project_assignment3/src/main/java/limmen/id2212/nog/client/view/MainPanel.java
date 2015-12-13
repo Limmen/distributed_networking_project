@@ -22,30 +22,35 @@ import limmen.id2212.nog.server.ChatRoom;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * MainPanel of the MainFrame. Contains list of chatrooms and clients.
  * @author kim
  */
-public class MainPanel extends JPanel{
+class MainPanel extends JPanel{
     private final GuiController contr;
     private final Font Plain = new Font("Serif", Font.PLAIN, 14);
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final DefaultTableModel chatRoomsModel;
     private final String[] chatRoomColumnNames;
-    private final DefaultListModel usersModel;   
-    private final DefaultListModel blockedModel;   
+    private final DefaultListModel usersModel;
+    private final DefaultListModel blockedModel;
     private final JTable chatRoomsTable;
     private final JList usersList;
     private final JList blockedList;
-    public MainPanel(GuiController contr){
+    
+    /**
+     *
+     * @param contr GuiController
+     */
+    MainPanel(GuiController contr){
         this.contr = contr;
         setLayout(new MigLayout("wrap 2"));
         JLabel lbl = new JLabel("NOG Chat rooms");
         lbl.setFont(Title);
         add(lbl, "span 2");
         try{
-        lbl = new JLabel("User: " + contr.getClient().getName());
-        add(lbl, "span 2, gaptop 10");
+            lbl = new JLabel("User: " + contr.getClient().getName());
+            add(lbl, "span 2, gaptop 10");
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -115,11 +120,11 @@ public class MainPanel extends JPanel{
         blockedModel.removeAllElements();
         for(String str  : blocked){
             blockedModel.addElement(str);
-        }        
+        }
         repaint();
         revalidate();
     }
-      void updateBlocked(){
+    void updateBlocked(){
         try{
             blockedModel.removeAllElements();
             for(String str  : contr.getClient().getBlockedList()){
@@ -138,7 +143,7 @@ public class MainPanel extends JPanel{
         usersModel.removeAllElements();
         for(Client c  : clients){
             usersModel.addElement(c.getName());
-        }        
+        }
         repaint();
         revalidate();
     }

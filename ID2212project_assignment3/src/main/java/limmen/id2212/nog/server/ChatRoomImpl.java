@@ -20,6 +20,14 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
     private final ArrayList<String> messages = new ArrayList();
     private final Client creator;
     private final boolean chatRoomIsPublic;
+
+    /**
+     *
+     * @param creator
+     * @param id
+     * @param chatRoomIsPublic
+     * @throws RemoteException
+     */
     public ChatRoomImpl(Client creator, int id, boolean chatRoomIsPublic) throws RemoteException{
         this.creator = creator;
         this.id = id;
@@ -29,11 +37,22 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
                 + creator.getName() + "\n");
     }
     
+    /**
+     *
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public int getID() throws RemoteException {
         return id;
     }
     
+    /**
+     *
+     * @param client
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public ArrayList<String> getMessages(Client client) throws RemoteException {
         if(client.getBlockedList().size() > 0)
@@ -42,22 +61,43 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
             return messages;
     }
     
+    /**
+     *
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public ArrayList<Client> getUsers() throws RemoteException {
         return users;
     }
     
+    /**
+     *
+     * @param user
+     * @param message
+     * @throws RemoteException
+     */
     @Override
     public void addMessage(Client user , String message) throws RemoteException {
         messages.add(user.getName() + ": " + message + "\n");
         notifyUsers();
     }
     
+    /**
+     *
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public Client getCreator() throws RemoteException {
         return creator;
     }
     
+    /**
+     *
+     * @param user
+     * @throws RemoteException
+     */
     @Override
     public void addUser(Client user) throws RemoteException {
         if(!users.contains(user))
@@ -66,6 +106,11 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
         notifyUsers();
     }
     
+    /**
+     *
+     * @param user
+     * @throws RemoteException
+     */
     @Override
     public void removeUser(Client user) throws RemoteException {
         if(users.contains(user)){
@@ -75,6 +120,11 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
         notifyUsers();
         user.updateLeftChatRoom();
     }
+
+    /**
+     *
+     * @throws RemoteException
+     */
     @Override
     public void destroy() throws RemoteException {
         for(Client c : users){
@@ -82,6 +132,12 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
         }
     }
     
+    /**
+     *
+     * @param r
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public boolean equals(ChatRoom r) throws RemoteException {
         return r.getID() == id;
@@ -92,6 +148,11 @@ public class ChatRoomImpl extends UnicastRemoteObject implements ChatRoom {
         }
     }
     
+    /**
+     *
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public boolean chatRoomIsPublic() throws RemoteException {
         return chatRoomIsPublic;

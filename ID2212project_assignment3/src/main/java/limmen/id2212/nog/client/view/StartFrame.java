@@ -15,7 +15,8 @@ import javax.swing.JTextField;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * Startframe of the application. Contains form for entering username before
+ * connecting to the chatserver.
  * @author kim
  */
 class StartFrame extends JFrame {
@@ -51,7 +52,7 @@ class StartFrame extends JFrame {
             add(new RegisterPanel(), "span 1");
         }
     }
-    //Connect panel for the start-frame
+    //Register panel for the start-frame
     private class RegisterPanel extends JPanel{
         JTextField nameField;
         public RegisterPanel(){
@@ -64,7 +65,7 @@ class StartFrame extends JFrame {
             add(lbl, "span 1");
             nameField = new JTextField(25);
             nameField.setFont(Plain);
-            add(nameField, "span 1");            
+            add(nameField, "span 1");
             JButton joinButton = new JButton("Join");
             joinButton.setFont(PBold);
             joinButton.addActionListener(contr.new RegisterListener(nameField));

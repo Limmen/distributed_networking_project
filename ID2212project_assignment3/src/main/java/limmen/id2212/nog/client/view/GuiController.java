@@ -25,7 +25,8 @@ import limmen.id2212.nog.server.ChatRoom;
 import limmen.id2212.nog.server.NogChatServer;
 
 /**
- *
+ * A controller. All calls to the model from the view go through here.
+ * All calls from the model to update the view also goes through here.
  * @author kim
  */
 public class GuiController {
@@ -36,6 +37,9 @@ public class GuiController {
     private NogChatServer serverobj;
     private Client client;
     
+    /**
+     * Class constructor.
+     */
     public GuiController(){
         connectToServer();
         startFrame = new StartFrame(contr);
@@ -56,6 +60,15 @@ public class GuiController {
             }
         });
     }
+    
+    /**
+     * Method called when a chatroom that the client is present in gets destroyed.
+     * This is a method that will update the GUI to reflect the changes.
+     * invokeLater to explicit add the event to the EDT since this method
+     * will usually get called outside of the EDT.
+     * @param creator username of the user that destroyed the room
+     * @param id id of the chatroom
+     */
     public void chatRoomDestroyed(final String creator,final int id){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -66,6 +79,14 @@ public class GuiController {
             }
         });
     }
+    
+    /**
+     * Method called when the client list of blocked users have gotten updated.
+     * This method will update the GUI to reflect the changes.
+     * invokeLater to explicit add the event to the EDT since this method
+     * will usually get called outside of the EDT.
+     * @param blocked the updated list of blocked users.
+     */
     public void updateBlocked(final ArrayList<String> blocked){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -74,12 +95,13 @@ public class GuiController {
             }
         });
     }
-    void getClients(){
-        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
-    }
-    public void getChatRooms(){
-        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
-    }
+    /**
+     * Method called when a swing-worker have fetched the updated list of
+     * clients from the server. This method will update the GUI to reflect
+     * the changes. invokeLater to explicit add the event to the EDT since this
+     * method will get called from outside of the EDT.
+     * @param clients list of clients
+     */
     public void updateMainFrameClients(final ArrayList<Client> clients){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -93,6 +115,13 @@ public class GuiController {
             }
         });
     }
+    /**
+     * Method called when a swing-worker have fetched the updated list of
+     * chatrooms from the server. This method will update the GUI to reflect
+     * the changes. invokeLater to explicit add the event to the EDT since this
+     * method will get called from outside of the EDT.
+     * @param chatRooms list of chatrooms
+     */
     public void updateMainFrameChatRooms(final ArrayList<ChatRoom> chatRooms){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -105,6 +134,13 @@ public class GuiController {
             }
         });
     }
+    /**
+     * Method called when a chatroom that the client is present in is updated.
+     * This method will update the GUI to reflect the changes.
+     * invokeLater to explicit add the event to the EDT since this
+     * method will get called from outside of the EDT.
+     * @param r the chatroom
+     */
     public void updateChat(final ChatRoom r){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -113,13 +149,35 @@ public class GuiController {
             }
         });
     }
-    public void successfulRegistration(Client client){
+    /**
+     * Method called when a attempt to register a client at the server was
+     * successful.
+     * This method will create a new mainframe to represent the connection to
+     * the chatserver. invokeLater to explicit add the event to the EDT since
+     * this method will get called from outside the EDT.
+     *
+     * @param client The newly registered client.
+     */
+    public void successfulRegistration(final Client client){
         this.client = client;
-        mainFrame = new MainFrame(contr);
-        startFrame.setVisible(false);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                mainFrame = new MainFrame(contr);
+                startFrame.setVisible(false);
+            }
+        });
         getClients();
         getChatRooms();
     }
+    
+    /**
+     * Method called when a attempt to register a client at the server failed
+     * because the username already was taken.
+     * invokeLater to explicit add the event to the EDT since this method will
+     * get called from outside the EDT.
+     * @param client the client that could'nt be registered.
+     */
     public void failedRegistration(Client client){
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -129,7 +187,22 @@ public class GuiController {
             }
         });
     }
-    //ActionListener for connect-button at startframe.
+    /**
+     * getClients. This method will start a swing-worker to fetch clients
+     * from the server.
+     */
+    public void getClients(){
+        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getClients), client).execute();
+    }
+    
+    /**
+     * getChatRooms. This method will start a swing-worker to fetch chatrooms
+     * from the server.
+     */
+    public void getChatRooms(){
+        new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.getChatRooms), client).execute();
+    }
+    //ActionListener for join-button at startframe.
     class RegisterListener implements ActionListener {
         private final JTextField nameField;
         
@@ -147,7 +220,7 @@ public class GuiController {
             nameField.setText("");
         }
     }
-    //ActionListener for connect-button at startframe.
+    //ActionListener for send-button at mainpanel
     class SendListener implements ActionListener {
         private final JTextArea messageArea;
         private final ChatRoom chatRoom;
@@ -167,6 +240,7 @@ public class GuiController {
             messageArea.setText("");
         }
     }
+    //ActionListener for "join chatroom" button at mainpanel
     class JoinChatRoomListener implements ActionListener {
         private final JTable table;
         
@@ -185,7 +259,7 @@ public class GuiController {
     Client getClient(){
         return client;
     }
-    //ActionListener for connect-button at startframe.
+    //ActionListener for "create new chatroom" button at mainpanel
     class NewChatRoomListener implements ActionListener {
         NewChatRoomListener(){
         }
@@ -194,6 +268,7 @@ public class GuiController {
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.addChatRoom), client).execute();
         }
     }
+    //ActionListener for "destroy chatroom" button at chatpanel.
     class DestroyChatRoomListener implements ActionListener {
         private int id;
         DestroyChatRoomListener(int id){
@@ -204,6 +279,7 @@ public class GuiController {
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.destroyChatRoom),id, client).execute();
         }
     }
+    //ActionListener for "leave chatroom" button at chatpanel.
     class LeaveChatRoomListener implements ActionListener {
         private int id;
         LeaveChatRoomListener(int id){
@@ -214,6 +290,7 @@ public class GuiController {
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.leaveChatRoom),id, client).execute();
         }
     }
+    //ActionListener for "block user" button at chatpanel/mainpanel
     class BlockUserListener implements ActionListener {
         private JList users;
         BlockUserListener(JList users){
@@ -229,6 +306,7 @@ public class GuiController {
             }
         }
     }
+    //ActionListener for "unblock user" button at chatpanel/mainpanel
     class UnBlockUserListener implements ActionListener {
         private JList blockedUsers;
         UnBlockUserListener(JList blockedUsers){
@@ -244,6 +322,7 @@ public class GuiController {
             }
         }
     }
+    //ActionListener for "DM user" at chatpanel
     class InviteUserListener implements ActionListener {
         private JList users;
         InviteUserListener(JList users){
@@ -254,6 +333,7 @@ public class GuiController {
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.privateChatRoom),(String) users.getSelectedValue(), client).execute();
         }
     }
+    //Method called when the mainframe gets closed
     void quit(){
         try{
             serverobj.deRegisterClient(client);
@@ -266,6 +346,12 @@ public class GuiController {
         }
         
     }
+    
+    /**
+     * Method called when remote exception occurs. Informs the user about
+     * what happened
+     * @param e the remoteexception
+     */
     public void remoteExceptionHandler(RemoteException e){
         e.printStackTrace();
         SwingUtilities.invokeLater(new Runnable() {

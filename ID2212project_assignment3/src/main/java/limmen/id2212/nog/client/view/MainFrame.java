@@ -14,7 +14,7 @@ import limmen.id2212.nog.server.ChatRoom;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * The main GUI frame for the application
  * @author kim
  */
 class MainFrame extends JFrame {

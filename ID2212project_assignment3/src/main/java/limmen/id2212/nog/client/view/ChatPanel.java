@@ -21,7 +21,7 @@ import limmen.id2212.nog.server.ChatRoom;
 import net.miginfocom.swing.MigLayout;
 
 /**
- *
+ * ChatPanel that represents a chat on the mainframe.
  * @author kim
  */
 public class ChatPanel extends JPanel{
@@ -31,10 +31,17 @@ public class ChatPanel extends JPanel{
     private final Font Title = new Font("Serif", Font.PLAIN, 18);
     private final Font PBold = Plain.deriveFont(Plain.getStyle() | Font.BOLD);
     private final JTextArea chatArea;
-    private final DefaultListModel usersModel;    
-    private final DefaultListModel blockedModel;    
+    private final DefaultListModel usersModel;
+    private final DefaultListModel blockedModel;
     private final JList usersList;
     private final JList blockedList;
+    
+    /**
+     * Class constructor.
+     * @param chatRoom ChatRoom that this panel reflects the state of
+     * @param contr GuiController
+     * @throws RemoteException throws RemoteException
+     */
     public ChatPanel(ChatRoom chatRoom, GuiController contr) throws RemoteException{
         this.chatRoom = chatRoom;
         this.contr = contr;
@@ -42,9 +49,9 @@ public class ChatPanel extends JPanel{
         JLabel lbl = new JLabel("ChatRoom " + chatRoom.getID());
         lbl.setFont(Title);
         add(lbl, "span 2");
-                try{
-        lbl = new JLabel("User: " + contr.getClient().getName());
-        add(lbl, "span 2, gaptop 10");
+        try{
+            lbl = new JLabel("User: " + contr.getClient().getName());
+            add(lbl, "span 2, gaptop 10");
         }
         catch(RemoteException e){
             contr.remoteExceptionHandler(e);
@@ -57,7 +64,7 @@ public class ChatPanel extends JPanel{
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setPreferredSize(new Dimension(300, 450));
         JPanel chatPanel = new JPanel(new MigLayout("wrap 1"));
-        chatPanel.add(scroll, "span 1");        
+        chatPanel.add(scroll, "span 1");
         JPanel usersPanel = new JPanel(new MigLayout("wrap 1"));
         lbl = new JLabel("Online users");
         lbl.setFont(Plain);
@@ -111,7 +118,7 @@ public class ChatPanel extends JPanel{
         JButton unBlockButton = new JButton("Unblock selected user");
         unBlockButton.addActionListener(contr. new UnBlockUserListener(blockedList));
         add(unBlockButton, "span 2");
-        updateChat();    
+        updateChat();
         updateBlocked();
     }
     ChatRoom getChatRoom(){
@@ -139,7 +146,7 @@ public class ChatPanel extends JPanel{
         blockedModel.removeAllElements();
         for(String str  : blocked){
             blockedModel.addElement(str);
-        }        
+        }
         repaint();
         revalidate();
     }

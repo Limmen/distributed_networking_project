@@ -19,9 +19,22 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
     private ArrayList<Client> clients = new ArrayList();
     private ArrayList<ChatRoom> chatRooms = new ArrayList();
     private int idCount = 0;
+
+    /**
+     *
+     * @param serverName
+     * @throws RemoteException
+     */
     public NogChatServerImpl(String serverName) throws RemoteException{
         this.serverName = serverName;
     }
+
+    /**
+     *
+     * @param c
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public ArrayList<ChatRoom> getChatRooms(Client c) throws RemoteException {
         ArrayList<ChatRoom> rooms = new ArrayList();
@@ -36,6 +49,11 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         return rooms;
     }
 
+    /**
+     *
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public ArrayList<Client> getUsers() throws RemoteException {
         return clients;
@@ -45,6 +63,11 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         return idCount++;
     }
 
+    /**
+     *
+     * @param creator
+     * @throws RemoteException
+     */
     @Override
     public void addChatRoom(Client creator) throws RemoteException {
         chatRooms.add(new ChatRoomImpl(creator ,incrementId(), true));
@@ -53,6 +76,11 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         }
     }
 
+    /**
+     *
+     * @param client
+     * @throws RemoteException
+     */
     @Override
     public void deRegisterClient(Client client) throws RemoteException {
         clients.remove(client);
@@ -70,6 +98,12 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         this.chatRooms = updRooms;
     }
 
+    /**
+     *
+     * @param client
+     * @throws RemoteException
+     * @throws NameAlreadyTakenException
+     */
     @Override
     public void registerClient(Client client) throws RemoteException, NameAlreadyTakenException {
         for(Client i : clients){
@@ -82,6 +116,12 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         }
     }
 
+    /**
+     *
+     * @param client
+     * @param id
+     * @throws RemoteException
+     */
     @Override
     public void joinChatRoom(Client client, int id) throws RemoteException {
         for(ChatRoom r : chatRooms){
@@ -90,6 +130,11 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         }
     }
 
+    /**
+     *
+     * @param id
+     * @throws RemoteException
+     */
     @Override
     public void destroyChatRoom(int id) throws RemoteException {
         ChatRoom room = null;
@@ -108,6 +153,12 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         }
     }
 
+    /**
+     *
+     * @param id
+     * @param client
+     * @throws RemoteException
+     */
     @Override
     public void leaveChatRoom(int id, Client client) throws RemoteException {
         for(ChatRoom r : chatRooms){
@@ -118,6 +169,12 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         notifyClients();
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     * @throws RemoteException
+     */
     @Override
     public Client getClient(String username) throws RemoteException {
         for(Client c : clients){
@@ -127,6 +184,12 @@ public class NogChatServerImpl extends UnicastRemoteObject implements NogChatSer
         return null;
     }
 
+    /**
+     *
+     * @param creator
+     * @param c
+     * @throws RemoteException
+     */
     @Override
     public void addPrivateChatRoom(Client creator, Client c) throws RemoteException {
         ChatRoom r = new ChatRoomImpl(creator, incrementId(),false);

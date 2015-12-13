@@ -18,15 +18,20 @@ import limmen.id2212.nog.client.model.Client;
 import limmen.id2212.nog.server.ChatRoom;
 
 /**
- *
+ * Container panel for the mainframe.
  * @author kim
  */
-public class Container extends JTabbedPane{
+class Container extends JTabbedPane{
     private final GuiController contr;
     private final MainPanel mainPanel;
     private final Color defaultBackColor;
     private final Color defaultForeColor;
     private final ArrayList<ChatPanel> blinkingPanes = new ArrayList();
+    
+    /**
+     * Class constructor
+     * @param contr GuiController
+     */
     Container(GuiController contr){
         this.contr = contr;
         mainPanel = new MainPanel(contr);
