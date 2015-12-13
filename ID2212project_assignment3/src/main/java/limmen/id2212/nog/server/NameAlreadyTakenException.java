@@ -6,7 +6,7 @@
 package limmen.id2212.nog.server;
 
 /**
- *
+ * Exception thrown when a client tries to register a username that is taken.
  * @author kim
  */
 public class NameAlreadyTakenException extends Exception {

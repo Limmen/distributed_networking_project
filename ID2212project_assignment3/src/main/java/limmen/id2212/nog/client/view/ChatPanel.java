@@ -127,10 +127,7 @@ public class ChatPanel extends JPanel{
     void updateChat(){
         String chat = "";
         try{
-            for(String s : chatRoom.getMessages(contr.getClient())){
-                chat = chat + s;
-            }
-            chatArea.setText(chat);
+            chatArea.setText(chatArea.getText() + chatRoom.getMessage(contr.getClient()));           
             usersModel.removeAllElements();
             for(Client c  : chatRoom.getUsers()){
                 usersModel.addElement(c.getName());

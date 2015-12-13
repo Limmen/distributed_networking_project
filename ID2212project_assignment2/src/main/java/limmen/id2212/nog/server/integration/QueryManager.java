@@ -15,6 +15,9 @@ import limmen.id2212.nog.client.model.ParticipantDTO;
 
 /**
  * Class to handle queries and interactions with the database.
+ * Methods are declared synchronized to get some thread-safety (only one
+ * thread is allowed to execute the methods at a time, the rest of the threads
+ * get queued up until it's their turn.
  * @author kim
  */
 public class QueryManager {
@@ -32,7 +35,7 @@ public class QueryManager {
      * Method to fetch participants from the database.
      * @return list of participants
      */
-    synchronized public ArrayList<Participant> getParticipants(){
+    public synchronized ArrayList<Participant> getParticipants(){
         EntityManager em = null;
         em = beginTransaction();
         ArrayList<Participant> participants = new ArrayList(em.createQuery("SELECT p FROM ParticipantImpl p").getResultList());
@@ -44,7 +47,7 @@ public class QueryManager {
      * Method to store a list of participants at the database
      * @param tableParticipants
      */
-    synchronized public void putParticipants(ArrayList<ParticipantDTO> tableParticipants){
+    public synchronized void putParticipants(ArrayList<ParticipantDTO> tableParticipants){
         EntityManager em = null;
         try{
             for(ParticipantDTO p : tableParticipants){
@@ -65,7 +68,7 @@ public class QueryManager {
      * @param p Participant to be updated.
      * @throws RemoteException thrown when problem with remote method-call occurs.
      */
-    synchronized public void editParticipant(ParticipantDTO p) throws RemoteException{
+    public synchronized void editParticipant(ParticipantDTO p) throws RemoteException{
         EntityManager em = null;
         em = beginTransaction();
         ParticipantImpl participant  = new ParticipantImpl(p.getID(),p.getName(), p.getGender()
@@ -79,7 +82,7 @@ public class QueryManager {
      * @param id primary key of the participant.
      * @throws RemoteException thrown when problem with remote method-call occurs.
      */
-    synchronized public void deleteParticipant(int id) throws RemoteException{
+    public synchronized void deleteParticipant(int id) throws RemoteException{
         EntityManager em = beginTransaction();
         ParticipantImpl p = em.find(ParticipantImpl.class, id);
         em.remove(p);
@@ -90,7 +93,7 @@ public class QueryManager {
      * Method to store a list of participants in a empty database.
      * @param participants list of participants
      */
-    synchronized public void initialStore(ArrayList<Participant> participants){
+    public synchronized void initialStore(ArrayList<Participant> participants){
         EntityManager em = null;
         em = beginTransaction();
         for(Participant p : participants){

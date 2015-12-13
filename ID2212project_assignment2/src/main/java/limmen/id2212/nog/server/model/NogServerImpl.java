@@ -15,6 +15,8 @@ import limmen.id2212.nog.server.integration.Participant;
 
 /**
  * Implementation of the NogServer interface.
+ * Shared resources like connectedClients are declared volatile
+ * to avoid inconsistent reads.
  * Extends UniCastRemoteObject to automaticly export the remote object.
  * @author kim
  */

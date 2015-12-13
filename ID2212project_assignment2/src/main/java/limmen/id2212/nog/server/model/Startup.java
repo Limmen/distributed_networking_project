@@ -20,7 +20,7 @@ import limmen.id2212.nog.server.integration.Participant;
 import limmen.id2212.nog.server.integration.ParticipantImpl;
 
 /**
- *
+ * Class that does the initialization work of the server.
  * @author kim
  */
 public class Startup {
