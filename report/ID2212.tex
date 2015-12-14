@@ -96,8 +96,27 @@ Distributed java application that allows storing and updating information about 
   \end{itemize}
 \end{itemize}
 \subsubsection{GUI}
+\begin{figure}[H]
+\includegraphics[scale=0.60]{assignment1_1.png}
+\caption{Screenshot of the startframe of the application}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[scale=0.40]{assignment1_2.png}
+\caption{Screenshot of the mainPanel of the application}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[scale=0.60]{assignment1_3.png}
+\caption{Screenshot of the statisticsPanel of the application}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[scale=0.60]{assignment1_5.png}
+\caption{Screenshot of the EditPanel of the application}
+\end{figure}
 \subsubsection{Architecture}
+\begin{figure}[H]
 \includegraphics[scale=0.35]{assignment1_architecture.png}
+\caption{Class diagram over the application architecture.}
+\end{figure}
 \subsubsection{Load-testing}
 These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
 My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. \\
@@ -168,8 +187,12 @@ Custom developed protocol for remote method calls between server and client. \\
 \item updateParticipants
 \end{itemize}
 \subsubsection{GUI}
+Same GUI as for sub-assigment 1.
 \subsubsection{Architecture}
+\begin{figure}[H]
 \includegraphics[scale=0.30]{assignment2_architecture.png}
+\caption{Class diagram over the application architecture.}
+\end{figure}
 \subsubsection{Load-testing}
 The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done on the sub-assignment 1 http-server, number of calls done for each method is 100.\\
 %%Table with borders 
@@ -224,8 +247,23 @@ Custom developed protocol for remote method calls between server and client. \\
 \item getBlockedList
 \end{itemize}
 \subsubsection{GUI}
+\begin{figure}[H]
+\includegraphics[scale=0.60]{assignment2_1.png}
+\caption{Screenshot of the startframe of the application}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[scale=0.50]{assignment2_3.png}
+\caption{Screenshot of the MainPanel of the application}
+\end{figure}
+\begin{figure}[H]
+\includegraphics[scale=0.50]{assignment2_4.png}
+\caption{Screenshot of the MainPanel of the application}
+\end{figure}
 \subsubsection{Architecture}
+\begin{figure}[H]
 \includegraphics[scale=0.30]{assignment3_architecture.png}
+\caption{Class diagram over the application architecture.}
+\end{figure}
 \section{Documentation}
 \newpage
 \nocite{*}
