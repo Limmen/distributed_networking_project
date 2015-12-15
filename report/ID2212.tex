@@ -17,11 +17,11 @@
 \graphicspath{ {./images/} }
 \usepackage{hyperref}
 \hypersetup{
-    colorlinks,
+    colorlinks = true,
     citecolor=black,
     filecolor=black,
     linkcolor=black,
-    urlcolor=black
+    urlcolor=blue
 }
 \pagestyle{fancy}
 \fancypagestyle{firststyle}
@@ -81,6 +81,8 @@ Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \item Java Socket (java.net package)
 \item PostgreSQL 9.3.9
 \item Apache JMeter
+\item NetBeans IDE 8.0.2
+\item Javadoc
 \end{itemize}
 \newpage
 \section{The application}
@@ -167,6 +169,22 @@ TOTAL & 400 & 10.672 & 189.486 \\ \hline
 As can be seen from the benchmark-results with the latency-simulation, the througput is much lower, obviously.
 
 What's interesting here is the througput gains we get by having multiple threads issuing the requests in parallell, we can see that 10 threads issuing GET-requests in semi-parallell give $\approx 10$ times higher througput/sec than 1 thread.
+\subsubsection{How to run the application}
+The application consists of two parts: client and server, to run it:
+\begin{enumerate}
+\item build and compile the application - with your IDE or from terminal:
+\begin{verbatim}
+mvn install
+\end{verbatim}
+\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java Startup
+\end{verbatim}
+\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java GuiController
+\end{verbatim}
+\end{enumerate}
 \subsection{Sub-assignment 2. A Multi-User Information System for NOG}
 \subsubsection{Functionality}
 A multi-user distributed application that allows storing, fetching and updating (delete, edit, add) participants data. The server is developed with Java RMI and the persistence layer is developed with JPA (Java Persistence API). The underlying database is PostgreSQL. \\ \\
@@ -216,6 +234,23 @@ deleteParticipant & 100 & 0.211 \\ \hline
 The result is not very suprising, \textit{getParticipant} is by far the method that takes the most  time and \textit{deleteParticipant} takes the least. \\
 
 This was not a sophisticated load-test but we can still see that the rmi-server is alot slower than the http-server in sub-assignment 1, if we convert the data in the table above we can get that the rmi-server can handle 100 calls for getParticipants in $\approx 0.92$ seconds. In comparison with the load-test result from sub-assignment 1 (the single-threaded version) which could handle $\approx 990$ GET-requestst of the participants, the rmi-server is way slower. The fact that the rmi-server is slower than the http-server is not suprising since the http-server simply reads from a tsv file while the rmi-server goes through many more steps: conversion from relational data to object-data with the ORM, compile psql-commands down to sql etc. but I did'nt expect the differencies to be this big.
+\subsubsection{How to run the application}
+The application consists of two parts: client and server, to run it:
+\begin{enumerate}
+\item build and compile the application - with your IDE or from terminal:
+\begin{verbatim}
+mvn install
+\end{verbatim}
+\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java Startup
+\end{verbatim}
+\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java GuiController
+\end{verbatim}
+\end{enumerate}
+\textit{Note:} This application uses rmi registry, if it is not already started when you run the server the server will start it. You can also explictly start rmiregistry before you run the server.
 \subsection{Sub-assignment 3. Chat Rooms for NOG}
 \subsubsection{Functionality}
 Distributed chat application for NOG users.
@@ -264,7 +299,30 @@ Custom developed protocol for remote method calls between server and client. \\
 \includegraphics[scale=0.30]{assignment3_architecture.png}
 \caption{Class diagram over the application architecture.}
 \end{figure}
+\subsubsection{How to run the application}
+The application consists of two parts: client and server, to run it:
+\begin{enumerate}
+\item build and compile the application - with your IDE or from terminal:
+\begin{verbatim}
+mvn install
+\end{verbatim}
+\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java Startup
+\end{verbatim}
+\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\begin{verbatim}
+java GuiController
+\end{verbatim}
+\end{enumerate}
+\textit{Note:} This application uses rmi registry, if it is not already started when you run the server the server will start it. You can also explictly start rmiregistry before you run the server.
 \section{Documentation}
+\begin{description}
+\item[Sub-assignment 1.] \href{./../ID2212project_assignment1/apidocs/index.html}{Api-docs} 
+\item[Sub-assignment 2.] \href{./../ID2212project_assignment2/apidocs/index.html}{Api-docs}
+\item[Sub-assignment 3.] \href{./../ID2212project_assignment3/apidocs/index.html}{Api-docs}
+\end{description}
+\textit{Note:} the docs can be found in /apidocs (relative to each project file-structure)
 \newpage
 \nocite{*}
 \bibliographystyle{plain}
