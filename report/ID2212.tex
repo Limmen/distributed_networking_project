@@ -62,7 +62,7 @@ Course project in a course on Network programming in Java \citep{kth_1}, carried
 The NOG information system should allow storing, retrieving and updating personal information about NOG participants. The system should also be able to provide statistical information about participants. The system is to be developed in two version(1) a single-user version; (2) a multi-user version. \\ 
 You should also develop a NOG virtual meeting place. The NOG virtual meeting place is Internet based software which offers remotely located users to communicate and share information represented as textual, image or audio files. 
 \subsection{Sub-assignment 1. A Single-User Information System for NOG}
-Develop a distributed application in Java that allows storing, retrieving and updating information about participants of NOG. The application should concist of a client with a user interface and a server. In this assignment we assume a \textbf{single user} semantics for the application, i.e It's not required to support coherency of multiple copies of participant records which may be cached by multiple client at the same time.
+Develop a distributed application in Java that allows storing, retrieving and updating information about participants of NOG. The application should concist of a client with a user interface and a server. In this assignment we assume a single user semantics for the application, i.e It's not required to support coherency of multiple copies of participant records which may be cached by multiple client at the same time.
 \subsection{Sub-assignment 2. A Multi-User Information System for NOG}
 Develop a multi-user application, similar to the solution developed in sub-assignment 1. In this version a multi-user semantic is required. Many users can fetch the participants-data at the same time and when one user updates his local-cache of the data, the change need to be replicated among all clients connected in order to prevent them from using stale data.
 \subsection{Sub-assignment 3. Chat Rooms for NOG}
@@ -70,7 +70,7 @@ Develop a distributed ``building of chat rooms''.
 
 \newpage
 \section{Platform}
-The platform used for the devlopment-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS, CPU: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz \\ \\
+The platform used for the development-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS, CPU: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz \\ \\
 Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \section{Software and technologies used}
 \begin{itemize}
@@ -87,9 +87,11 @@ Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
 \newpage
 \section{The application}
 \subsection{Sub-assignment 1. A Single-User Information System for NOG}
-\subsubsection{Functionality}
-Distributed java application that allows storing and updating information about participants in NOG. The server is using the HTTP protocol and only supports GET and PUT methods (PUT For storing and GET for fetching). The server is multithreaded but doesnt provide any multi-user semantics in the likes of keeping consistent data among clients (hence the minimized protocol of GET/PUT).
-\\\\The client is a simple http-client atached with a GUI developed with Java Swing.
+Distributed java application that allows storing and updating information about participants in NOG. 
+
+The server is using the HTTP protocol and only supports GET and PUT methods (PUT For storing and GET for fetching). The server is multithreaded but doesnt provide any multi-user semantics in the likes of keeping consistent data among clients (hence the minimized protocol of GET/PUT).
+
+The client is a simple http-client atached with a GUI developed with Java Swing.
 \subsubsection{Protocols used}
 \begin{itemize}
 \item HTTP 
@@ -121,7 +123,9 @@ Distributed java application that allows storing and updating information about 
 \end{figure}
 \subsubsection{Load-testing}
 These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
-My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with 7 cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. \\
+My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with seven cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. 
+
+All load-tests for this application was done with Apache JMeter. \\
 \textbf{Without latency simulation}
 %%Table with borders 
 \begin{table}[H]
@@ -130,10 +134,10 @@ My main purpose with this load test was to see how well the multi-threaded seman
 \begin{tabular}{|l|l|l|r|}
 \hline
 \textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
-1Thread & 100 & 990.099 & 17579.091 \\ \hline
-2Threads & 100 & 1470.588 & 26110.122 \\ \hline
-4Threads & 100 & 1886.792 & 33499.779 \\ \hline
-10Threads & 100 & 2631.579 & 46723.376 \\ \hline
+1 & 100 & 990.099 & 17579.091 \\ \hline
+2 & 100 & 1470.588 & 26110.122 \\ \hline
+4 & 100 & 1886.792 & 33499.779 \\ \hline
+10 & 100 & 2631.579 & 46723.376 \\ \hline
 TOTAL & 400 & 1486.989 & 26401.313 \\ \hline
 \end{tabular}
 \caption{Load-test for http-server}
@@ -154,10 +158,10 @@ To simulate network-latency that might occur outside of the test-environment I a
 \begin{tabular}{|l|l|l|r|}
 \hline
 \textbf{No. threads}  & \textbf{No. requests}  & \textbf{Throughput/sec} & \textbf{(KB/sec)} \\ \hline
-1Thread & 100 & 4.946 & 87.817 \\ \hline
-2Threads & 100 & 9.870 & 175.253 \\ \hline
-4Threads & 100 & 19.685 & 349.505 \\ \hline
-10Threads & 100 & 49.189 & 873.334 \\ \hline
+1 & 100 & 4.946 & 87.817 \\ \hline
+2 & 100 & 9.870 & 175.253 \\ \hline
+4 & 100 & 19.685 & 349.505 \\ \hline
+10 & 100 & 49.189 & 873.334 \\ \hline
 TOTAL & 400 & 10.672 & 189.486 \\ \hline
 \end{tabular}
 \caption{Load-test for http-server with latency simulation}
@@ -185,11 +189,13 @@ java Startup
 java GuiController
 \end{verbatim}
 \end{enumerate}
+\textit{Note:} by default the server will start listening on port 8080, if you want it to listen on another port you can give a portnumber upon initialization as a command-line argument.
 \subsection{Sub-assignment 2. A Multi-User Information System for NOG}
-\subsubsection{Functionality}
-A multi-user distributed application that allows storing, fetching and updating (delete, edit, add) participants data. The server is developed with Java RMI and the persistence layer is developed with JPA (Java Persistence API). The underlying database is PostgreSQL. \\ \\
+A multi-user distributed application that allows storing, fetching and updating (delete, edit, add) participants data. The server is developed with Java RMI and the persistence layer is developed with JPA (Java Persistence API). The underlying database is PostgreSQL.
+
 The server is multithreaded (with java rmi) and provides functionality to let many user at a time update and have local copies of the data where every update will be replicated among every other user that is connected.
-\\\\ The client is a simple Java RMI client with a Java Swing GUI.
+
+The client is a simple Java RMI client with a Java Swing GUI.
 \subsubsection{Protocols used}
 Custom developed protocol for remote method calls between server and client. \\
 \textbf{Server-interface:}
@@ -212,7 +218,7 @@ Same GUI as for sub-assigment 1.
 \caption{Class diagram over the application architecture.}
 \end{figure}
 \subsubsection{Load-testing}
-The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done on the sub-assignment 1 http-server, number of calls done for each method is 100.\\
+The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done for sub-assignment, the number of calls done for each method is 100.\\
 %%Table with borders 
 \begin{table}[H]
 \centering
@@ -233,7 +239,7 @@ deleteParticipant & 100 & 0.211 \\ \hline
 \end{figure}
 The result is not very suprising, \textit{getParticipant} is by far the method that takes the most  time and \textit{deleteParticipant} takes the least. \\
 
-This was not a sophisticated load-test but we can still see that the rmi-server is alot slower than the http-server in sub-assignment 1, if we convert the data in the table above we can get that the rmi-server can handle 100 calls for getParticipants in $\approx 0.92$ seconds. In comparison with the load-test result from sub-assignment 1 (the single-threaded version) which could handle $\approx 990$ GET-requestst of the participants, the rmi-server is way slower. The fact that the rmi-server is slower than the http-server is not suprising since the http-server simply reads from a tsv file while the rmi-server goes through many more steps: conversion from relational data to object-data with the ORM, compile psql-commands down to sql etc. but I did'nt expect the differencies to be this big.
+This was not a sophisticated load-test but we can still see that the rmi-server is alot slower than the http-server in sub-assignment 1, if we convert the data in the table above we can get that the rmi-server can handle 100 calls for getParticipants in $\approx 0.92$ seconds. In comparison with the load-test result from sub-assignment 1 (the single-threaded version) which could handle $\approx 990$ GET-requestst per second, the rmi-server is way slower. The fact that the rmi-server is slower than the http-server is not suprising since the http-server simply reads from a tsv file while the rmi-server goes through many more steps: conversion from relational data to object-data with the ORM, compile psql-commands down to sql etc. but I did'nt expect the differencies to be this big.
 \subsubsection{How to run the application}
 The application consists of two parts: client and server, to run it:
 \begin{enumerate}
@@ -252,7 +258,6 @@ java GuiController
 \end{enumerate}
 \textit{Note:} This application uses rmi registry, if it is not already started when you run the server the server will start it. You can also explictly start rmiregistry before you run the server.
 \subsection{Sub-assignment 3. Chat Rooms for NOG}
-\subsubsection{Functionality}
 Distributed chat application for NOG users.
 The server is deveoped with java RMI and provides functionality for users to create/destroy/add chatrooms, to Direct-Message other users and to block users.
 \\ \\The client is developed with java-rmi and is attached with a GUI developed with java Swing.

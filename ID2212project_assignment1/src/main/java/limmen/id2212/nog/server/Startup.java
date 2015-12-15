@@ -18,7 +18,7 @@ public class Startup {
      */
     public static void main(String[] args){
         if(args.length == 1)
-            new Thread(new Listener(args[0])).start();
+            new Thread(new Listener("src/main/resources/participants.tsv", Integer.parseInt(args[0]))).start();
         else
             new Thread(new Listener("src/main/resources/participants.tsv")).start();
     }
