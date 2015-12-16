@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.25)  15 DEC 2015 18:29
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.25)  16 DEC 2015 10:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -654,131 +654,154 @@ File: ./images/assignment1_5.png Graphic file (type png)
 Package pdftex.def Info: ./images/assignment1_5.png used on input line 116.
 (pdftex.def)             Requested size: 354.12573pt x 252.3447pt.
  [7 <./images/assignment1_2.png>] [8 <./images/assignment1_3.png>]
-<./images/assignment1_architecture.png, id=198, 1313.6578pt x 972.63374pt>
+<./images/http_architecture.png, id=198, 803.0pt x 602.25pt>
+File: ./images/http_architecture.png Graphic file (type png)
+
+<use ./images/http_architecture.png>
+Package pdftex.def Info: ./images/http_architecture.png used on input line 121.
+
+(pdftex.def)             Requested size: 401.49902pt x 301.12425pt.
+
+Overfull \hbox (41.49902pt too wide) in paragraph at lines 121--122
+[][] 
+ []
+
+<./images/assignment1_architecture.png, id=200, 1313.6578pt x 972.63374pt>
 File: ./images/assignment1_architecture.png Graphic file (type png)
 
 <use ./images/assignment1_architecture.png>
 Package pdftex.def Info: ./images/assignment1_architecture.png used on input li
-ne 121.
+ne 125.
 (pdftex.def)             Requested size: 459.78712pt x 340.42691pt.
 
-Overfull \hbox (99.78712pt too wide) in paragraph at lines 121--122
+Overfull \hbox (99.78712pt too wide) in paragraph at lines 125--126
 [][] 
  []
 
-[9 <./images/assignment1_5.png>]
-<./images/no_delay.png, id=206, 501.875pt x 501.875pt>
+[9 <./images/assignment1_5.png>] [10 <./images/http_architecture.png>]
+<./images/no_delay.png, id=214, 501.875pt x 501.875pt>
 File: ./images/no_delay.png Graphic file (type png)
 
 <use ./images/no_delay.png>
-Package pdftex.def Info: ./images/no_delay.png used on input line 146.
+Package pdftex.def Info: ./images/no_delay.png used on input line 150.
 (pdftex.def)             Requested size: 351.31009pt x 351.31009pt.
- [10 <./images/assignment1_architecture.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 149--168
+ [11 <./images/assignment1_architecture.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 153--172
 
  []
 
-[11 <./images/no_delay.png>]
-<./images/delay.png, id=221, 501.875pt x 501.875pt>
+[12 <./images/no_delay.png>]
+<./images/delay.png, id=229, 501.875pt x 501.875pt>
 File: ./images/delay.png Graphic file (type png)
  <use ./images/delay.png>
-Package pdftex.def Info: ./images/delay.png used on input line 170.
+Package pdftex.def Info: ./images/delay.png used on input line 174.
 (pdftex.def)             Requested size: 351.31009pt x 351.31009pt.
 
-[12] [13 <./images/delay.png>]
-<./images/assignment2_architecture.png, id=238, 1458.19781pt x 1063.72406pt>
+[13] [14 <./images/delay.png>]
+<./images/rmi_architecture.png, id=246, 803.0pt x 602.25pt>
+File: ./images/rmi_architecture.png Graphic file (type png)
+
+<use ./images/rmi_architecture.png>
+Package pdftex.def Info: ./images/rmi_architecture.png used on input line 221.
+(pdftex.def)             Requested size: 401.49902pt x 301.12425pt.
+
+Overfull \hbox (41.49902pt too wide) in paragraph at lines 221--222
+[][] 
+ []
+
+<./images/assignment2_architecture.png, id=247, 1458.19781pt x 1063.72406pt>
 File: ./images/assignment2_architecture.png Graphic file (type png)
 
 <use ./images/assignment2_architecture.png>
 Package pdftex.def Info: ./images/assignment2_architecture.png used on input li
-ne 216.
+ne 225.
 (pdftex.def)             Requested size: 437.46272pt x 319.11967pt.
 
-Overfull \hbox (77.46272pt too wide) in paragraph at lines 216--217
+Overfull \hbox (77.46272pt too wide) in paragraph at lines 225--226
 [][] 
  []
 
-[14]
-Underfull \hbox (badness 10000) in paragraph at lines 220--234
+[15] [16 <./images/rmi_architecture.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 229--243
 
  []
 
-<./images/rmiplot.png, id=245, 501.875pt x 501.875pt>
+<./images/rmiplot.png, id=261, 501.875pt x 501.875pt>
 File: ./images/rmiplot.png Graphic file (type png)
 
 <use ./images/rmiplot.png>
-Package pdftex.def Info: ./images/rmiplot.png used on input line 236.
+Package pdftex.def Info: ./images/rmiplot.png used on input line 245.
 (pdftex.def)             Requested size: 351.31009pt x 351.31009pt.
- [15 <./images/assignment2_architecture.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
+ [17 <./images/assignment2_architecture.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 
  []
 
-[16 <./images/rmiplot.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 260--263
+[18 <./images/rmiplot.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 269--272
 
  []
 
-[17] <./images/assignment2_1.png, id=269, 591.20876pt x 260.975pt>
+[19] <./images/assignment2_1.png, id=287, 591.20876pt x 260.975pt>
 File: ./images/assignment2_1.png Graphic file (type png)
 
 <use ./images/assignment2_1.png>
-Package pdftex.def Info: ./images/assignment2_1.png used on input line 290.
+Package pdftex.def Info: ./images/assignment2_1.png used on input line 299.
 (pdftex.def)             Requested size: 354.72798pt x 156.5862pt.
 
-<./images/assignment2_3.png, id=270, 795.97375pt x 1031.855pt>
+<./images/assignment2_3.png, id=288, 795.97375pt x 1031.855pt>
 File: ./images/assignment2_3.png Graphic file (type png)
 
 <use ./images/assignment2_3.png>
-Package pdftex.def Info: ./images/assignment2_3.png used on input line 294.
+Package pdftex.def Info: ./images/assignment2_3.png used on input line 303.
 (pdftex.def)             Requested size: 397.9859pt x 515.92624pt.
 
-Overfull \hbox (37.9859pt too wide) in paragraph at lines 294--295
+Overfull \hbox (37.9859pt too wide) in paragraph at lines 303--304
 [][] 
  []
 
-<./images/assignment2_4.png, id=271, 782.925pt x 1025.8325pt>
+<./images/assignment2_4.png, id=289, 782.925pt x 1025.8325pt>
 File: ./images/assignment2_4.png Graphic file (type png)
 
 <use ./images/assignment2_4.png>
-Package pdftex.def Info: ./images/assignment2_4.png used on input line 298.
+Package pdftex.def Info: ./images/assignment2_4.png used on input line 307.
 (pdftex.def)             Requested size: 391.46155pt x 512.91501pt.
 
-Overfull \hbox (31.46155pt too wide) in paragraph at lines 298--299
+Overfull \hbox (31.46155pt too wide) in paragraph at lines 307--308
 [][] 
  []
 
-[18 <./images/assignment2_1.png>] [19 <./images/assignment2_3.png>]
-<./images/assignment3_architecture.png, id=286, 1410.77063pt x 1205.2528pt>
+[20 <./images/assignment2_1.png>] [21 <./images/assignment2_3.png>]
+<./images/assignment3_architecture.png, id=302, 1410.77063pt x 1205.2528pt>
 File: ./images/assignment3_architecture.png Graphic file (type png)
 
 <use ./images/assignment3_architecture.png>
 Package pdftex.def Info: ./images/assignment3_architecture.png used on input li
-ne 303.
+ne 312.
 (pdftex.def)             Requested size: 423.23445pt x 361.57863pt.
 
-Overfull \hbox (63.23445pt too wide) in paragraph at lines 303--304
+Overfull \hbox (63.23445pt too wide) in paragraph at lines 312--313
 [][] 
  []
 
-[20 <./images/assignment2_4.png>] [21 <./images/assignment3_architecture.png>]
-[22] (./ID2212.bbl) 
+[22 <./images/assignment2_4.png>] [23 <./images/assignment3_architecture.png>]
+[24] (./ID2212.bbl) 
 AED: lastpage setting LastPage
-[23]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 334.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 334.
+[25]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 343.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 343.
  (./ID2212.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 334.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 334.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 343.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 343.
 Package rerunfilecheck Info: File `ID2212.out' has not changed.
 (rerunfilecheck)             Checksum: D97F06FE332254660BAFE5DC13C84C90;1930.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 334.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 343.
  ) 
 Here is how much of TeX's memory you used:
- 6513 strings out of 493304
- 94210 string characters out of 6139871
+ 6527 strings out of 493304
+ 94557 string characters out of 6139871
  184288 words of memory out of 5000000
- 9778 multiletter control sequences out of 15000+600000
+ 9786 multiletter control sequences out of 15000+600000
  9624 words of font info for 34 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  35i,12n,43p,810b,530s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -792,10 +815,10 @@ type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb>
-Output written on ID2212.pdf (23 pages, 1166288 bytes).
+Output written on ID2212.pdf (25 pages, 1319917 bytes).
 PDF statistics:
- 372 PDF objects out of 1000 (max. 8388607)
- 317 compressed objects within 4 object streams
- 80 named destinations out of 1000 (max. 500000)
- 274 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 389 PDF objects out of 1000 (max. 8388607)
+ 328 compressed objects within 4 object streams
+ 84 named destinations out of 1000 (max. 500000)
+ 284 words of extra memory for PDF output out of 10000 (max. 10000000)
 

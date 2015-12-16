@@ -56,6 +56,11 @@ public class NogServerImpl extends UnicastRemoteObject implements NogServer {
      */
     @Override
     public ArrayList<Participant> getParticipants() throws RemoteException {
+        try {
+            Thread.sleep(200);                 //1000 milliseconds is one second.
+        } catch(InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
         return qm.getParticipants();
     }
     
