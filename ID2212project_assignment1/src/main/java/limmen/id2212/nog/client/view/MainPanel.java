@@ -1,8 +1,8 @@
 /*
- * Course project - ID2212 Network Programming with Java
- * Royal Institute of Technology
- * 2015 (c) Kim Hammar 
- */
+* Course project - ID2212 Network Programming with Java
+* Royal Institute of Technology
+* 2015 (c) Kim Hammar
+*/
 package limmen.id2212.nog.client.view;
 
 import java.awt.Dimension;
@@ -46,7 +46,7 @@ class MainPanel extends JPanel {
     private final JTable table;
     private final JScrollPane scrollPane;
     private ArrayList<Participant> participants;
-
+    
     /**
      * Class constructor. The UI with all components is built here.
      * @param contr GuiController
@@ -96,7 +96,7 @@ class MainPanel extends JPanel {
                     Participant edit = null;
                     for(Participant p : participants){
                         if((p.getID() == Integer.parseInt((String) table.getModel().getValueAt(table.convertRowIndexToModel(row), 0)) &&
-                                p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&                                
+                                p.getName().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 1)) &&
                                 Character.toString(p.getGender()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 2)) &&
                                 p.getCountry().equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 3)) &&
                                 format.format(p.getBirthday()).equals(table.getModel().getValueAt(table.convertRowIndexToModel(row), 4)) &&
@@ -280,15 +280,13 @@ class MainPanel extends JPanel {
         filterPanel.add(buttonsPanel, "span 1, align center");
         add(filterPanel, "span 2, align center");
     }
-
+    
     /**
      * Update participant data.
      * @param participants list of participants.
      */
     void updateParticipants(ArrayList<Participant> participants){
         this.participants = participants;
-        if(participants.size() < 1 )
-            return;
         String[][] rowData = new String[participants.size()][8];
         for(int i = 0; i <  participants.size(); i++)
         {
@@ -305,10 +303,8 @@ class MainPanel extends JPanel {
         model.setDataVector(rowData, columnNames);
         repaint();
         revalidate();
-    }    
+    }
     private void filterParticipants(ArrayList<Participant> filtered){
-        if(filtered.size() < 1)
-            return;
         String[][] rowData = new String[filtered.size()][8];
         for(int i = 0; i <  filtered.size(); i++)
         {
@@ -366,9 +362,10 @@ class MainPanel extends JPanel {
                 sport = false;
             if(id && name && country && gender && birthday && height && weight && sport)
                 filtered.add(p);
+            
         }
         filterParticipants(filtered);
-    }    
+    }
     private void clear(JTextField idField, JTextField nameField, JTextField countryField,
             JTextField genderField, JTextField birthdayField, JTextField heightField,
             JTextField weightField, JTextField sportField){

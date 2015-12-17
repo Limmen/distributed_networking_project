@@ -117,7 +117,7 @@ public class ClientHandler implements Runnable {
             outWriter.println("HTTP/1.0 200 OK");
             outWriter.println("Date:" + (new Date()));
             outWriter.println(SERVER);
-            outWriter.println("Content-type: text/html");
+            outWriter.println("Content-type: text/plain");
             outWriter.println();
             while ((line = br.readLine()) != null) {
                 outWriter.println(line);

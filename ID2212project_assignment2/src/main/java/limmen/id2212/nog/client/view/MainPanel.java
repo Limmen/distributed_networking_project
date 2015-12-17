@@ -283,8 +283,6 @@ class MainPanel extends JPanel {
      */
     void updateParticipants(ArrayList<Participant> participants) throws RemoteException{
         this.tableData = convertToParticipantDTO(participants);
-        if(participants.size() < 1 )
-            return;
         String[][] rowData = new String[participants.size()][8];
         try{
             
@@ -310,8 +308,6 @@ class MainPanel extends JPanel {
     }
     //filter participants
     private void filterParticipants(ArrayList<ParticipantDTO> filtered){
-        if(filtered.size() < 1)
-            return;
         String[][] rowData = new String[filtered.size()][8];
         try{
             
