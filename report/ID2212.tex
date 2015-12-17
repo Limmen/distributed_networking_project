@@ -28,23 +28,25 @@
 {
   \lhead{}
   \chead{}
-  \rhead{\textbf{Course project} ID2212}
-   \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
+  \rhead{\textbf{Course project} Network programming with Java}
+  \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
 }
   \lhead{}
   \chead{}
   \rhead{\leftmark}
   \fancyfoot[C]{\footnotesize Page \thepage\ of \pageref{LastPage} }
 
-\title{Course project}
+\title{Course project - Network programming with Java}
 \author{Kim Hammar}
 \date{7 dec 2015}
 \begin{document}
 \maketitle
-\thispagestyle{firststyle}
+%\thispagestyle{firststyle}
+\thispagestyle{empty}
 \begin{versionhistory}
 \vhEntry{0.1}{07.12.15}{KH}{First draft}
 \vhEntry{0.2}{13.12.15}{KH}{Error correction}
+\vhEntry{1.0}{17.12.15}{KH}{Final version}
 \end{versionhistory}
 \newpage
 \tableofcontents
@@ -55,7 +57,7 @@
 %\caption{Konceptuell modell över systemet}
 %\end{figure}
 \section{Abstract}
-Course project in a course on Network programming in Java \citep{kth_1}, carried out at Royal Institute of Technology, Stockholm.
+Course project in a course on Network programming with Java \citep{kth_1}, carried out at Royal Institute of Technology, Stockholm.
 \newpage
 \section{Task specification}
 \textit{You are ``hired'' by JEM inc (Java Enterprise Microsystems Inc.) to design and develop the distributed application software (clients and servers) for the NOG (Nordic Olympic Games) event.} \\ \\
@@ -72,6 +74,7 @@ Develop a distributed ``building of chat rooms''.
 \section{Platform}
 The platform used for the development-process, benchmarks and tests is a computer running Xubuntu 14.04 LTS, CPU: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz \\ \\
 Java version: 1.7.0\_79  (OpenJDK version 7 update 79).
+\newpage
 \section{Software and technologies used}
 \begin{itemize}
 \item Java Remote Method Invocation (java.rmi package)
@@ -127,7 +130,7 @@ The client is a simple http-client atached with a GUI developed with Java Swing.
 \end{figure}
 \subsubsection{Load-testing}
 These tests have been done on my local machine so It is'nt a real proof of how the application would hold under huge loads in production but we can still see some interesting results.
-My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with seven cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. 
+My main purpose with this load test was to see how well the multi-threaded semantics is working in reality. Since the test-environment is on a machine with seven CPU cores, we can expect that the througput would be higher when there is multiple clients sending requests concurrently. The load-tests for this application is divided into two parts, with and without latency simulation. The reason behind this division is explained further down in the report.
 
 All load-tests for this application was done with Apache JMeter. \\
 \textbf{Without latency simulation}
@@ -152,9 +155,9 @@ TOTAL & 400 & 1486.989 & 26401.313 \\ \hline
 \end{figure}
 The result show that 10 threads gave more than doubled the througput compared to 1 thread. But it was'nt the result I expected. \\
 I expected a linear growth in throughput with respect to number of threads until we reach $\approx 7$ threads (which is the maximum number of threads that can run in parallell on the test-machine) where the througput would stabilize around some value. \\ \\ 
-\textbf{With latency simulation} \\ 
 Since the server was running on my local machine it barely was'nt any latency between the requests at all, I figured that was the reason the tests did'nt match my expectations.
 To simulate network-latency that might occur outside of the test-environment I added a 200 millisecond delay at the server while handling the requests and re-did the tests to see what  effect it gave.
+\textbf{With latency simulation} \\ 
 %%Table with borders 
 \begin{table}[H]
 \centering
@@ -180,15 +183,15 @@ What's interesting here is the througput gains we get by having multiple threads
 \subsubsection{How to run the application}
 The application consists of two parts: client and server, to run it:
 \begin{enumerate}
-\item build and compile the application - with your IDE or from terminal:
+\item Build and compile the application - with your IDE or from terminal:
 \begin{verbatim}
 mvn install
 \end{verbatim}
-\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\item Run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java Startup
 \end{verbatim}
-\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\item Run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java GuiController
 \end{verbatim}
@@ -226,7 +229,7 @@ Same GUI as for sub-assigment 1.
 \caption{Class diagram over the application architecture.}
 \end{figure}
 \subsubsection{Load-testing}
-The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done for sub-assignment, the number of calls done for each method is 100.\\
+The loadtesting done for this assigment is of another nature than the tests done for sub-assignment 1. Here i have created a custom LoadTesting class for issuing remote method-calls to the RMI-server all method-calls is done single-threaded. An important note here is that all of these functions contains database interaction, so besides the Java RMI server these tests also depend on the database-layer which is in PostgreSQL. Just like for the load-testing done for sub-assignment 1, the number of calls done for each method is 100.\\
 %%Table with borders 
 \begin{table}[H]
 \centering
@@ -251,15 +254,15 @@ This was not a sophisticated load-test but we can still see that the rmi-server 
 \subsubsection{How to run the application}
 The application consists of two parts: client and server, to run it:
 \begin{enumerate}
-\item build and compile the application - with your IDE or from terminal:
+\item Build and compile the application - with your IDE or from terminal:
 \begin{verbatim}
 mvn install
 \end{verbatim}
-\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\item Run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java Startup
 \end{verbatim}
-\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\item Run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java GuiController
 \end{verbatim}
@@ -315,20 +318,21 @@ Custom developed protocol for remote method calls between server and client. \\
 \subsubsection{How to run the application}
 The application consists of two parts: client and server, to run it:
 \begin{enumerate}
-\item build and compile the application - with your IDE or from terminal:
+\item Build and compile the application - with your IDE or from terminal:
 \begin{verbatim}
 mvn install
 \end{verbatim}
-\item run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
+\item Run the server - Startup.java contains the main-method of the server. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java Startup
 \end{verbatim}
-\item run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
+\item Run the client - GuiController.java contains the main-method of the client. Run it from inside your IDE or from terminal with: 
 \begin{verbatim}
 java GuiController
 \end{verbatim}
 \end{enumerate}
 \textit{Note:} This application uses rmi registry, if it is not already started when you run the server the server will start it. You can also explictly start rmiregistry before you run the server.
+\newpage
 \section{Documentation}
 \begin{description}
 \item[Sub-assignment 1.] \href{./../ID2212project_assignment1/apidocs/index.html}{Api-docs} 
