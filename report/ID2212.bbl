@@ -1,5 +1,11 @@
 \begin{thebibliography}{1}
 
+\bibitem{kim_1}
+K.H Kim~Hammar.
+\newblock Distributed networking project.
+\newblock \url{https://github.com/Limmen/distributed_networking_project}, 2015.
+\newblock [Online; accessed 18-Dec-2015].
+
 \bibitem{kth_1}
 Royal~Institute of~Technology.
 \newblock Network programming in java.
