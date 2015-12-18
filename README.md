@@ -35,6 +35,11 @@ java GuiController
 [JavaDoc for assigment2](http://limmen.github.io/distributed_networking_project/ID2212project_assignment2/apidocs/index.html)
 
 [JavaDoc for assigment3](http://limmen.github.io/distributed_networking_project/ID2212project_assignment3/apidocs/index.html)
+
+## Report
+
+[Report](report/ID2212.pdf)
+
 ## Author
 
 Kim Hammar
