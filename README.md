@@ -1,38 +1,38 @@
-#Distributed Networking Project: Course project in Java.
+# Distributed Networking Project: Course project in Java.
 
-##Description
+## Description
 
 Course project for a course in distributed network-programming with java.
 The project is divided in three different sub-assignments.
 Detailed information about the assigment, load-tests etc can be found in the report.
 
-##How to run
+## How to run
 
 * **All three projects can be built and ran with the same commands. Just make sure you're in the right directory**
 
 - Build and compile the application:
 
-        ```
-         mvn install
-        ```
+```
+mvn install
+```
         
 - Run the server:
 
-        ```
-         java Startup
-        ```
+```
+java Startup
+```
         
 - Run the client
 
-        ```
-         java GuiController
-        ```
+```
+java GuiController
+```
         
-##Author
+## Author
 
 Kim Hammar
 
-##Copyright and license
+## Copyright and license
 
 The MIT License (MIT)
 
