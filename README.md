@@ -27,7 +27,14 @@ java Startup
 ```
 java GuiController
 ```
-        
+
+## Documentation
+
+[JavaDoc for assigment1](http://limmen.github.io/distributed_networking_project/ID2212project_assignment1/apidocs/index.html)
+
+[JavaDoc for assigment2](http://limmen.github.io/distributed_networking_project/ID2212project_assignment2/apidocs/index.html)
+
+[JavaDoc for assigment3](http://limmen.github.io/distributed_networking_project/ID2212project_assignment3/apidocs/index.html)
 ## Author
 
 Kim Hammar
