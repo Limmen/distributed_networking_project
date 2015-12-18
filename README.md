@@ -1,4 +1,4 @@
-Distributed Networking Project: Course project in Java.
+#Distributed Networking Project: Course project in Java.
 
 ##Description
 
@@ -10,18 +10,24 @@ Detailed information about the assigment, load-tests etc can be found in the rep
 
 * **All three projects can be built and ran with the same commands. Just make sure you're in the right directory**
 
-** Build and compile the application:
-        ```bash
+- Build and compile the application:
+
+        ```
          mvn install
         ```
-** Run the server:
-        ```bash
+        
+- Run the server:
+
+        ```
          java Startup
         ```
-** Run the client
-        ```bash
+        
+- Run the client
+
+        ```
          java GuiController
         ```
+        
 ##Author
 
 Kim Hammar
