@@ -83,6 +83,15 @@ class Container extends JTabbedPane{
         mainPanel.updateMainFrameChatRooms(publicRooms);
         for(ChatPanel panel : getAllChatTabs()){
             if(!chatRooms.contains(panel.getChatRoom()))
+                remove(panel);            
+        }
+        for(ChatPanel panel : getAllChatTabs()){
+            boolean bool = false;
+            for(Client c : panel.getChatRoom().getUsers()){
+                if(c.equals(contr.getClient()))
+                    bool = true;
+            }
+            if(!bool)
                 remove(panel);
         }
         repaint();

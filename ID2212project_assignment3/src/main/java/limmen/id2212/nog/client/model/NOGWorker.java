@@ -218,6 +218,10 @@ public class NOGWorker extends SwingWorker<Boolean,Boolean> {
     private void privateChatRoom(){
         try{
             Client c = serverobj.getClient(username);
+            if(c.getBlockedList().contains(client.getName())){
+                contr.BlockedMessage(username);
+                return;
+            }
             serverobj.addPrivateChatRoom(client, c);
             
         }

@@ -330,6 +330,23 @@ public class GuiController {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
+            try{
+            if(client.getBlockedList().contains((String) users.getSelectedValue())){
+                JOptionPane.showMessageDialog(null, "You can't invite " + users.getSelectedValue()
+                        + " to a private chat when he/she is on your blocked list",
+                        "DirectMessage error", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            if(users.getSelectedValue().equals(client.getName())){
+                JOptionPane.showMessageDialog(null, "You can't invite yourself to a private chat",
+                        "DirectMessage error", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            }
+            catch(RemoteException e3){
+                remoteExceptionHandler(e3);
+            }
+                
             new NOGWorker(serverobj, contr, new ServerCommand(ServerCommandName.privateChatRoom),(String) users.getSelectedValue(), client).execute();
         }
     }
@@ -360,6 +377,21 @@ public class GuiController {
                 JOptionPane.showMessageDialog(null, "There was an error"
                         + " with the connection to the server",
                         "ConnectionError", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+    }
+    /**
+     * Method called when a user tries to invite another user to a chatroom but
+     * it fails since the other user have blocked this user.    
+     * @param username Name of the username that have blocked this user
+     */
+    public void BlockedMessage(final String username){        
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                JOptionPane.showMessageDialog(null, "You  can't invite " + username
+                        + " to a private chat since he/she has blocked you",
+                        "PrivateChatRoomError", JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
