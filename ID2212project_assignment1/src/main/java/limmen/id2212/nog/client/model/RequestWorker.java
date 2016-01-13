@@ -6,6 +6,7 @@
 package limmen.id2212.nog.client.model;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -51,14 +52,14 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     @Override
     protected Boolean doInBackground(){
         try{
-            socket = new Socket(httpServer, serverPort);
+            socket = createSocket(httpServer,serverPort);
             socket.setSoTimeout(timeoutMillis);
             outWriter = new PrintWriter(socket.getOutputStream());
             outWriter.println(httpGetRequest);
             outWriter.println(hostHeader);
             outWriter.println();
             outWriter.flush();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader reader = getReader();
             String str;
             String http_code = reader.readLine();
             String date = reader.readLine();
@@ -88,5 +89,11 @@ public class RequestWorker extends SwingWorker<Boolean, Boolean> {
     }    
     private void updateParticipants(ArrayList<Participant> participants){
         contr.updateParticipants(participants);
+    }
+    protected Socket createSocket(String server, int port) throws IOException{
+        return new Socket(server,port);
+    }
+    protected BufferedReader getReader() throws IOException{
+        return new BufferedReader(new InputStreamReader(socket.getInputStream()));
     }
 }

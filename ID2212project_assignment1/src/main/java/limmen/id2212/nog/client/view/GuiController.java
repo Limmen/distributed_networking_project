@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -68,8 +69,11 @@ public class GuiController {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JOptionPane.showMessageDialog(null, "That is not valid input",
-                        "Invalid input", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane optionPane = new JOptionPane("That is not valid input",
+                JOptionPane.INFORMATION_MESSAGE);
+                JDialog dialog = optionPane.createDialog(optionPane, "Invalid input");
+                dialog.setName("invalid_input");
+                dialog.setVisible(true);
             }
         });
     }
@@ -80,7 +84,14 @@ public class GuiController {
     public void getParticipants(){
         new RequestWorker(contr).execute();
     }
-    
+
+    /**
+     * Returns arraylist with participans.
+     * @return participants
+     */
+    public ArrayList<Participant> getParticipantsList(){
+        return participants;
+    }
     /**
      * Spawns a PutWorker to store participants at the server.
      * @param participants list of all participants.

@@ -41,6 +41,7 @@ class StartFrame extends JFrame {
                 System.exit(0);
             }
         });
+        this.setName("start_frame");
         pack();
         setLocationRelativeTo(null);    // centers on screen
         setVisible(true);
@@ -60,22 +61,28 @@ class StartFrame extends JFrame {
             setLayout(new MigLayout("wrap 2"));
             JLabel lbl = new JLabel("Connect to a server");
             lbl.setFont(Title);
+            lbl.setName("title_label");
             add(lbl, "span 2");
             lbl = new JLabel("Host: ");
             lbl.setFont(PBold);
+            lbl.setName("host_label");
             add(lbl, "span 1");
             hostField = new JTextField(25);
             hostField.setFont(Plain);
+            hostField.setName("host_field");
             add(hostField, "span 1");
-            lbl = new JLabel("port");
+            lbl = new JLabel("Port: ");
             lbl.setFont(PBold);
+            lbl.setName("port_label");
             add(lbl, "span 1");
             portField = new JTextField(25);
             portField.setFont(Plain);
+            portField.setName("port_field");
             add(portField, "span 1");
             JButton connectButton = new JButton("Connect");
             connectButton.setFont(PBold);
             connectButton.addActionListener(contr.new ConnectListener(hostField, portField));
+            connectButton.setName("connect_button");
             add(connectButton, "span 2");
         }
     }

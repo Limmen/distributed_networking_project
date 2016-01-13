@@ -27,9 +27,9 @@ import java.util.StringTokenizer;
 public class ClientHandler implements Runnable {
     private final FileInputStream fileReader = null;
     private final BufferedInputStream fileWrapper = null;
-    private BufferedReader inReader;
-    private PrintWriter outWriter;
-    private OutputStream out = null;
+    protected BufferedReader inReader;
+    protected PrintWriter outWriter;
+    protected OutputStream out = null;
     private final Socket clientSocket;
     private final File tsvFile;
     private final String SERVER = "Server: ID2212_proj1_subassignment_1";
@@ -61,6 +61,7 @@ public class ClientHandler implements Runnable {
         try{
             req = inReader.readLine();
             if(req == null){
+                System.out.println("req is null");
                 cleanUp();
                 return;
             }
@@ -96,7 +97,11 @@ public class ClientHandler implements Runnable {
         else
             sendErrorMessage(FORBIDDEN, FORBIDDEN_HTML);
     }
-    private void setup(){
+
+    /**
+     * Method to setup output and input streams used to communicate with client.
+     */
+    protected void setup(){
         try{
             inReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             out = clientSocket.getOutputStream();

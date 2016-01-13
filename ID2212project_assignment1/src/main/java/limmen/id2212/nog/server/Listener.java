@@ -79,4 +79,20 @@ public class Listener implements Runnable {
     private void terminate(){
         running = false;
     }
+
+    /**
+     * get port number
+     * @return port
+     */
+    public int getPort(){
+        return serverSocket.getLocalPort();
+    }
+
+    /**
+     * get hostname
+     * @return hostname
+     */
+    public String getHost(){
+        return serverSocket.getInetAddress().toString();
+    }
 }

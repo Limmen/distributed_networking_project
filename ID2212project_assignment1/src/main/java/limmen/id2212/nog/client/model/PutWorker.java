@@ -47,7 +47,7 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
     @Override
     protected Boolean doInBackground(){
         try{
-            socket = new Socket(httpServer, serverPort);
+            socket = createSocket(httpServer,serverPort);
             socket.setSoTimeout(timeoutMillis);
             outWriter = new PrintWriter(socket.getOutputStream());
             outWriter.println(httpPutRequest);
@@ -72,6 +72,10 @@ public class PutWorker extends SwingWorker<Boolean, Boolean> {
             e3.printStackTrace();
         }
         return true;
+    }
+    
+    protected Socket createSocket(String server, int port) throws IOException{
+        return new Socket(server,port);
     }
 }
 
